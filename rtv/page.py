@@ -236,6 +236,12 @@ class Page(object):
         """
         Move the cursor to the last item on the page.
         """
+
+        # If the page is empty, don't try to go to the bottom, rtv will
+        # crash when rendering
+        if self.content.range[1] < 0:
+            return
+
         self.nav.page_index = self.content.range[1]
         self.nav.cursor_index = 0
         self.nav.inverted = True
