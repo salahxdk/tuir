@@ -5,7 +5,7 @@ A text-based interface (TUI) to view and interact with Reddit from your terminal
 </p>
 
 <p align="center">
-  <strong>This project is no longer being maintained, see <a href="https://github.com/michael-lazar/rtv/issues/696">here</a>.</strong><br>
+  <strong>This fork of rtv is currently maintained by John Helmert III (ajak) and was maintained by Michael Lazar in <a href="https://github.com/michael-lazar/rtv">this respository</a> until commit 7923890 on Jun 3, 2019.</strong><br>
 </p>
 
 <p align="center">
@@ -16,18 +16,18 @@ A text-based interface (TUI) to view and interact with Reddit from your terminal
   <a href="https://pypi.python.org/pypi/rtv/">
     <img alt="pypi" src="https://img.shields.io/pypi/v/rtv.svg?label=version"/>
   </a>
-  <a href="https://travis-ci.org/michael-lazar/rtv">
+<!-- <a href="https://travis-ci.org/michael-lazar/rtv">
     <img alt="travis-ci" src="https://travis-ci.org/michael-lazar/rtv.svg?branch=master"/>
-  </a>
+  </a> -->
   <a href="https://repology.org/project/rtv/versions">
     <img src="https://repology.org/badge/tiny-repos/rtv.svg" alt="Packaging status">
   </a>
-  <a href="https://coveralls.io/github/michael-lazar/rtv?branch=master">
+<!-- <a href="https://coveralls.io/github/michael-lazar/rtv?branch=master">
     <img alt="coveralls" src="https://coveralls.io/repos/michael-lazar/rtv/badge.svg?branch=master&service=github"/>
   </a>
   <a href="https://saythanks.io/to/michael-lazar">
     <img alt="say-thanks" src="https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg"/>
-  </a>
+  </a> -->
 </p>
 
 ## Table of Contents
@@ -88,7 +88,7 @@ $ pkg install rtv
 ### From source
 
 ```bash
-$ git clone https://github.com/michael-lazar/rtv.git
+$ git clone https://gitlab.com/ajak/rtv.git
 $ cd rtv
 $ python setup.py install
 ```
