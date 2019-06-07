@@ -3,6 +3,7 @@
 !.pylintrc
 !.gitignore
 !.gitattributes
+!.gitlab
 !.coveragerc
 *~
 *.pyc
