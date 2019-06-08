@@ -542,7 +542,7 @@ class Page(object):
             return
 
         try:
-            clipboard_copy(url)
+            clipboard_copy(url, self.config['clipboard_cmd'])
         except (ProgramError, OSError) as e:
             _logger.exception(e)
             self.term.show_notification(
