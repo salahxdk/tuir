@@ -5,7 +5,7 @@ Contributor Guidelines
 Before you start
 ================
 
-- Post an issue on the `tracker <https://github.com/michael-lazar/rtv/issues>`_ describing the bug or feature you would like to add
+- Post an issue on the `tracker <https://gitlab.com/ajak/rtv/issues>`_ describing the bug or feature you would like to add
 - If an issue already exists, leave a comment to let others know that you intend to work on it
 
 Considerations

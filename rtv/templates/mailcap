@@ -1,5 +1,5 @@
 # Example mailcap file for Reddit Terminal Viewer
-# https://github.com/michael-lazar/rtv/
+# https://gitlab.com/ajak/rtv/
 #
 # Copy the contents of this file to {HOME}/.mailcap, or point to it using $MAILCAPS
 # Then launch RTV using the --enable-media flag. All shell commands defined in

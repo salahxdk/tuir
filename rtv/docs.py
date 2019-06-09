@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 AGENT = """\
-desktop:https://github.com/michael-lazar/rtv:{version}\
+desktop:https://github.com/ajak/rtv:{version}\
 (by /u/civilization_phaze_3)\
 """
 
@@ -26,7 +26,7 @@ HELP = """\
 ====================================
 Reddit Terminal Viewer
 
-https://github.com/michael-lazar/rtv
+https://github.com/ajak/rtv
 ====================================
 
 [Basic Commands]

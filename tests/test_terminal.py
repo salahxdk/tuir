@@ -738,7 +738,7 @@ def test_terminal_get_link_page_text(terminal):
         {'href': 'https://www.reddit.com', 'text': 'Reddit Homepage'},
         {'href': 'https://www.duckduckgo.com', 'text': 'Search Engine'},
         {
-            'href': 'https://github.com/michael-lazar/rtv',
+            'href': 'https://gitlab.com/ajak/rtv',
             'text': 'This project\'s homepage'
         }
     ]
@@ -747,7 +747,7 @@ def test_terminal_get_link_page_text(terminal):
     assert text == dedent("""\
     [0] [Reddit Homepage](https://www.reddit.com)
     [1] [Search Engine](https://www.duckduckgo.com)
-    [2] [This project's home…](https://github.com/michael-lazar/rtv)
+    [2] [This project's home…](https://gitlab.com/ajak/rtv)
     """)
 
 
