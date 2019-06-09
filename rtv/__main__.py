@@ -264,7 +264,7 @@ def main():
             debug_text,
             traceback.format_exc(),
             'rtv has crashed. Please report this traceback at:',
-            'https://github.com/michael-lazar/rtv/issues\n'])
+            'https://gitlab.com/ajak/rtv/issues\n'])
         sys.stderr.write(exit_message)
         return 1  # General error exception code
     except KeyboardInterrupt:
