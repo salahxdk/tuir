@@ -47,28 +47,28 @@ A text-based interface (TUI) to view and interact with Reddit from your terminal
 <img alt="title image" src="resources/demo.gif"/>
 </p>
 
-You can use *telnet* or *ssh* to try out a lite version of RTV directly in your terminal, without needing to install it:
+<!-- You can use *telnet* or *ssh* to try out a lite version of RTV directly in your terminal, without needing to install it:
 
 - ``$ telnet redditbox.us``
 - ``$ ssh redditbox.us``
 
-*[redditbox.us](https://redditbox.us/) is an independent project by Alex Jarmoszuk*
+*[redditbox.us](https://redditbox.us/) is an independent project by Alex Jarmoszuk* -->
 
 ## Installation
 
 ### PyPI package
 
-RTV is available on [PyPI](https://pypi.python.org/pypi/rtv/) and can be installed with pip:
+TUIR is available on [PyPI](https://pypi.python.org/pypi/tuir/) and can be installed with pip:
 
 ```bash
-$ pip install rtv
+$ pip install tuir
 ```
 
 ### Native packages
 
-See [Repology](https://repology.org/metapackage/rtv/packages) for an up-to-date list of supported distro packages:
+See [Repology](https://repology.org/metapackage/tuir/packages) for an up-to-date list of supported distro packages.
 
-```bash
+<!-- ```bash
 # macOS
 $ brew install rtv
 
@@ -83,7 +83,7 @@ $ apt install rtv
 
 # FreeBSD
 $ pkg install rtv
-```
+```-->
 
 ### From source
 
