@@ -6,7 +6,7 @@ from collections import OrderedDict
 
 import pytest
 
-from rtv.mime_parsers import parsers, ImgurApiMIMEParser
+from tuir.mime_parsers import parsers, ImgurApiMIMEParser
 
 
 RegexpType = type(re.compile(''))

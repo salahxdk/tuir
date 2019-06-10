@@ -10,10 +10,10 @@ from textwrap import dedent
 import six
 import pytest
 
-from rtv.theme import Theme
-from rtv.docs import (HELP, REPLY_FILE, COMMENT_EDIT_FILE, TOKEN,
+from tuir.theme import Theme
+from tuir.docs import (HELP, REPLY_FILE, COMMENT_EDIT_FILE, TOKEN,
                       SUBMISSION_FILE, SUBMISSION_EDIT_FILE, MESSAGE_FILE)
-from rtv.exceptions import TemporaryFileError, BrowserError
+from tuir.exceptions import TemporaryFileError, BrowserError
 
 try:
     from unittest import mock
@@ -29,13 +29,13 @@ def test_terminal_properties(terminal, config):
     assert isinstance(terminal.gilded, six.text_type)
 
     terminal._display = None
-    with mock.patch('rtv.terminal.sys') as sys, \
+    with mock.patch('tuir.terminal.sys') as sys, \
             mock.patch.dict('os.environ', {'DISPLAY': ''}):
         sys.platform = 'linux'
         assert terminal.display is False
 
     terminal._display = None
-    with mock.patch('rtv.terminal.sys') as sys, \
+    with mock.patch('tuir.terminal.sys') as sys, \
             mock.patch('os.environ', {'DISPLAY': ''}), \
             mock.patch('webbrowser._tryorder', new=[]):
         sys.platform = 'darwin'
@@ -367,7 +367,7 @@ def test_terminal_open_link_mailcap(terminal):
     mock_mime_parser = MockMimeParser()
 
     with mock.patch.object(terminal, 'open_browser'), \
-            mock.patch('rtv.terminal.mime_parsers') as mime_parsers:
+            mock.patch('tuir.terminal.mime_parsers') as mime_parsers:
         mime_parsers.parsers = [mock_mime_parser]
 
         # Pass through to open_browser if media is disabled
@@ -490,7 +490,7 @@ def test_terminal_open_browser_display(terminal):
 def test_terminal_open_browser_display_no_response(terminal):
 
     terminal._display = True
-    with mock.patch('rtv.terminal.Process', autospec=True) as Process:
+    with mock.patch('tuir.terminal.Process', autospec=True) as Process:
         Process.return_value.is_alive.return_value = 1
         terminal.open_browser('http://www.test.com')
     assert isinstance(terminal.loader.exception, BrowserError)
@@ -738,7 +738,7 @@ def test_terminal_get_link_page_text(terminal):
         {'href': 'https://www.reddit.com', 'text': 'Reddit Homepage'},
         {'href': 'https://www.duckduckgo.com', 'text': 'Search Engine'},
         {
-            'href': 'https://gitlab.com/ajak/rtv',
+            'href': 'https://gitlab.com/ajak/tuir',
             'text': 'This project\'s homepage'
         }
     ]
@@ -747,7 +747,7 @@ def test_terminal_get_link_page_text(terminal):
     assert text == dedent("""\
     [0] [Reddit Homepage](https://www.reddit.com)
     [1] [Search Engine](https://www.duckduckgo.com)
-    [2] [This project's home…](https://gitlab.com/ajak/rtv)
+    [2] [This project's home…](https://gitlab.com/ajak/tuir)
     """)
 
 

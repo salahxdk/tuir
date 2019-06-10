@@ -6,8 +6,8 @@ from collections import OrderedDict
 
 import pytest
 
-from rtv.submission_page import SubmissionPage
-from rtv.docs import FOOTER_SUBMISSION
+from tuir.submission_page import SubmissionPage
+from tuir.docs import FOOTER_SUBMISSION
 
 try:
     from unittest import mock
@@ -262,9 +262,9 @@ def test_submission_vote(submission_page, refresh_token):
     submission_page.oauth.authorize()
 
     # Test voting on the submission
-    with mock.patch('rtv.packages.praw.objects.Submission.upvote') as upvote,            \
-            mock.patch('rtv.packages.praw.objects.Submission.downvote') as downvote,     \
-            mock.patch('rtv.packages.praw.objects.Submission.clear_vote') as clear_vote:
+    with mock.patch('tuir.packages.praw.objects.Submission.upvote') as upvote,            \
+            mock.patch('tuir.packages.praw.objects.Submission.downvote') as downvote,     \
+            mock.patch('tuir.packages.praw.objects.Submission.clear_vote') as clear_vote:
 
         data = submission_page.get_selected_item()
         data['object'].archived = False
@@ -338,8 +338,8 @@ def test_submission_save(submission_page, refresh_token):
     submission_page.oauth.authorize()
 
     # Test save on the submission
-    with mock.patch('rtv.packages.praw.objects.Submission.save') as save,        \
-            mock.patch('rtv.packages.praw.objects.Submission.unsave') as unsave:
+    with mock.patch('tuir.packages.praw.objects.Submission.save') as save,        \
+            mock.patch('tuir.packages.praw.objects.Submission.unsave') as unsave:
 
         data = submission_page.content.get(submission_page.nav.absolute_index)
 
@@ -370,8 +370,8 @@ def test_submission_comment_save(submission_page, terminal, refresh_token):
         submission_page.controller.trigger('j')
 
     # Test save on the comment submission
-    with mock.patch('rtv.packages.praw.objects.Comment.save') as save,        \
-            mock.patch('rtv.packages.praw.objects.Comment.unsave') as unsave:
+    with mock.patch('tuir.packages.praw.objects.Comment.save') as save,        \
+            mock.patch('tuir.packages.praw.objects.Comment.unsave') as unsave:
 
         data = submission_page.content.get(submission_page.nav.absolute_index)
 
@@ -398,7 +398,7 @@ def test_submission_comment(submission_page, terminal, refresh_token):
     submission_page.oauth.authorize()
 
     # Leave a comment
-    with mock.patch('rtv.packages.praw.objects.Submission.add_comment') as add_comment, \
+    with mock.patch('tuir.packages.praw.objects.Submission.add_comment') as add_comment, \
             mock.patch.object(terminal, 'open_editor') as open_editor,                  \
             mock.patch('time.sleep'):
         open_editor.return_value.__enter__.return_value = 'comment text'
@@ -430,7 +430,7 @@ def test_submission_delete(submission_page, terminal, refresh_token):
     # Spoof the author and try to delete again
     data = submission_page.content.get(submission_page.nav.absolute_index)
     data['author'] = submission_page.reddit.user.name
-    with mock.patch('rtv.packages.praw.objects.Comment.delete') as delete,  \
+    with mock.patch('tuir.packages.praw.objects.Comment.delete') as delete,  \
             mock.patch.object(terminal.stdscr, 'getch') as getch,           \
             mock.patch('time.sleep'):
         getch.return_value = ord('y')
@@ -454,7 +454,7 @@ def test_submission_edit(submission_page, terminal, refresh_token):
     # Spoof the submission and try to edit again
     data = submission_page.content.get(submission_page.nav.absolute_index)
     data['author'] = submission_page.reddit.user.name
-    with mock.patch('rtv.packages.praw.objects.Submission.edit') as edit,  \
+    with mock.patch('tuir.packages.praw.objects.Submission.edit') as edit,  \
             mock.patch.object(terminal, 'open_editor') as open_editor,     \
             mock.patch('time.sleep'):
         open_editor.return_value.__enter__.return_value = 'submission text'
@@ -470,7 +470,7 @@ def test_submission_edit(submission_page, terminal, refresh_token):
     # Spoof the author and edit the comment
     data = submission_page.content.get(submission_page.nav.absolute_index)
     data['author'] = submission_page.reddit.user.name
-    with mock.patch('rtv.packages.praw.objects.Comment.edit') as edit, \
+    with mock.patch('tuir.packages.praw.objects.Comment.edit') as edit, \
             mock.patch.object(terminal, 'open_editor') as open_editor, \
             mock.patch('time.sleep'):
         open_editor.return_value.__enter__.return_value = 'comment text'

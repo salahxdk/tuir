@@ -44,30 +44,30 @@ def long_description():
 
 
 setuptools.setup(
-    name='rtv',
+    name='tuir',
     version=version,
-    description='A simple terminal viewer for Reddit (Reddit Terminal Viewer)',
+    description='A simple terminal viewer for Reddit (Terminal UI for Reddit)',
     long_description=long_description(),
     long_description_content_type='text/markdown',
-    url='https://gitlab.com/ajak/rtv',
+    url='https://gitlab.com/ajak/tuir',
     author='John Helmert III',
     author_email='jchelmertt3@gmail.com',
     license='MIT',
     keywords='reddit terminal praw curses',
     packages=[
-        'rtv',
-        'rtv.packages',
-        'rtv.packages.praw'
+        'tuir',
+        'tuir.packages',
+        'tuir.packages.praw'
     ],
     package_data={
-        'rtv': ['templates/*', 'themes/*'],
-        'rtv.packages.praw': ['praw.ini']
+        'tuir': ['templates/*', 'themes/*'],
+        'tuir.packages.praw': ['praw.ini']
     },
-    data_files=[("share/man/man1", ["rtv.1"])],
+    data_files=[("share/man/man1", ["tuir.1"])],
     install_requires=install_requires,
     tests_require=tests_require,
     extras_require=extras_require,
-    entry_points={'console_scripts': ['rtv=rtv.__main__:main']},
+    entry_points={'console_scripts': ['tuir=tuir.__main__:main']},
     classifiers=[
         'Intended Audience :: End Users/Desktop',
         'Environment :: Console :: Curses',

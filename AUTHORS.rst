@@ -1,5 +1,5 @@
 ================
-RTV Contributors
+RTV/TUIR Contributors
 ================
 
 Thanks to the following people for their contributions to this project.

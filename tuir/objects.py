@@ -165,7 +165,7 @@ class LoadScreen(object):
     """
 
     EXCEPTION_MESSAGES = [
-        (exceptions.RTVError, '{0}'),
+        (exceptions.TUIRError, '{0}'),
         (praw.errors.OAuthException, 'OAuth Error'),
         (praw.errors.OAuthScopeRequired, 'Not logged in'),
         (praw.errors.LoginRequired, 'Not logged in'),

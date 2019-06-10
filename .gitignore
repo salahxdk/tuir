@@ -10,6 +10,6 @@
 *.log
 build
 dist
-rtv.egg-info
+tuir.egg-info
 tests/refresh-token
 venv/

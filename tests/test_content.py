@@ -8,9 +8,9 @@ from collections import OrderedDict
 import six
 import pytest
 
-from rtv import exceptions
-from rtv.packages import praw
-from rtv.content import (
+from tuir import exceptions
+from tuir.packages import praw
+from tuir.content import (
     Content, SubmissionContent, SubredditContent, SubscriptionContent,
     RequestHeaderRateLimiter)
 

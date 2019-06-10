@@ -7,9 +7,9 @@ from tempfile import mkdtemp, NamedTemporaryFile
 
 import pytest
 
-from rtv.theme import Theme
-from rtv.config import DEFAULT_THEMES
-from rtv.exceptions import ConfigError
+from tuir.theme import Theme
+from tuir.config import DEFAULT_THEMES
+from tuir.exceptions import ConfigError
 
 try:
     from unittest import mock

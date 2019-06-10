@@ -2,19 +2,19 @@
 from __future__ import unicode_literals
 
 AGENT = """\
-desktop:https://github.com/ajak/rtv:{version}\
-(by /u/civilization_phaze_3)\
+desktop:https://gitlab.com/ajak/tuir:{version}\
+(by /u/ajak__)\
 """
 
 SUMMARY = """
-RTV (Reddit Terminal Viewer) is a terminal interface to view and interact with reddit.
+TUIR (Terminal UI for Reddit) is a terminal interface to view and interact with reddit.
 """
 
 USAGE = """\
-rtv [URL] [-s SUBREDDIT]
+tuir [URL] [-s SUBREDDIT]
 
-  $ rtv https://www.reddit.com/r/programming/comments/7h9l31
-  $ rtv -s linux
+  $ tuir https://www.reddit.com/r/programming/comments/7h9l31
+  $ tuir -s linux
 """
 
 CONTROLS = """
@@ -24,9 +24,9 @@ Press `?` to open the help screen.
 
 HELP = """\
 ====================================
-Reddit Terminal Viewer
+Terminal UI for Reddit
 
-https://github.com/ajak/rtv
+https://github.com/ajak/tuir
 ====================================
 
 [Basic Commands]
@@ -196,7 +196,7 @@ Enter your message below this instruction block:
 
 OAUTH_ACCESS_DENIED = """\
         <h1 style="color: red">Access Denied</h1><hr>
-        <p><span style="font-weight: bold">Reddit Terminal Viewer</span> was
+        <p><span style="font-weight: bold">Terminal UI for Reddit</span> was
         denied access and will continue to operate in unauthenticated mode,
         you can close this window.</p>
 """
@@ -214,7 +214,7 @@ OAUTH_INVALID = """\
 
 OAUTH_SUCCESS = """\
        <h1 style="color: green">Access Granted</h1><hr>
-       <p><span style="font-weight: bold">Reddit Terminal Viewer</span>
+       <p><span style="font-weight: bold">Terminal UI for Reddit</span>
        will now log in, you can close this window.</p>
 """
 

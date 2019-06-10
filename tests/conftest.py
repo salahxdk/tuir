@@ -11,15 +11,15 @@ import pytest
 from vcr import VCR
 from six.moves.urllib.parse import urlparse, parse_qs
 
-from rtv.oauth import OAuthHelper, OAuthHandler, OAuthHTTPServer
-from rtv.content import RequestHeaderRateLimiter
-from rtv.config import Config
-from rtv.packages import praw
-from rtv.terminal import Terminal
-from rtv.subreddit_page import SubredditPage
-from rtv.submission_page import SubmissionPage
-from rtv.subscription_page import SubscriptionPage
-from rtv.inbox_page import InboxPage
+from tuir.oauth import OAuthHelper, OAuthHandler, OAuthHTTPServer
+from tuir.content import RequestHeaderRateLimiter
+from tuir.config import Config
+from tuir.packages import praw
+from tuir.terminal import Terminal
+from tuir.subreddit_page import SubredditPage
+from tuir.submission_page import SubmissionPage
+from tuir.subscription_page import SubscriptionPage
+from tuir.inbox_page import InboxPage
 
 try:
     from unittest import mock
@@ -40,7 +40,7 @@ for name in ['vcr.matchers', 'vcr.stubs']:
 def pytest_addoption(parser):
     parser.addoption('--record-mode', dest='record_mode', default='none')
     parser.addoption('--refresh-token', dest='refresh_token',
-                     default='~/.local/share/rtv/refresh-token')
+                     default='~/.local/share/tuir/refresh-token')
 
 
 class MockStdscr(mock.MagicMock):
@@ -184,9 +184,9 @@ def reddit(vcr, request):
             os.remove(filename)
 
     with vcr.use_cassette(cassette_name):
-        with patch('rtv.packages.praw.Reddit.get_access_information'):
+        with patch('tuir.packages.praw.Reddit.get_access_information'):
             handler = RequestHeaderRateLimiter()
-            reddit = praw.Reddit(user_agent='rtv test suite',
+            reddit = praw.Reddit(user_agent='tuir test suite',
                                  decode_html_entities=False,
                                  disable_update_check=True,
                                  handler=handler)

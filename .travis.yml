@@ -24,7 +24,7 @@ install:
   - pip install .[test]
   - pip install .
 script:
-  - pylint --rcfile .pylintrc -E rtv/
+  - pylint --rcfile .pylintrc -E tuir/
   - coverage run -m py.test -v
 after_success:
   - coveralls

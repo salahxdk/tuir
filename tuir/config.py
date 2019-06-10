@@ -16,21 +16,21 @@ from .objects import KeyMap
 PACKAGE = os.path.dirname(__file__)
 HOME = os.path.expanduser('~')
 TEMPLATES = os.path.join(PACKAGE, 'templates')
-DEFAULT_CONFIG = os.path.join(TEMPLATES, 'rtv.cfg')
+DEFAULT_CONFIG = os.path.join(TEMPLATES, 'tuir.cfg')
 DEFAULT_MAILCAP = os.path.join(TEMPLATES, 'mailcap')
 DEFAULT_THEMES = os.path.join(PACKAGE, 'themes')
 XDG_CONFIG_HOME = os.getenv('XDG_CONFIG_HOME', os.path.join(HOME, '.config'))
 XDG_DATA_HOME = os.getenv('XDG_DATA_HOME', os.path.join(HOME, '.local', 'share'))
-CONFIG = os.path.join(XDG_CONFIG_HOME, 'rtv', 'rtv.cfg')
+CONFIG = os.path.join(XDG_CONFIG_HOME, 'tuir', 'tuir.cfg')
 MAILCAP = os.path.join(HOME, '.mailcap')
-TOKEN = os.path.join(XDG_DATA_HOME, 'rtv', 'refresh-token')
-HISTORY = os.path.join(XDG_DATA_HOME, 'rtv', 'history.log')
-THEMES = os.path.join(XDG_CONFIG_HOME, 'rtv', 'themes')
+TOKEN = os.path.join(XDG_DATA_HOME, 'tuir', 'refresh-token')
+HISTORY = os.path.join(XDG_DATA_HOME, 'tuir', 'history.log')
+THEMES = os.path.join(XDG_CONFIG_HOME, 'tuir', 'themes')
 
 
 def build_parser():
     parser = argparse.ArgumentParser(
-        prog='rtv', description=docs.SUMMARY,
+        prog='tuir', description=docs.SUMMARY,
         epilog=docs.CONTROLS,
         usage=docs.USAGE,
         formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -72,7 +72,7 @@ def build_parser():
         help='Remove any saved user data before launching')
     parser.add_argument(
         '--copy-config', dest='copy_config', action='store_const', const=True,
-        help='Copy the default configuration to {HOME}/.config/rtv/rtv.cfg')
+        help='Copy the default configuration to {HOME}/.config/tuir/tuir.cfg')
     parser.add_argument(
         '--copy-mailcap', dest='copy_mailcap', action='store_const', const=True,
         help='Copy an example mailcap configuration to {HOME}/.mailcap')
@@ -80,7 +80,7 @@ def build_parser():
         '--enable-media', dest='enable_media', action='store_const', const=True,
         help='Open external links using programs defined in the mailcap config')
     parser.add_argument(
-        '-V', '--version', action='version', version='rtv ' + __version__)
+        '-V', '--version', action='version', version='tuir ' + __version__)
     parser.add_argument(
         '--no-flash', dest='flash', action='store_const', const=False,
         help='Disable screen flashing')
@@ -99,7 +99,7 @@ def copy_default_mailcap(filename=MAILCAP):
 
 def copy_default_config(filename=CONFIG):
     """
-    Copy the default rtv user configuration to the specified file.
+    Copy the default tuir user configuration to the specified file.
     """
     return _copy_settings_file(DEFAULT_CONFIG, filename, 'config')
 
@@ -241,7 +241,7 @@ class Config(object):
     @classmethod
     def get_file(cls, filename=None):
         """
-        Load settings from an rtv configuration file.
+        Load settings from an tuir configuration file.
         """
 
         if filename is None:
@@ -252,36 +252,36 @@ class Config(object):
             with codecs.open(filename, encoding='utf-8') as fp:
                 config.read_file(fp)
 
-        return cls._parse_rtv_file(config)
+        return cls._parse_tuir_file(config)
 
     @staticmethod
-    def _parse_rtv_file(config):
+    def _parse_tuir_file(config):
 
-        rtv = {}
-        if config.has_section('rtv'):
-            rtv = dict(config.items('rtv'))
+        tuir = {}
+        if config.has_section('tuir'):
+            tuir = dict(config.items('tuir'))
 
         # convert non-string params to their typed representation
         params = {
-            'ascii': partial(config.getboolean, 'rtv'),
-            'monochrome': partial(config.getboolean, 'rtv'),
-            'persistent': partial(config.getboolean, 'rtv'),
-            'autologin': partial(config.getboolean, 'rtv'),
-            'clear_auth': partial(config.getboolean, 'rtv'),
-            'enable_media': partial(config.getboolean, 'rtv'),
-            'history_size': partial(config.getint, 'rtv'),
-            'oauth_redirect_port': partial(config.getint, 'rtv'),
-            'oauth_scope': lambda x: rtv[x].split(','),
-            'max_comment_cols': partial(config.getint, 'rtv'),
-            'max_pager_cols': partial(config.getint, 'rtv'),
-            'hide_username': partial(config.getboolean, 'rtv'),
-            'flash': partial(config.getboolean, 'rtv'),
-            'force_new_browser_window': partial(config.getboolean, 'rtv')
+            'ascii': partial(config.getboolean, 'tuir'),
+            'monochrome': partial(config.getboolean, 'tuir'),
+            'persistent': partial(config.getboolean, 'tuir'),
+            'autologin': partial(config.getboolean, 'tuir'),
+            'clear_auth': partial(config.getboolean, 'tuir'),
+            'enable_media': partial(config.getboolean, 'tuir'),
+            'history_size': partial(config.getint, 'tuir'),
+            'oauth_redirect_port': partial(config.getint, 'tuir'),
+            'oauth_scope': lambda x: tuir[x].split(','),
+            'max_comment_cols': partial(config.getint, 'tuir'),
+            'max_pager_cols': partial(config.getint, 'tuir'),
+            'hide_username': partial(config.getboolean, 'tuir'),
+            'flash': partial(config.getboolean, 'tuir'),
+            'force_new_browser_window': partial(config.getboolean, 'tuir')
         }
 
         for key, func in params.items():
-            if key in rtv:
-                rtv[key] = func(key)
+            if key in tuir:
+                tuir[key] = func(key)
 
         bindings = {}
         if config.has_section('bindings'):
@@ -290,7 +290,7 @@ class Config(object):
         for name, keys in bindings.items():
             bindings[name] = [key.strip() for key in keys.split(',')]
 
-        return rtv, bindings
+        return tuir, bindings
 
     @staticmethod
     def _ensure_filepath(filename):

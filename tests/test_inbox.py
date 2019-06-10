@@ -2,12 +2,12 @@
 from __future__ import unicode_literals
 
 import pytest
-from rtv.packages.praw.errors import InvalidUser
+from tuir.packages.praw.errors import InvalidUser
 
-from rtv import exceptions
-from rtv.docs import FOOTER_INBOX
-from rtv.inbox_page import InboxPage
-from rtv.submission_page import SubmissionPage
+from tuir import exceptions
+from tuir.docs import FOOTER_INBOX
+from tuir.inbox_page import InboxPage
+from tuir.submission_page import SubmissionPage
 
 try:
     from unittest import mock

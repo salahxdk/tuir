@@ -11,8 +11,8 @@ import pytest
 import requests
 from six.moves import reload_module
 
-from rtv import exceptions
-from rtv.objects import Controller, Navigator, Command, KeyMap, \
+from tuir import exceptions
+from tuir.objects import Controller, Navigator, Command, KeyMap, \
     curses_session, patch_webbrowser
 
 try:
