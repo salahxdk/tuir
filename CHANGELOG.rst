@@ -1,7 +1,8 @@
 =============
-RTV Changelog
+RTV/TUIR Changelog
 =============
 
+.. _1.28.0: https://gitlab.com/ajak/tuir/tree/v1.28.0
 .. _1.27.0: http://github.com/michael-lazar/rtv/releases/tag/v1.27.0
 .. _1.26.0: http://github.com/michael-lazar/rtv/releases/tag/v1.26.0
 .. _1.25.1: http://github.com/michael-lazar/rtv/releases/tag/v1.25.1
@@ -40,6 +41,27 @@ RTV Changelog
 .. _1.2.2: http://github.com/michael-lazar/rtv/releases/tag/v1.2.2
 .. _1.2.1: http://github.com/michael-lazar/rtv/releases/tag/v1.2.1
 .. _1.2: http://github.com/michael-lazar/rtv/releases/tag/v1.2
+
+--------------------
+1.28.0_ (2019-06-09
+--------------------
+
+This is the first release of TUIR. Several changes come that don't fit into
+a neat changelog category here:
+
+* Name change: 'Reddit Terminal Viewer' to 'Terminal UI for Reddit'
+* Fork is on Gitlab, so travis-ci configuration is partially converted to
+  gitlab-ci
+
+Features
+
+* Added a configuration option to allow the user to decide what program
+  clipboard data is piped into. Default on Darwin stays the same and default
+  on everything else is `xclip -selection clipboard`
+
+Bugfixes
+
+* Fix a crash when jumping to the bottom of a submission with no comments
 
 --------------------
 1.27.0_ (2019-06-02)
