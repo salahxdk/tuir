@@ -5,7 +5,7 @@ interactions:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://www.reddit.com/r/CollegeBasketball/comments/31owr1.json?sort=top
   response:
@@ -1002,7 +1002,7 @@ interactions:
       Content-Type: [application/x-www-form-urlencoded]
       Cookie: [edgebucket=xcJLGnurtpiJlJ2u5W; loid=00000000000drj40d9.2.1505363852367.Z0FBQUFBQlp1Z2VOWXU3aXBYWXVJVGFranpWS3dRZGx5dTNJa1hvc3p4ZWxBVWFGaDhSVTFHcWVIQnZ5dmRaOGRUNlVJdnJfVWRxZ09uRExGVENLbmozRHVPbjVRRHp3TXIyTWpoYWUzNXl5VC1KLVB0SUo1LTZRc3NRbzJ2alBHZm5Kd2lzZVdYM3Q;
           session_tracker=bXyYYtZdc0ey2I146n.0.1505363852362.Z0FBQUFBQlp1Z2VOZ3d1TkhrOXd2Vl9kQUhiYnpoTmxvaWt3V0tPSzJhOThCZUtNVkFaQlNRcjZuSDRUSlVvTk1ISmVTOWtjbTcwSlVBbjhGQW9ubXFMNlQzQmJLVnpudmZYMmF6V09pWldCVTkySHhnY20wZ3pET1I0N0pKWVAwR0tXQnM4MTl4VFo]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: POST
     uri: https://api.reddit.com/api/morechildren/.json
   response:

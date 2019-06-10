@@ -5,7 +5,7 @@ interactions:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://api.reddit.com/r/python/.json?limit=1024
   response:
@@ -701,7 +701,7 @@ interactions:
       Content-Type: [application/x-www-form-urlencoded]
       Cookie: [edgebucket=eaFERqKRPWFnjxXirW; loid=00000000000drjlu63.2.1505364157756.Z0FBQUFBQlp1Z2ktS2l4azZScXBfOEdRSUR3X2E0bldXcGJHbEo1S3pEYXdVeWphcjluX1FQQkVmSlZPT3B3QmdiS25XUC1Ta2dkVTFHUlk1RE40RXo1Q3h6VzlqdF84bWg5cnBhQi1MTzdKNFdVVF85RlhEaWRTUGFsdmo0QVh5MnJQMmU1bmJ5aE8;
           session_tracker=YjmiNGn9ISvcEdZmu9.0.1505364157750.Z0FBQUFBQlp1Z2ktd0dJR1Z2bWdHMGVmc3lfZWNBd0YyTFlYRlhfN0F4eHlibVFPREdIcnNnSmpGQ0ZVeGNVdXRfNUVUdmd1NGcyZ2tHSjVCWTM3bWJWRUF6em41U21xR0x6UFNuYnZET1RGdDdCTlVFVGRvMkpOWExrSHVhelg5eGs0Umhoa08yWlI]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: POST
     uri: https://api.reddit.com/api/v1/access_token/
   response:
@@ -737,7 +737,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Authorization: ['**********']
       Connection: [keep-alive]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://oauth.reddit.com/api/v1/me.json
   response:
@@ -810,7 +810,7 @@ interactions:
       Authorization: ['**********']
       Connection: [keep-alive]
       Cookie: [edgebucket=ifnpgFIHChCXO24Lbx; session_tracker=QR4I0jeLaPu8lk7Gl5.0.1505364162593.Z0FBQUFBQlp1Z2pDdjRFbTdfNUR4SHg5NGo3OGp0SW1rY3Jmd3pEeTdqdUdQRFhudjlKZElvRGo3dFZRX2Uxd3lwTWxqTjlzdllCOEZTRHRqYkNMbTlFVzJUTGZDazNhSDhrR1JhTFVSb1pVNXB3Q1JPOER5SzhLN013Wkc5X0F1R2ZtTjUzNmtMVFg]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://oauth.reddit.com/.json?limit=1024
   response:
@@ -2114,7 +2114,7 @@ interactions:
       Connection: [keep-alive]
       Cookie: [edgebucket=ifnpgFIHChCXO24Lbx; session_tracker=QR4I0jeLaPu8lk7Gl5.0.1505364162715.Z0FBQUFBQlp1Z2pEQW1aU0hSRUN3YnVGRmczeVhmNm9Cay1RQjgycUlDLUxaVzN4N3JkWEdYeTV4V1JhT2VUYkJjaFVqaHlPcVpnbnhBWC01QWoxRnVZSEMzaTVla0RvNXFQaEREcFc5ZndxTHFXLTM1Z05nSkFEdmJONEVHTjk1VTN5VFBZMWhQek4;
           loid=0000000000000lqnao.2.1425202840186.Z0FBQUFBQlp1Z2pEeUwteWtqYnM0U2puVUJRekM1dzR1ZFRKVDFOMFlzUXgyMEhJRkltZERLTEMtTThiMVI2RGdIWkRla2gyZ2ZPejJObHZxRXZzSERKeW5kX2d2VHp5VWlOVW51NWQwWWZlSTlVdFlhdW5rcWVqVzZHOFNPX2tOYk9lMVROcDB4R0k]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://oauth.reddit.com/r/python/.json?limit=1024
   response:
@@ -2803,7 +2803,7 @@ interactions:
       Connection: [keep-alive]
       Cookie: [edgebucket=ifnpgFIHChCXO24Lbx; session_tracker=QR4I0jeLaPu8lk7Gl5.0.1505364168447.Z0FBQUFBQlp1Z2pJbWZKeXRqenZpdm9VbUljdGZ5NjF6c19xaWJVa3NjSXRrUGp5cGIxSlpZVlNqX2I4bzJ1M2FNTkg2T1l5NjZRRzJhMlZkSEI4ZVpLV0pFc2FqUXJmQ3owaE5neUxiQXlaelgzS1lfa2Z1SUM0YTBIeWpxeUFpNFdNNDlWWmp6NmY;
           loid=0000000000000lqnao.2.1425202840186.Z0FBQUFBQlp1Z2pEeUwteWtqYnM0U2puVUJRekM1dzR1ZFRKVDFOMFlzUXgyMEhJRkltZERLTEMtTThiMVI2RGdIWkRla2gyZ2ZPejJObHZxRXZzSERKeW5kX2d2VHp5VWlOVW51NWQwWWZlSTlVdFlhdW5rcWVqVzZHOFNPX2tOYk9lMVROcDB4R0k]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://oauth.reddit.com/r/Python/comments/2xmo63/.json
   response:
@@ -2996,7 +2996,7 @@ interactions:
       Connection: [keep-alive]
       Cookie: [edgebucket=ifnpgFIHChCXO24Lbx; session_tracker=QR4I0jeLaPu8lk7Gl5.0.1505364172696.Z0FBQUFBQlp1Z2pNSjkxQkhHZmg0UFptQjFYZXV6azUzRG1wMUY3RURCZlNDX3VhWnZ0UDR4ZXJaWmsyWlhqMzdVdnJmWG9YRmJTWkl5SWNfVXRiYVhCaWoxUUd0MWw0dkkzVWlnQ09hY1ZqTmhUeVM3ckZwZFpqSzZNOWVqVVlOZENISXRHZjdWeVo;
           loid=0000000000000lqnao.2.1425202840186.Z0FBQUFBQlp1Z2pEeUwteWtqYnM0U2puVUJRekM1dzR1ZFRKVDFOMFlzUXgyMEhJRkltZERLTEMtTThiMVI2RGdIWkRla2gyZ2ZPejJObHZxRXZzSERKeW5kX2d2VHp5VWlOVW51NWQwWWZlSTlVdFlhdW5rcWVqVzZHOFNPX2tOYk9lMVROcDB4R0k]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://oauth.reddit.com/r/python/.json?limit=1024
   response:

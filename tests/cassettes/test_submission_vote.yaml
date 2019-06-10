@@ -5,7 +5,7 @@ interactions:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://www.reddit.com/r/Python/comments/2xmo63.json
   response:
@@ -204,7 +204,7 @@ interactions:
       Content-Type: [application/x-www-form-urlencoded]
       Cookie: [edgebucket=mKleSPqiMNC57KPYTv; loid=00000000000drjgewt.2.1505364062838.Z0FBQUFBQlp1Z2hlLWhCa0ZYc0hGNmQ3SnRXLUhXS1BvMFNFdkRsMjdOaHBKbVdEOElEejlvVTNoaXNjYW5felVFOVFQcVZDUXhCZ1JCOEZCOVpDTC1HSzRaOE8tdHllb0w0dXEtNWFXREplcS1vdFdXcm9GTkVoLWx6am9uclZsNk5uUFFZSEFaZ2w;
           session_tracker=sXPaS27CCkk96VpNOT.0.1505364062834.Z0FBQUFBQlp1Z2hlcmhjSkZEbV9WSWk2RTY2cFNwT3JNZjRoT3VVNldtcTRhX0FwcERxRUs1M2k5YmxSdjJCV2hKZkV0cTNNN1RmQnM5RDVhMzgxclNxcmhVRXNFcmVkdUxBUVdRRWVlbEJkVkRxM1lTOU14OTVFTUxmaVdlNHU0ZVp2bFMwWEJzRHY]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: POST
     uri: https://api.reddit.com/api/v1/access_token/
   response:
@@ -240,7 +240,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Authorization: ['**********']
       Connection: [keep-alive]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://oauth.reddit.com/api/v1/me.json
   response:

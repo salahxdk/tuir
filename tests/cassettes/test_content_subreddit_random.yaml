@@ -5,7 +5,7 @@ interactions:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://api.reddit.com/r/random/?unique=1
   response:
@@ -38,7 +38,7 @@ interactions:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://api.reddit.com/r/GoldandBlack/.api?unique=1&utm_campaign=redirect&utm_medium=desktop&utm_source=reddit&utm_name=random_subreddit&unique=1
   response:
@@ -335,7 +335,7 @@ interactions:
       Connection: [keep-alive]
       Cookie: [edgebucket=s6BqQdIx6rJlTZLnx5; loid=00000000000drjbnic.2.1505363983474.Z0FBQUFBQlp1Z2dQRGlvRllPS1UtR1dub3R6NWRBUmVJVDN4RExWQzc4S2dNRVhVYkdKX2RKOUpMZ3ltcF9kd3JXNzd3WW83OEotRDNrYUZlMDhxMVd2LVBxdTVlczFTZ0FpdUFOM1dHcVdaUDU4dnJGN0UxYlptOFJfTVF4QzN0UzlBR2Rud2k3aXM;
           session_tracker=F8LLROklZq9Ldtf9Ec.0.1505363983470.Z0FBQUFBQlp1Z2dQWTc2aDNQWXg1NnFKZ2hIMDRnU0RHRWpqVjV2VEJZVkEzUnR6QnczbXIxeFZhNXBMeUJOUW04NWI4MUtNdWhrVXhWNTlkN1lEMkRxcU5NbWVOLWNTd29aWk9feDdHY1JXb1NFbXZYeXNSLW5zYU5mSlpGMXc3RGlBalBCMG9iMFY]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://api.reddit.com/r/GoldandBlack/.json?limit=1024
   response:

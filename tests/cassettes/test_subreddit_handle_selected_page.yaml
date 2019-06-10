@@ -5,7 +5,7 @@ interactions:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.7.2 b'Darwin-17.7.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.7.2 b'Darwin-17.7.0-x86_64-i386-64bit']
     method: GET
     uri: https://api.reddit.com/r/python/.json?limit=1024
   response:
@@ -856,7 +856,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       Cookie: [edgebucket=AfW0CCkupfYP46BcWJ]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.7.2 b'Darwin-17.7.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.7.2 b'Darwin-17.7.0-x86_64-i386-64bit']
     method: GET
     uri: https://api.reddit.com/subreddits/popular/.json?limit=1024
   response:

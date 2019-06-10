@@ -8,7 +8,7 @@ interactions:
       Connection: [keep-alive]
       Content-Length: ['122']
       Content-Type: [application/x-www-form-urlencoded]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Linux-4.4.154-1-MANJARO-x86_64-with-arch-Manjaro-Linux']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Linux-4.4.154-1-MANJARO-x86_64-with-arch-Manjaro-Linux']
     method: POST
     uri: https://api.reddit.com/api/v1/access_token/
   response:
@@ -43,7 +43,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Authorization: ['**********']
       Connection: [keep-alive]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Linux-4.4.154-1-MANJARO-x86_64-with-arch-Manjaro-Linux']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Linux-4.4.154-1-MANJARO-x86_64-with-arch-Manjaro-Linux']
     method: GET
     uri: https://oauth.reddit.com/api/v1/me.json
   response:
@@ -121,7 +121,7 @@ interactions:
       Authorization: ['**********']
       Connection: [keep-alive]
       Cookie: [edgebucket=Ol6Hx8fcGXJcbgaUwB]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Linux-4.4.154-1-MANJARO-x86_64-with-arch-Manjaro-Linux']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Linux-4.4.154-1-MANJARO-x86_64-with-arch-Manjaro-Linux']
     method: GET
     uri: https://oauth.reddit.com/user/br0bi/downvoted.json?sort=new&t=all&limit=1024
   response:

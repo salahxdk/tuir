@@ -8,7 +8,7 @@ interactions:
       Connection: [keep-alive]
       Content-Length: ['122']
       Content-Type: [application/x-www-form-urlencoded]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.7.0 b'Darwin-17.7.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.7.0 b'Darwin-17.7.0-x86_64-i386-64bit']
     method: POST
     uri: https://api.reddit.com/api/v1/access_token/
   response:
@@ -43,7 +43,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Authorization: ['**********']
       Connection: [keep-alive]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.7.0 b'Darwin-17.7.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.7.0 b'Darwin-17.7.0-x86_64-i386-64bit']
     method: GET
     uri: https://oauth.reddit.com/api/v1/me.json
   response:

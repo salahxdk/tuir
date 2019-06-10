@@ -5,7 +5,7 @@ interactions:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://www.reddit.com/r/Python/comments/2xmo63.json
   response:
@@ -201,7 +201,7 @@ interactions:
       Connection: [keep-alive]
       Cookie: [edgebucket=vwl7OJCu7Q0idBmmky; loid=00000000000drjfubq.2.1505364053766.Z0FBQUFBQlp1Z2hWTnZ2aUFOQTJHTUNPY194bFJpYjczcmgwckFFOGJ6dWpOMXQybkZ1OXBRMnduMTdtN2h5Y2ZGN0o0UWhQM0cwUVh2Y2k2VkRtcjQtbjcycnkxTXNyYVFlUG8yMlpzNi1EVTZvZUZuV0U0TDRzMmo5a2UzbmlZeGN6ZWxGSElvc2M;
           session_tracker=3M6Lw1iojuvK9IhJ55.0.1505364053761.Z0FBQUFBQlp1Z2hWS3dPdWZnYm11dnc2TXI3cEJHdW5EX2h4V3ZQM05fM0p3cXNhMHpBV1pwRFJvZWYwRG9FQkdNa014b0NTV24yMU9YdXFjUXNtTjlQT0o3d3BqNng3ckJwZW90TVpBcnZYYldyOHFsUDFLNW4zakZucWRGNlB6MWVSdHg5Uk1NN0I]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://www.reddit.com/comments/571dw3.json
   response:

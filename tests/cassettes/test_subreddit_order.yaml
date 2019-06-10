@@ -5,7 +5,7 @@ interactions:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.5 b'Darwin-17.7.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.5 b'Darwin-17.7.0-x86_64-i386-64bit']
     method: GET
     uri: https://api.reddit.com/r/python/.json?limit=1024
   response:
@@ -810,7 +810,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       Cookie: [edgebucket=aWo2ZIaVSLP9BkK9zv]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.5 b'Darwin-17.7.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.5 b'Darwin-17.7.0-x86_64-i386-64bit']
     method: GET
     uri: https://api.reddit.com/r/all/.json?limit=1024
   response:
@@ -2050,7 +2050,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       Cookie: [edgebucket=aWo2ZIaVSLP9BkK9zv]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.5 b'Darwin-17.7.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.5 b'Darwin-17.7.0-x86_64-i386-64bit']
     method: GET
     uri: https://api.reddit.com/r/all/rising.json?limit=1024
   response:
@@ -3147,7 +3147,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       Cookie: [edgebucket=aWo2ZIaVSLP9BkK9zv]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.5 b'Darwin-17.7.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.5 b'Darwin-17.7.0-x86_64-i386-64bit']
     method: GET
     uri: https://api.reddit.com/r/all/new.json?limit=1024
   response:
@@ -4130,7 +4130,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       Cookie: [edgebucket=aWo2ZIaVSLP9BkK9zv]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.5 b'Darwin-17.7.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.5 b'Darwin-17.7.0-x86_64-i386-64bit']
     method: GET
     uri: https://api.reddit.com/r/all/gilded.json?limit=1024
   response:
@@ -5645,7 +5645,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       Cookie: [edgebucket=aWo2ZIaVSLP9BkK9zv]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.5 b'Darwin-17.7.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.5 b'Darwin-17.7.0-x86_64-i386-64bit']
     method: GET
     uri: https://api.reddit.com/r/all/search.json?q=search+text&sort=relevance&restrict_sr=on
   response:
@@ -5962,7 +5962,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
       Cookie: [edgebucket=aWo2ZIaVSLP9BkK9zv]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.5 b'Darwin-17.7.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.5 b'Darwin-17.7.0-x86_64-i386-64bit']
     method: GET
     uri: https://api.reddit.com/r/all/search.json?q=search+text&sort=new&restrict_sr=on
   response:

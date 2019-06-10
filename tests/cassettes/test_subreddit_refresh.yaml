@@ -5,7 +5,7 @@ interactions:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://api.reddit.com/r/python/.json?limit=1024
   response:
@@ -699,7 +699,7 @@ interactions:
       Connection: [keep-alive]
       Cookie: [edgebucket=Cri2adnrJxXeuYPnoA; loid=00000000000drjht0r.2.1505364085916.Z0FBQUFBQlp1Z2gyZ2pIUlREcUtoZEd0cktzU0ZwekY2YlBuMmd4Q2ZoSUlRRWhBQVlkVmlaRG9KYjFfdldsN01CUWZOeFdUbWdhQU1RcGc5TC1zVEt4MVM3bnMtejVBQ19vNjEzeEdwZWJYTkZkczlHX1VncG5QMWRwSUtrYTZsdGZyTEZnQ29EUnU;
           session_tracker=rZQi5DOQdkjlLoArOn.0.1505364085911.Z0FBQUFBQlp1Z2gybnJZT1k1cnNqZWxRcmlMekw2d3J1aUdhZG05clF1V1F4bzJIOTRwN3FWT0NQMWRzMkE4cko1clpPcktaSGVnQjkwQzF2U09pWEZHdVVaUHE5TzhDaUlDNTRNQVJXeTBjakJKaVpUYkJoQThPWFRVNGRYVk0taHZZS2xEYlVVVjY]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://api.reddit.com/r/python/.json?limit=1024
   response:
@@ -1384,7 +1384,7 @@ interactions:
       Connection: [keep-alive]
       Cookie: [edgebucket=Cri2adnrJxXeuYPnoA; loid=00000000000drjht0r.2.1505364085916.Z0FBQUFBQlp1Z2gyZ2pIUlREcUtoZEd0cktzU0ZwekY2YlBuMmd4Q2ZoSUlRRWhBQVlkVmlaRG9KYjFfdldsN01CUWZOeFdUbWdhQU1RcGc5TC1zVEt4MVM3bnMtejVBQ19vNjEzeEdwZWJYTkZkczlHX1VncG5QMWRwSUtrYTZsdGZyTEZnQ29EUnU;
           session_tracker=rZQi5DOQdkjlLoArOn.0.1505364087359.Z0FBQUFBQlp1Z2gzZDc0dDBFTllkd2gtYV9nb0xuVTI1SmZxUFVmWVRsQkRSNzB3RHpCT00tYjJmMXdLdk5HbmZjWnljdFl3WjIwcG9tNHlKbmFZYkt2S0tjWDZKaDRwUmIwUnh2bWFkOWpqRUxTQi1Ebi01V1lya1VxYVpQdFIwa2QyZE9EVElKdy0]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://api.reddit.com/.json?limit=1024
   response:

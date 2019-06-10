@@ -5,7 +5,7 @@ interactions:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://www.reddit.com/r/AskReddit/comments/2np694/.json
   response:
@@ -924,7 +924,7 @@ interactions:
       Content-Type: [application/x-www-form-urlencoded]
       Cookie: [edgebucket=NNEs0qy6QZ6tMEvsIU; loid=00000000000drj4ceg.2.1505363858371.Z0FBQUFBQlp1Z2VULXlZc0RSXzdOSjVxbnk5Vl83ZkZ2NlgtRUljdEpoZXhQdEpDeVk5UjNwV21iSzlOTWt2OVRONTBnRU93M1BmNEV3SFFqeTVvMWxjNWEtTjVEUEdLdWFGeThjd2ZxX0JoSF84OUMzZ3RadTlDS2hjR0ZmdlpBcjNtR21VVTVfdmk;
           session_tracker=QSl2I5eKRmR4NPLPIn.0.1505363858367.Z0FBQUFBQlp1Z2VUUnRWSWtWVThQelVoclVaMmFnck1qTmdLekxFaXBFdlZsajFVSGJ3MjVBamtzVlFIRWdtTWRGenlWcUhmN2w4WmtxOXdJZTVBa0EtM0F0RWJvV3QxSENSNk1jNWVJZzFickdJeURFT1ZabXV2Z056Q1VFOEtPZjVjaHRiSDZSR0Q]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: POST
     uri: https://api.reddit.com/api/morechildren/.json
   response:

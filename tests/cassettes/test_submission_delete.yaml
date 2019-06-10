@@ -5,7 +5,7 @@ interactions:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://www.reddit.com/r/Python/comments/2xmo63.json
   response:
@@ -204,7 +204,7 @@ interactions:
       Content-Type: [application/x-www-form-urlencoded]
       Cookie: [edgebucket=ur6vgFT7AyALYMwT9F; loid=00000000000drjgssu.2.1505364069112.Z0FBQUFBQlp1Z2hsZlE3ZjllTWF3dS1iLXkxUVQ3ejFyRS1Jc29kRGRLemxzamhHc3lvaTBLRHhNc2pxeTFFcUJjdUhpaUdEd3lPbmh5VnBBczhIcVNlaWd1N0dIZEhUYTE2WVhGd1FsVHRKTTVqX0NnZXNWN2ZxNWk5MEZkTUNRQ1k2RDhyTnBCYUw;
           session_tracker=Sd1zKoocAcorykRy1h.0.1505364069107.Z0FBQUFBQlp1Z2hsMmhCZDYwQWNOZ1hfNWZHV3RyZXdjWXp6RHFSWUo3NVdLUURBVGF6Z0RhbEpfc3JxU0dYRkg2djlJSUU0N1JQSzJ4U3otTjg0RzBQdThzNWRwM092Tkl1MmtyS2FjWnN0eHdSdTB0Rm9PWlU3dFE0YklhaEdJdDQzQVg0dndDLWY]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: POST
     uri: https://api.reddit.com/api/v1/access_token/
   response:
@@ -240,7 +240,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Authorization: ['**********']
       Connection: [keep-alive]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://oauth.reddit.com/api/v1/me.json
   response:
@@ -313,7 +313,7 @@ interactions:
       Authorization: ['**********']
       Connection: [keep-alive]
       Cookie: [edgebucket=csayU0i4FcUHEew1mD; session_tracker=q34Fg2WnO9gQB9G3Qq.0.1505364069659.Z0FBQUFBQlp1Z2hsMGhrUFY0VWdmaFNVVjB5YlVrZlNLRkVRYXU5ZnJrcHJqUFJGTWx2LUd5am1lejZsMFN0SWlsUnpnTV9ycmdCaEtXLTJuQ1pGLTFYM093NXlGdEczLWFYTkEwTGRILWg0d3o4Y3J0QnR2N3NzdXgzbi1FdWFveHE5TGZYMVc5SjA]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://oauth.reddit.com/r/Python/comments/2xmo63/a_python_terminal_viewer_for_browsing_reddit/.json
   response:

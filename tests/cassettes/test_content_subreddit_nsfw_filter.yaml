@@ -5,7 +5,7 @@ interactions:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://api.reddit.com/r/ImGoingToHellForThis/.json?limit=1024
   response:
@@ -1244,7 +1244,7 @@ interactions:
       Content-Type: [application/x-www-form-urlencoded]
       Cookie: [edgebucket=K1EyXSMnyAgU2Bouh1; loid=00000000000drjbvek.2.1505363987192.Z0FBQUFBQlp1Z2dUQzBDMHJxV3FCM010a19aUm1nZ0dXWHJRNWgtVEp4NlZ0N19nWkVKM3VabnFuUGR3UTRDTklUTGY5czIzaUtheWhYdUJTajJQUHJWY0FhT0RvTjNLMHhYR0c4RkgybUNRR0lndEZCRTBrdTFCdjVTcDRDQU5FZ1dKSXJWWEFhb2k;
           session_tracker=kb9nC3ItKAMQjQ0Gs7.0.1505363987189.Z0FBQUFBQlp1Z2dUUUdGSzNELUxKTU04T0d4aFJjSkZhV2t5c3hKcnZBTzEyMlRmRkNrMVB4d0d4eW5iZ0JtanBzSDFkRDl6bDBvdWZpaXFNLWwzV2duOGh4ZDVaZ3VSZVROdk5YY196RFdKN2xiNEFfMFVDd2hYMjBVRkpGZV94MHk0NjlZTk5JLXI]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: POST
     uri: https://api.reddit.com/api/v1/access_token/
   response:
@@ -1280,7 +1280,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Authorization: ['**********']
       Connection: [keep-alive]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://oauth.reddit.com/api/v1/me.json
   response:
@@ -1353,7 +1353,7 @@ interactions:
       Authorization: ['**********']
       Connection: [keep-alive]
       Cookie: [edgebucket=nDfqniAhGSsEKix5yE; session_tracker=XIUKBxPDZLxvduLvDt.0.1505363990408.Z0FBQUFBQlp1Z2dXT1Bfd0FJNzRSSm95WHdMSm52NS05SnNqWHFtYjhFZlhLNV9lWmN6cVJoUWluc2hQTGZWcUNIUWVFckhvSjZIOG1iT3FTY1NZVXF0Vl9SbTludk0tSkhXSGlVYkFMVlFyTTVtTVlCZlFZVDA5M0NhT2M5OE54QkZvN2FOSVNGUm0]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://oauth.reddit.com/r/ImGoingToHellForThis/.json?limit=1024
   response:
@@ -2585,7 +2585,7 @@ interactions:
       Connection: [keep-alive]
       Cookie: [edgebucket=nDfqniAhGSsEKix5yE; session_tracker=XIUKBxPDZLxvduLvDt.0.1505363990963.Z0FBQUFBQlp1Z2dYcGd4dGlOb19sNFBhUXVVMXFSWkFjeVNQX3ZhT1JBR2RYeFFFQjZnbEI0SFljVFZTcUxpUUFGNjhCU0xxeUgwSzN5WTI0LVpYQU9QSHBxRnhhR3NLRTkyTmxJU0ZUOHljekoyWkViTkxTSXNIb0ZYRHVKT05xZFdxYnJWRFNhVXc;
           loid=0000000000000lqnao.2.1425202840186.Z0FBQUFBQlp1Z2dYZkxtaGFQdDF4bzJrMldicUl1UnpSSDFNNjVIYjlEZElzc1FsUDBialVDYWpVVzU5SWlMTlZLRS1fcjJzOExuV0RjTERwOFo3WTFLRWRBQjJUTkgtdzlSYWRpYTBoS2t5MWJrZFYzcUJNbkdLeGNyZFZ3VzVWRzdWV1c2UTd4T3g]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://oauth.reddit.com/r/ImGoingToHellForThis+python/.json?limit=1024
   response:
@@ -3797,7 +3797,7 @@ interactions:
       Connection: [keep-alive]
       Cookie: [edgebucket=nDfqniAhGSsEKix5yE; session_tracker=XIUKBxPDZLxvduLvDt.0.1505363993623.Z0FBQUFBQlp1Z2dhWWlQSGR4bjNybVQweldueTZwOHVIUF9ILU54SG1sa0hLbnRSN0lPTENkTXRpUWYyeWN1eVBkN0ZtWjlnSGx2Zi0yZEN1TFZxLWtMNVd1OHdtOWpSRVY1UkdtM2wwdUhzQWk2alc1Z0RvNEVMSnVuaFhwTFQ1Yzh6WFdwaHJDQmc;
           loid=0000000000000lqnao.2.1425202840186.Z0FBQUFBQlp1Z2dYZkxtaGFQdDF4bzJrMldicUl1UnpSSDFNNjVIYjlEZElzc1FsUDBialVDYWpVVzU5SWlMTlZLRS1fcjJzOExuV0RjTERwOFo3WTFLRWRBQjJUTkgtdzlSYWRpYTBoS2t5MWJrZFYzcUJNbkdLeGNyZFZ3VzVWRzdWV1c2UTd4T3g]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://oauth.reddit.com/r/ImGoingToHellForThis+python/.json?limit=1024&after=t3_6zt7wo
   response:

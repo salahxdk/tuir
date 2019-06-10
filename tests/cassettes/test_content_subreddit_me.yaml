@@ -8,7 +8,7 @@ interactions:
       Connection: [keep-alive]
       Content-Length: ['122']
       Content-Type: [application/x-www-form-urlencoded]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: POST
     uri: https://api.reddit.com/api/v1/access_token/
   response:
@@ -49,7 +49,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Authorization: ['**********']
       Connection: [keep-alive]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://oauth.reddit.com/api/v1/me.json
   response:
@@ -122,7 +122,7 @@ interactions:
       Authorization: ['**********']
       Connection: [keep-alive]
       Cookie: [edgebucket=Wb3Q4YKqmaKLNtbjya; session_tracker=mTVxIprV3nMnJSbRu6.0.1505363985975.Z0FBQUFBQlp1Z2dTSVFSNmxCQWdkazgwUzRGNENyc3FlZmw5Y0pTVTg4Y3Zod2Q4MjgyTmVtNm5TakhSWjhrVDFEeXdnSGhGNEkyb015OEFlMVd3NkVxd1B0N2RDX0ZRRzlXTkZ2dnl5Y09IZXJUVU1reXItclRuLUhNX254NE5Yd3BFNVc4NEpuLVU]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://oauth.reddit.com/user/civilization_phaze_3/.json?sort=new&t=all&limit=1024
   response:

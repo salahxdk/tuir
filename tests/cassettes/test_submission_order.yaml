@@ -5,7 +5,7 @@ interactions:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://www.reddit.com/r/Python/comments/2xmo63.json
   response:
@@ -201,7 +201,7 @@ interactions:
       Connection: [keep-alive]
       Cookie: [edgebucket=tMCxRkkquKLbjLkK0O; loid=00000000000drjg1r0.2.1505364057206.Z0FBQUFBQlp1Z2habkxjQzVIdVdiZTVsVkJOSmVkN2NROUNWZDN4OUZOdTgtUWNEMFVleFdiUjFIdWdxWG5kM2I3eVA1X01vdndVb1VmUWFvR0NqVS1Mc2txNXV4Zy1Fd00tblp2VTlVcmRob3ZmYXF1M18ya3BNcjhXUkFmS0lfTU01aVFNd19GR3Y;
           session_tracker=HnHIXADzltQfmFHxJ8.0.1505364057202.Z0FBQUFBQlp1Z2haYi1VV3JHYmJyR0RieFlVaTBjaHpQZkFSVVZJN2lRRXNKVm04ZjYyeFg1SHRWWEFGaXRZaXNPQXpsaml4bklLQWsxLW9TVWNYNjh3VVdac2xCNGdnX2k0R2xyOG8zckUxUWp3bXdPenNDNjlaOEp2TmxBUTNkQ1N5LVRvX054dGY]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://www.reddit.com/r/Python/comments/2xmo63/a_python_terminal_viewer_for_browsing_reddit/.json?sort=hot
   response:
@@ -388,7 +388,7 @@ interactions:
       Connection: [keep-alive]
       Cookie: [edgebucket=tMCxRkkquKLbjLkK0O; loid=00000000000drjg1r0.2.1505364057206.Z0FBQUFBQlp1Z2habkxjQzVIdVdiZTVsVkJOSmVkN2NROUNWZDN4OUZOdTgtUWNEMFVleFdiUjFIdWdxWG5kM2I3eVA1X01vdndVb1VmUWFvR0NqVS1Mc2txNXV4Zy1Fd00tblp2VTlVcmRob3ZmYXF1M18ya3BNcjhXUkFmS0lfTU01aVFNd19GR3Y;
           session_tracker=HnHIXADzltQfmFHxJ8.0.1505364058468.Z0FBQUFBQlp1Z2hhbUVnd042RG9DYmx0WG5yZ1hUZktOQmdVeTB1OGw1dkFKd1hwRVJKMXM2U2swZFBMMDc1a0Y3QlltTGdMMUowbE13dU9kUUJycUhCUm1EOEtMb3o4dG1Qb09rR0NfZnl6VXhjVTRoV2RvbWtkRTA3QXhjdDNtYmRDX0wtclFRUWc]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://www.reddit.com/r/Python/comments/2xmo63/a_python_terminal_viewer_for_browsing_reddit/.json?sort=top
   response:
@@ -575,7 +575,7 @@ interactions:
       Connection: [keep-alive]
       Cookie: [edgebucket=tMCxRkkquKLbjLkK0O; loid=00000000000drjg1r0.2.1505364057206.Z0FBQUFBQlp1Z2habkxjQzVIdVdiZTVsVkJOSmVkN2NROUNWZDN4OUZOdTgtUWNEMFVleFdiUjFIdWdxWG5kM2I3eVA1X01vdndVb1VmUWFvR0NqVS1Mc2txNXV4Zy1Fd00tblp2VTlVcmRob3ZmYXF1M18ya3BNcjhXUkFmS0lfTU01aVFNd19GR3Y;
           session_tracker=HnHIXADzltQfmFHxJ8.0.1505364058768.Z0FBQUFBQlp1Z2hhVzJXakVaLXZ5TXNxek5QM1FlNUVxZ1pvMUQwSHZycWxPcjVZOHhFbFliOTBRNHkxb2lZcnVjN045bmM4N3VBdHcxUW5CX3VMaTBFSS1BZGNHbFM0N2tkSHAyUDJOOGVMYXpLLWhuNGJTejZ1OGNOZUJqZjFTNVlybW9tVHQzY3c]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://www.reddit.com/r/Python/comments/2xmo63/a_python_terminal_viewer_for_browsing_reddit/.json?sort=rising
   response:
@@ -762,7 +762,7 @@ interactions:
       Connection: [keep-alive]
       Cookie: [edgebucket=tMCxRkkquKLbjLkK0O; loid=00000000000drjg1r0.2.1505364057206.Z0FBQUFBQlp1Z2habkxjQzVIdVdiZTVsVkJOSmVkN2NROUNWZDN4OUZOdTgtUWNEMFVleFdiUjFIdWdxWG5kM2I3eVA1X01vdndVb1VmUWFvR0NqVS1Mc2txNXV4Zy1Fd00tblp2VTlVcmRob3ZmYXF1M18ya3BNcjhXUkFmS0lfTU01aVFNd19GR3Y;
           session_tracker=HnHIXADzltQfmFHxJ8.0.1505364059036.Z0FBQUFBQlp1Z2hiZlNlbVVCQTRRSnBINTE4WkNWUEdGMHF2bmJKU1JhWXlPWE5iSzJ2Q1V4cmJpMk9veUVIX0pYWm12OFo2clJQalR5X1Q3c2lXT2VPS2llcFcxWTU2bEhQY0RNSHpzUWY1OFdaVHZ0dDlHY0IwV3NoNnVWcEJ3MThXaEFYMzd6QVg]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://www.reddit.com/r/Python/comments/2xmo63/a_python_terminal_viewer_for_browsing_reddit/.json?sort=new
   response:
@@ -950,7 +950,7 @@ interactions:
       Connection: [keep-alive]
       Cookie: [edgebucket=tMCxRkkquKLbjLkK0O; loid=00000000000drjg1r0.2.1505364057206.Z0FBQUFBQlp1Z2habkxjQzVIdVdiZTVsVkJOSmVkN2NROUNWZDN4OUZOdTgtUWNEMFVleFdiUjFIdWdxWG5kM2I3eVA1X01vdndVb1VmUWFvR0NqVS1Mc2txNXV4Zy1Fd00tblp2VTlVcmRob3ZmYXF1M18ya3BNcjhXUkFmS0lfTU01aVFNd19GR3Y;
           session_tracker=HnHIXADzltQfmFHxJ8.0.1505364059733.Z0FBQUFBQlp1Z2hiUnlqV2dYekZITHlYUXBfeHBIc2hTaGQtV3pRQjI3anlLc2JOQ0h4Ykl0eUt5NTRrN0FMcnBqWmpFSjdGTGZvajVQNXoyTlZsakFBbzZ0WnE4Y2ZzMDZUUlJfSzNaWlBuRmVXYzhCYVVWM19MQXZpNXhaQXNwbWEyTHNjdkdmYmc]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://www.reddit.com/r/Python/comments/2xmo63/a_python_terminal_viewer_for_browsing_reddit/.json?sort=controversial
   response:

@@ -5,7 +5,7 @@ interactions:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.7.0 b'Darwin-17.7.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.7.0 b'Darwin-17.7.0-x86_64-i386-64bit']
     method: GET
     uri: https://api.reddit.com/r/python/.json?limit=1024
   response:
@@ -771,7 +771,7 @@ interactions:
       Content-Length: ['122']
       Content-Type: [application/x-www-form-urlencoded]
       Cookie: [edgebucket=CK2vz0CRJGSndiGfGp]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.7.0 b'Darwin-17.7.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.7.0 b'Darwin-17.7.0-x86_64-i386-64bit']
     method: POST
     uri: https://api.reddit.com/api/v1/access_token/
   response:
@@ -804,7 +804,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Authorization: ['**********']
       Connection: [keep-alive]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.7.0 b'Darwin-17.7.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.7.0 b'Darwin-17.7.0-x86_64-i386-64bit']
     method: GET
     uri: https://oauth.reddit.com/api/v1/me.json
   response:
@@ -881,7 +881,7 @@ interactions:
       Authorization: ['**********']
       Connection: [keep-alive]
       Cookie: [edgebucket=7ClmXdkzaiyC231F1R]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.7.0 b'Darwin-17.7.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.7.0 b'Darwin-17.7.0-x86_64-i386-64bit']
     method: GET
     uri: https://oauth.reddit.com/user/civilization_phaze_3/saved.json?sort=new&t=all&limit=1024
   response:
@@ -1042,7 +1042,7 @@ interactions:
       Authorization: ['**********']
       Connection: [keep-alive]
       Cookie: [edgebucket=7ClmXdkzaiyC231F1R]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.7.0 b'Darwin-17.7.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.7.0 b'Darwin-17.7.0-x86_64-i386-64bit']
     method: GET
     uri: https://oauth.reddit.com/user/civilization_phaze_3/hidden.json?sort=new&t=all&limit=1024
   response:
@@ -1778,7 +1778,7 @@ interactions:
       Authorization: ['**********']
       Connection: [keep-alive]
       Cookie: [edgebucket=7ClmXdkzaiyC231F1R]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.7.0 b'Darwin-17.7.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.7.0 b'Darwin-17.7.0-x86_64-i386-64bit']
     method: GET
     uri: https://oauth.reddit.com/user/civilization_phaze_3/upvoted.json?sort=new&t=all&limit=1024
   response:
@@ -2472,7 +2472,7 @@ interactions:
       Authorization: ['**********']
       Connection: [keep-alive]
       Cookie: [edgebucket=7ClmXdkzaiyC231F1R]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.7.0 b'Darwin-17.7.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.7.0 b'Darwin-17.7.0-x86_64-i386-64bit']
     method: GET
     uri: https://oauth.reddit.com/user/civilization_phaze_3/downvoted.json?sort=new&t=all&limit=1024
   response:
@@ -2674,7 +2674,7 @@ interactions:
       Authorization: ['**********']
       Connection: [keep-alive]
       Cookie: [edgebucket=7ClmXdkzaiyC231F1R]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.7.0 b'Darwin-17.7.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.7.0 b'Darwin-17.7.0-x86_64-i386-64bit']
     method: GET
     uri: https://oauth.reddit.com/user/civilization_phaze_3/.json?sort=new&t=all&limit=1024
   response:
@@ -3390,7 +3390,7 @@ interactions:
       Authorization: ['**********']
       Connection: [keep-alive]
       Cookie: [edgebucket=7ClmXdkzaiyC231F1R]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.7.0 b'Darwin-17.7.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.7.0 b'Darwin-17.7.0-x86_64-i386-64bit']
     method: GET
     uri: https://oauth.reddit.com/user/civilization_phaze_3/submitted.json?sort=new&t=all&limit=1024
   response:
@@ -3623,7 +3623,7 @@ interactions:
       Authorization: ['**********']
       Connection: [keep-alive]
       Cookie: [edgebucket=7ClmXdkzaiyC231F1R]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.7.0 b'Darwin-17.7.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.7.0 b'Darwin-17.7.0-x86_64-i386-64bit']
     method: GET
     uri: https://oauth.reddit.com/user/civilization_phaze_3/comments.json?sort=new&t=all&limit=1024
   response:

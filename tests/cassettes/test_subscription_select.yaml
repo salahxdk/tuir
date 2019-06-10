@@ -5,7 +5,7 @@ interactions:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://api.reddit.com/subreddits/popular/.json?limit=1024
   response:
@@ -5642,7 +5642,7 @@ interactions:
       Connection: [keep-alive]
       Cookie: [edgebucket=5vz6x6Xa93b1FSPzX0; loid=00000000000drjpyin.2.1505364228322.Z0FBQUFBQlp1Z2tFcWMyYkxKdDNzdEVfU0dpNFRHN2dLUzYwcFl0US05aGRWc0F1YkFrWXBoQ0ZXLXZ3LWZJQURhdW50a2ktbHFDcHFrQjVvcFJDekxxSWREX2tTU3BGMDNWYWxwc2UzT2Z2cktaOEE5ZnllNWhOR1RUVEV6b0VialM3cTdEY1V6N2I;
           session_tracker=uqIrtdNKKlyCvYMvQB.0.1505364228318.Z0FBQUFBQlp1Z2tFNXpVR013NElMV2pPc09VMHFKOFpNeldraThEanU3cXd2M2tXWmlCaFFPR3BaZG5GTk1uMUpRb1IzbUQwcmM4aUMtdkR6UVpaMlE0ZEctUUZ5NVRkOEVGLUNiRmZEMTlsWDRzSFFkdzBENkVnOXFRY1RQRGlRMC1TbnUyek1Sb0s]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://api.reddit.com/r/AskReddit/.json?limit=1024
   response:

@@ -5,7 +5,7 @@ interactions:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Linux-4.4.154-1-MANJARO-x86_64-with-arch-Manjaro-Linux']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Linux-4.4.154-1-MANJARO-x86_64-with-arch-Manjaro-Linux']
     method: GET
     uri: https://api.reddit.com/r/python/.json?limit=1024
   response:
@@ -915,7 +915,7 @@ interactions:
       Content-Length: ['122']
       Content-Type: [application/x-www-form-urlencoded]
       Cookie: [edgebucket=wHtpd0LFjJXhRlUF5E]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Linux-4.4.154-1-MANJARO-x86_64-with-arch-Manjaro-Linux']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Linux-4.4.154-1-MANJARO-x86_64-with-arch-Manjaro-Linux']
     method: POST
     uri: https://api.reddit.com/api/v1/access_token/
   response:
@@ -948,7 +948,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Authorization: ['**********']
       Connection: [keep-alive]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Linux-4.4.154-1-MANJARO-x86_64-with-arch-Manjaro-Linux']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Linux-4.4.154-1-MANJARO-x86_64-with-arch-Manjaro-Linux']
     method: GET
     uri: https://oauth.reddit.com/api/v1/me.json
   response:
@@ -1026,7 +1026,7 @@ interactions:
       Authorization: ['**********']
       Connection: [keep-alive]
       Cookie: [edgebucket=lNlzQNdu2C9YS2ZX63]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Linux-4.4.154-1-MANJARO-x86_64-with-arch-Manjaro-Linux']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Linux-4.4.154-1-MANJARO-x86_64-with-arch-Manjaro-Linux']
     method: GET
     uri: https://oauth.reddit.com/user/spez/.json?sort=new&t=all&limit=1024
   response:
@@ -1718,7 +1718,7 @@ interactions:
       Authorization: ['**********']
       Connection: [keep-alive]
       Cookie: [edgebucket=lNlzQNdu2C9YS2ZX63]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Linux-4.4.154-1-MANJARO-x86_64-with-arch-Manjaro-Linux']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Linux-4.4.154-1-MANJARO-x86_64-with-arch-Manjaro-Linux']
     method: GET
     uri: https://oauth.reddit.com/user/spez/submitted.json?sort=new&t=all&limit=1024
   response:
@@ -3078,7 +3078,7 @@ interactions:
       Authorization: ['**********']
       Connection: [keep-alive]
       Cookie: [edgebucket=lNlzQNdu2C9YS2ZX63]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Linux-4.4.154-1-MANJARO-x86_64-with-arch-Manjaro-Linux']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Linux-4.4.154-1-MANJARO-x86_64-with-arch-Manjaro-Linux']
     method: GET
     uri: https://oauth.reddit.com/user/spez/comments.json?sort=new&t=all&limit=1024
   response:

@@ -5,7 +5,7 @@ interactions:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://api.reddit.com/r/python/.json?limit=1024
   response:
@@ -701,7 +701,7 @@ interactions:
       Content-Type: [application/x-www-form-urlencoded]
       Cookie: [edgebucket=QjEfJhXajiRD8drbCq; loid=00000000000drjn0i0.2.1505364178660.Z0FBQUFBQlp1Z2pTdjVKUzFFUGRmc29LdENCdEhNRHluZFdvdC0xaU1TbWcycVE5SHNFZ2pMQXFob2JWTjNHUjI2UmVCR19IcHNhcnRzQXQ1RnFqNHV3M2xkOWh6RWItS18xX2ZoS0hBZjFkWmFjcGt5MUlqVVBBSUlNUkdfVldKT09CTUJNMVNvd3Y;
           session_tracker=uQzZi9gYLUtucHr04h.0.1505364178656.Z0FBQUFBQlp1Z2pTOTZuZ0dPdjE5RmZJYUpyY0lETFBvNzkxX19DcmhPYmF0R1ptaTRxckg2ZnNCd2hxRHdJUmFab25DSHJZWEN4eGs4Q1VMd1VGNmRIS2l4OVBLN2JTRXlFXzVSR3NGSGRTTzhkZ0xsdWxpcXJuVzlGckg3SmtnZTh3aVh0S0dpeW8]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: POST
     uri: https://api.reddit.com/api/v1/access_token/
   response:
@@ -737,7 +737,7 @@ interactions:
       Accept-Encoding: ['gzip, deflate']
       Authorization: ['**********']
       Connection: [keep-alive]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://oauth.reddit.com/api/v1/me.json
   response:
@@ -810,7 +810,7 @@ interactions:
       Authorization: ['**********']
       Connection: [keep-alive]
       Cookie: [edgebucket=JJhWDoj2utS0L3G4AH; session_tracker=eLnQTfZqTvQfzGfG9D.0.1505364181415.Z0FBQUFBQlp1Z2pWalFVcVJ6WkJhNnRJN2FaMVpvTmFwbHRvcTJJSkRIbmxValZPS1NxbkhjTGJZV3k5Qk5Icy1Lb3BDTm9WdXNZcEQ3RjNhUHcxdlRrQ2NuUm1WYlREMVBwYlNEQUtuMXNIYVQ0OG9oSzMwQW5SaW1LT0hWZnEzeW5aQmZiS0RqQnU]
-      User-Agent: [rtv test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
+      User-Agent: [tuir test suite PRAW/3.6.1 Python/3.6.1 b'Darwin-14.5.0-x86_64-i386-64bit']
     method: GET
     uri: https://oauth.reddit.com/subreddits/mine/subscriber/.json?limit=1024
   response:
