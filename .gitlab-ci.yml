@@ -1,0 +1,7 @@
+python3.6:
+  image: python:3.6-stretch
+  script:
+    - pip install .[test]
+    - pip install .
+    - python -m pytest tests/
+    - pylint --rcfile .pylintrc -E tuir/

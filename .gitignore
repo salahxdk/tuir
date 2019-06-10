@@ -5,6 +5,7 @@
 !.gitattributes
 !.gitlab
 !.coveragerc
+!.gitlab-ci.yml
 *~
 *.pyc
 *.log
