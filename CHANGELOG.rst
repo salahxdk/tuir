@@ -2,6 +2,7 @@
 RTV/TUIR Changelog
 =============
 
+.. _1.28.1: https://gitlab.com/ajak/tuir/tree/v1.28.1
 .. _1.28.0: https://gitlab.com/ajak/tuir/tree/v1.28.0
 .. _1.27.0: http://github.com/michael-lazar/rtv/releases/tag/v1.27.0
 .. _1.26.0: http://github.com/michael-lazar/rtv/releases/tag/v1.26.0
@@ -43,7 +44,19 @@ RTV/TUIR Changelog
 .. _1.2: http://github.com/michael-lazar/rtv/releases/tag/v1.2
 
 --------------------
-1.28.0_ (2019-06-09
+1.28.1_ (2019-06-09)
+--------------------
+
+Bugfixes
+
+* Revert de1d06e3 - it breaks python2.7 compatibility
+
+Miscellaneous
+
+* Add python2.7 gitlab-ci test
+
+--------------------
+1.28.0_ (2019-06-09)
 --------------------
 
 This is the first release of TUIR. Several changes come that don't fit into
