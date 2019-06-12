@@ -1,13 +1,9 @@
----
-name: Bug report
-about: Create a report to help us improve
-title: ''
-labels: bug
-assignees: ''
-
----
+/title
+/label ~bug
+/assign
 
 **Describe the bug**
+
 A clear description of what the bug is and how to reproduce it.
 
 **Describe your environment**
