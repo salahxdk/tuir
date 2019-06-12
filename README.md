@@ -64,6 +64,21 @@ TUIR is available on [PyPI](https://pypi.python.org/pypi/tuir/) and can be insta
 $ pip install tuir
 ```
 
+#### Migration from RTV
+
+If you are migrating from RTV to TUIR, you can simply rename your old config directory/config file:
+
+```bash
+$ mv ~/.config/rtv ~/.config/tuir
+$ mv ~/.config/tuir/rtv.cfg ~/.config/tuir/tuir.cfg
+```
+
+Please take care to use the new API keys for Imgur and Reddit. To replace with sed:
+
+```bash
+$ sed -i 's/E2oEtRQfdfAfNQ/zjyhNI7tK8ivzQ/; s/93396265f59dec9/b33d69ac8931734/' ~/.config/tuir/tuir.cfg
+```
+
 ### Native packages
 
 See [Repology](https://repology.org/metapackage/tuir/packages) for an up-to-date list of supported distro packages.
