@@ -3,13 +3,15 @@ python2.7:
   script:
     - pip install .[test]
     - pip install .
-    - python -m pytest tests/
+    - coverage run -m py.test
     - pylint --rcfile .pylintrc -E tuir/
+    - coverage report
 
 python3.6:
   image: python:3.6-stretch
   script:
     - pip install .[test]
     - pip install .
-    - python -m pytest tests/
+    - coverage run -m py.test
     - pylint --rcfile .pylintrc -E tuir/
+    - coverage report
