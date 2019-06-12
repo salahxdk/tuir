@@ -20,11 +20,12 @@ A text-based interface (TUI) to view and interact with Reddit from your terminal
     <img alt="gitlab-ci" src="https://gitlab.com/ajak/tuir/badges/master/build.svg"/>
   </a> 
   <img alt="coverage" src="https://gitlab.com/ajak/tuir/badges/master/coverage.svg"/>
-</p> <!--
-  <a href="https://repology.org/project/rtv/versions">
-    <img src="https://repology.org/badge/tiny-repos/rtv.svg" alt="Packaging status">
+  <a href="https://repology.org/project/tuir/versions">
+    <img src="https://repology.org/badge/tiny-repos/tuir.svg" alt="Packaging status">
   </a>
- <a href="https://saythanks.io/to/michael-lazar">
+</p>
+<!--
+  <a href="https://saythanks.io/to/michael-lazar">
     <img alt="say-thanks" src="https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg"/>
   </a>
 </p> -->
