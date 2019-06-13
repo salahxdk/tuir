@@ -106,13 +106,40 @@ def test_content_humanize_timestamp():
     assert Content.humanize_timestamp(timestamp) == '0min'
     assert Content.humanize_timestamp(timestamp, True) == 'moments ago'
 
-    timestamp = time.time() - 60 * 60 * 24 * 30.4 * 12
-    assert Content.humanize_timestamp(timestamp) == '11month'
-    assert Content.humanize_timestamp(timestamp, True) == '11 months ago'
+    timestamp = time.time() - 60
+    assert Content.humanize_timestamp(timestamp) == '1min'
+    assert Content.humanize_timestamp(timestamp, True) == '1 minute ago'
 
-    timestamp = time.time() - 60 * 60 * 24 * 30.4 * 12 * 5
-    assert Content.humanize_timestamp(timestamp) == '5yr'
-    assert Content.humanize_timestamp(timestamp, True) == '5 years ago'
+    timestamp = time.time() - 60 * 2
+    assert Content.humanize_timestamp(timestamp, True) == '2 minutes ago'
+
+    timestamp = time.time() - 60 * 60
+    assert Content.humanize_timestamp(timestamp) == '1hr'
+    assert Content.humanize_timestamp(timestamp, True) == '1 hour ago'
+
+    timestamp = time.time() - 60 * 60 * 2
+    assert Content.humanize_timestamp(timestamp, True) == '2 hours ago'
+
+    timestamp = time.time() - 60 * 60 * 24
+    assert Content.humanize_timestamp(timestamp) == '1day'
+    assert Content.humanize_timestamp(timestamp, True) == '1 day ago'
+
+    timestamp = time.time() - 60 * 60 * 24 * 2
+    assert Content.humanize_timestamp(timestamp, True) == '2 days ago'
+
+    timestamp = time.time() - 60 * 60 * 24 * 31
+    assert Content.humanize_timestamp(timestamp) == '1month'
+    assert Content.humanize_timestamp(timestamp, True) == '1 month ago'
+
+    timestamp = time.time() - 60 * 60 * 24 * 31 * 2
+    assert Content.humanize_timestamp(timestamp, True) == '2 months ago'
+
+    timestamp = time.time() - 60 * 60 * 24 * 31 * 12
+    assert Content.humanize_timestamp(timestamp) == '1yr'
+    assert Content.humanize_timestamp(timestamp, True) == '1 year ago'
+
+    timestamp = time.time() - 60 * 60 * 24 * 31 * 12 * 2
+    assert Content.humanize_timestamp(timestamp, True) == '2 years ago'
 
 
 def test_content_wrap_text():

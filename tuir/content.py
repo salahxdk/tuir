@@ -356,7 +356,7 @@ class Content(object):
         minutes = seconds // 60
         if minutes < 60:
             if verbose and minutes == 1:
-                return '1 minutes ago'
+                return '1 minute ago'
             elif verbose:
                 return '%d minutes ago' % minutes
             else:
@@ -380,7 +380,7 @@ class Content(object):
             else:
                 return '%dday' % days
 
-        months = days // 30.4
+        months = days // 31
         if months < 12:
             if verbose and months == 1:
                 return '1 month ago'
