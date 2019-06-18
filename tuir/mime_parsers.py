@@ -320,6 +320,7 @@ class StreamableMIMEParser(OpenGraphMIMEParser):
     """
     pattern = re.compile(r'https?://(www\.)?streamable\.com/[^.]+$')
 
+
 class TwitchMIMEParser(BaseMIMEParser):
     """
     Twitch videos can be streamed with vlc or downloaded with youtube-dl.
@@ -330,6 +331,7 @@ class TwitchMIMEParser(BaseMIMEParser):
     @staticmethod
     def get_mimetype(url):
         return url, 'video/x-youtube'
+
 
 class LiveleakMIMEParser(BaseMIMEParser):
     """
