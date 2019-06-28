@@ -12,6 +12,7 @@ from bs4 import BeautifulSoup
 from kitchen.text.display import wrap
 
 from . import exceptions
+from .config import Config
 from .packages import praw
 from .packages.praw.errors import InvalidSubreddit
 from .packages.praw.helpers import normalize_url
@@ -563,17 +564,22 @@ class SubredditContent(Content):
     list for repeat access.
     """
 
-    def __init__(self, name, submissions, loader, order=None,
-                 max_title_rows=4, query=None, filter_nsfw=False):
+    def __init__(self, config, name, submissions, loader, order=None,
+                 query=None, filter_nsfw=False):
 
+        self.config = config
         self.name = name
         self.order = order
         self.query = query
-        self.max_title_rows = max_title_rows
         self.filter_nsfw = filter_nsfw
         self._loader = loader
         self._submissions = submissions
         self._submission_data = []
+
+        if self.config['look_and_feel'] == 'compact':
+            self.max_title_rows = 1
+        else:
+            self.max_title_rows = 4
 
         # Verify that content exists for the given submission generator.
         # This is necessary because PRAW loads submissions lazily, and
@@ -588,7 +594,7 @@ class SubredditContent(Content):
             raise exceptions.NoSubmissionsError(full_name)
 
     @classmethod
-    def from_name(cls, reddit, name, loader, order=None, query=None):
+    def from_name(cls, reddit, config, name, loader, order=None, query=None):
         """
         Params:
             reddit (praw.Reddit): Instance of the reddit api.
@@ -796,7 +802,7 @@ class SubredditContent(Content):
         filter_nsfw = (reddit.user and reddit.user.over_18 is False)
 
         # We made it!
-        return cls(display_name, submissions, loader, order=display_order,
+        return cls(config, display_name, submissions, loader, order=display_order,
                    query=query, filter_nsfw=filter_nsfw)
 
     @property
@@ -847,17 +853,22 @@ class SubredditContent(Content):
                     data = self.strip_praw_comment(submission)
 
                 data['index'] = len(self._submission_data) + 1
-                # Add the post number to the beginning of the title
-                data['title'] = '{0}. {1}'.format(data['index'], data['title'])
+
+                # Add the post number to the beginning of the title if necessary
+                if self.config['look_and_feel'] != 'compact':
+                    data['title'] = '{0}. {1}'.format(data['index'], data['title'])
+
                 self._submission_data.append(data)
 
         # Modifies the original dict, faster than copying
         data = self._submission_data[index]
-        data['split_title'] = self.wrap_text(data['title'], width=n_cols)
-        if len(data['split_title']) > self.max_title_rows:
-            data['split_title'] = data['split_title'][:self.max_title_rows-1]
-            data['split_title'].append('(Not enough space to display)')
-        data['n_rows'] = len(data['split_title']) + 3
+
+        if self.config['look_and_feel'] == 'compact':
+            data['n_rows'] = 2
+        else:
+            data['split_title'] = self.wrap_text(data['title'], width=n_cols)
+            data['n_rows'] = len(data['split_title']) + 3
+
         data['h_offset'] = 0
 
         return data

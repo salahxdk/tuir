@@ -28,7 +28,7 @@ class SubredditPage(Page):
         super(SubredditPage, self).__init__(reddit, term, config, oauth)
 
         self.controller = SubredditController(self, keymap=config.keymap)
-        self.content = SubredditContent.from_name(reddit, name, term.loader)
+        self.content = SubredditContent.from_name(reddit, self.config, name, term.loader)
         self.nav = Navigator(self.content.get)
         self.toggled_subreddit = None
 
@@ -68,7 +68,8 @@ class SubredditPage(Page):
 
         with self.term.loader('Refreshing page'):
             self.content = SubredditContent.from_name(
-                self.reddit, name, self.term.loader, order=order, query=query)
+                self.reddit, self.config, name,
+                self.term.loader, order=order, query=query)
         if not self.term.loader.exception:
             self.nav = Navigator(self.content.get)
 
@@ -133,7 +134,7 @@ class SubredditPage(Page):
 
         with self.term.loader('Searching'):
             self.content = SubredditContent.from_name(
-                self.reddit, name, self.term.loader, query=query)
+                self.reddit, self.config, name, self.term.loader, query=query)
         if not self.term.loader.exception:
             self.nav = Navigator(self.content.get)
 
@@ -233,36 +234,36 @@ class SubredditPage(Page):
             with self.term.loader('Hiding'):
                 data['object'].hide()
                 data['hidden'] = True
-    
-    def _draw_item(self, win, data, inverted):
 
-        n_rows, n_cols = win.getmaxyx()
-        n_cols -= 1  # Leave space for the cursor in the first column
-
-        # Handle the case where the window is not large enough to fit the data.
-        valid_rows = range(0, n_rows)
-        offset = 0 if not inverted else -(data['n_rows'] - n_rows)
+    def _draw_item_default(self, win, data, n_rows, n_cols, valid_rows, offset):
+        """
+        Draw items with default look and feel
+        """
 
         n_title = len(data['split_title'])
+
         if data['url_full'] in self.config.history:
             attr = self.term.attr('SubmissionTitleSeen')
         else:
             attr = self.term.attr('SubmissionTitle')
+
         for row, text in enumerate(data['split_title'], start=offset):
             if row in valid_rows:
                 self.term.add_line(win, text, row, 1, attr)
 
         row = n_title + offset
+
         if data['url_full'] in self.config.history:
             attr = self.term.attr('LinkSeen')
         else:
             attr = self.term.attr('Link')
+
         if row in valid_rows:
             self.term.add_line(win, '{url}'.format(**data), row, 1, attr)
 
         row = n_title + offset + 1
-        if row in valid_rows:
 
+        if row in valid_rows:
             attr = self.term.attr('Score')
             self.term.add_line(win, '{score}'.format(**data), row, 1, attr)
             self.term.add_space(win)
@@ -311,6 +312,7 @@ class SubredditPage(Page):
                 self.term.add_line(win, 'NSFW', attr=attr)
 
         row = n_title + offset + 2
+
         if row in valid_rows:
             attr = self.term.attr('SubmissionAuthor')
             self.term.add_line(win, '{author}'.format(**data), row, 1, attr)
@@ -324,6 +326,103 @@ class SubredditPage(Page):
                 self.term.add_space(win)
                 self.term.add_line(win, '{flair}'.format(**data), attr=attr)
 
+    def _draw_item_compact(self, win, data, n_rows, n_cols, valid_rows, offset):
+        """
+        Draw items with compact look and feel
+        """
+
+        if data['url_full'] in self.config.history:
+            sub_attr = self.term.attr('SubmissionTitleSeen')
+        else:
+            sub_attr = self.term.attr('SubmissionTitle')
+
+        if offset in valid_rows:
+            self.term.add_line(win, '{title}'.format(**data), offset, 1, attr=sub_attr)
+
+        offset += 1 # Next row
+
+        if offset in valid_rows:
+            sep_attr = self.term.attr('Separator')
+
+            self.term.add_line(win, '<', offset, 1, attr=sep_attr)
+
+            self.term.add_line(win, '{index}'.format(**data), offset, attr=sub_attr)
+
+            self.term.add_line(win, '|', offset, attr=sep_attr)
+
+            # Seems that praw doesn't give us raw numbers for score and comment
+            # count, so we have to cut off the extraneous characters
+            attr = self.term.attr('Score')
+            self.term.add_line(win, '{0}'.format(data['score'][:-4]), offset, attr=attr)
+
+            arrow, attr = self.term.get_arrow(data['likes'])
+            self.term.add_line(win, arrow, attr=attr)
+
+            if data['comments'] is not None:
+                self.term.add_line(win, '|', offset, attr=sep_attr)
+                attr = self.term.attr('CommentCount')
+                self.term.add_line(win, '{0}C'.format(data['comments'][:-9]), attr=attr)
+
+            self.term.add_line(win, '>', offset, attr=sep_attr)
+            self.term.add_space(win)
+
+            attr = self.term.attr('Created')
+            self.term.add_line(win, '{created}{edited}'.format(**data), attr=attr)
+            self.term.add_space(win)
+
+            attr = self.term.attr('SubmissionAuthor')
+            self.term.add_line(win, '{author}'.format(**data), offset, attr=attr)
+            self.term.add_space(win)
+
+            attr = self.term.attr('SubmissionSubreddit')
+            self.term.add_line(win, '/r/{subreddit}'.format(**data), attr=attr)
+
+            if data['saved']:
+                attr = self.term.attr('Saved')
+                self.term.add_space(win)
+                self.term.add_line(win, '[saved]', attr=attr)
+
+            if data['hidden']:
+                attr = self.term.attr('Hidden')
+                self.term.add_space(win)
+                self.term.add_line(win, '[hidden]', attr=attr)
+
+            if data['stickied']:
+                attr = self.term.attr('Stickied')
+                self.term.add_space(win)
+                self.term.add_line(win, '[stickied]', attr=attr)
+
+            if data['gold']:
+                attr = self.term.attr('Gold')
+                self.term.add_space(win)
+                count = 'x{}'.format(data['gold']) if data['gold'] > 1 else ''
+                text = self.term.gilded + count
+                self.term.add_line(win, text, attr=attr)
+
+            if data['nsfw']:
+                attr = self.term.attr('NSFW')
+                self.term.add_space(win)
+                self.term.add_line(win, 'NSFW', attr=attr)
+
+            if data['flair']:
+                attr = self.term.attr('SubmissionFlair')
+                self.term.add_space(win)
+                self.term.add_line(win, '{flair}'.format(**data), attr=attr)
+
+    def _draw_item(self, win, data, inverted):
+        n_rows, n_cols = win.getmaxyx()
+        n_cols -= 1  # Leave space for the cursor in the first column
+
+        # Handle the case where the window is not large enough to fit the data.
+        valid_rows = range(0, n_rows)
+        offset = 0 if not inverted else - (data['n_rows'] - n_rows)
+
+        if self.config['look_and_feel'] == 'compact':
+            self._draw_item_compact(win, data, n_rows, n_cols, valid_rows, offset)
+        else:
+            self._draw_item_default(win, data, n_rows, n_cols, valid_rows, offset)
+
         attr = self.term.attr('CursorBlock')
+
         for y in range(n_rows):
             self.term.addch(win, y, 0, str(' '), attr)
