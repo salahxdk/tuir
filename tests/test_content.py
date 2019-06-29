@@ -8,7 +8,7 @@ from collections import OrderedDict
 import six
 import pytest
 
-from tuir import exceptions
+from tuir import config, exceptions
 from tuir.packages import praw
 from tuir.content import (
     Content, SubmissionContent, SubredditContent, SubscriptionContent,
@@ -335,43 +335,49 @@ def test_content_submission_from_url(reddit, oauth, refresh_token, terminal):
     # Invalid sorting order doesn't raise an exception
     with terminal.loader():
         SubmissionContent.from_url(reddit, url, terminal.loader, order='fake')
+
     assert not terminal.loader.exception
 
     # Invalid comment URL
     with terminal.loader():
         SubmissionContent.from_url(reddit, url[:-2], terminal.loader)
+
     assert isinstance(terminal.loader.exception, praw.errors.NotFound)
 
     # np.* urls should not raise a 403 error when logged into oauth
     oauth.config.refresh_token = refresh_token
     oauth.authorize()
     url = 'https://np.reddit.com//r/LifeProTips/comments/441hsf//czmp112.json'
+
     with terminal.loader():
         SubmissionContent.from_url(reddit, url, terminal.loader)
+
     assert not terminal.loader.exception
 
 
-def test_content_subreddit_initialize(reddit, terminal):
+def test_content_subreddit_initialize(reddit, terminal, config):
 
     submissions = reddit.get_subreddit('python').get_top(limit=None)
-    content = SubredditContent('python', submissions, terminal.loader, 'top')
+    content = SubredditContent(config, 'python', submissions, terminal.loader, 'top')
     assert content.name == 'python'
     assert content.order == 'top'
     assert content.range == (0, 0)
 
 
-def test_content_subreddit_initialize_invalid(reddit, terminal):
+def test_content_subreddit_initialize_invalid(reddit, terminal, config):
 
     submissions = reddit.get_subreddit('invalidsubreddit7').get_top(limit=None)
+
     with terminal.loader():
-        SubredditContent('python', submissions, terminal.loader, 'top')
+        SubredditContent(config, 'python', submissions, terminal.loader, 'top')
+
     assert isinstance(terminal.loader.exception, praw.errors.InvalidSubreddit)
 
 
-def test_content_subreddit(reddit, terminal):
+def test_content_subreddit(reddit, terminal, config):
 
     submissions = reddit.get_front_page(limit=5)
-    content = SubredditContent('front', submissions, terminal.loader)
+    content = SubredditContent(config, 'front', submissions, terminal.loader)
 
     # Submissions are loaded on demand, excluding for the first one
     assert content.range == (0, 0)
@@ -392,10 +398,10 @@ def test_content_subreddit(reddit, terminal):
         content.get(5)
 
 
-def test_content_subreddit_load_more(reddit, terminal):
+def test_content_subreddit_load_more(reddit, terminal, config):
 
     submissions = reddit.get_front_page(limit=None)
-    content = SubredditContent('front', submissions, terminal.loader)
+    content = SubredditContent(config, 'front', submissions, terminal.loader)
 
     assert content.get(50)['type'] == 'Submission'
     assert content.range == (0, 50)
@@ -414,9 +420,9 @@ def test_content_subreddit_load_more(reddit, terminal):
 
 args, ids = SUBREDDIT_PROMPTS.values(), list(SUBREDDIT_PROMPTS)
 @pytest.mark.parametrize('prompt,name,order', args, ids=ids)
-def test_content_subreddit_from_name(prompt, name, order, reddit, terminal):
+def test_content_subreddit_from_name(prompt, name, order, reddit, terminal, config):
 
-    content = SubredditContent.from_name(reddit, prompt, terminal.loader)
+    content = SubredditContent.from_name(reddit, config, prompt, terminal.loader)
     assert content.name == name
     assert content.order == order
 
@@ -424,10 +430,10 @@ def test_content_subreddit_from_name(prompt, name, order, reddit, terminal):
 args, ids = SUBREDDIT_AUTH_PROMPTS.values(), list(SUBREDDIT_AUTH_PROMPTS)
 @pytest.mark.parametrize('prompt,name,order', args, ids=ids)
 def test_content_subreddit_from_name_authenticated(
-        prompt, name, order, reddit, terminal, oauth, refresh_token):
+        prompt, name, order, reddit, terminal, config, oauth, refresh_token):
 
     with pytest.raises(exceptions.AccountError):
-        SubredditContent.from_name(reddit, prompt, terminal.loader)
+        SubredditContent.from_name(reddit, config, prompt, terminal.loader)
 
     # Login and try again
     oauth.config.refresh_token = refresh_token
@@ -436,80 +442,86 @@ def test_content_subreddit_from_name_authenticated(
     if '{username}' in name:
         name = name.format(username=reddit.user.name)
 
-    content = SubredditContent.from_name(reddit, prompt, terminal.loader)
+    content = SubredditContent.from_name(reddit, config, prompt, terminal.loader)
     assert content.name == name
     assert content.order == order
 
 
 args, ids = SUBREDDIT_INVALID_PROMPTS.values(), list(SUBREDDIT_INVALID_PROMPTS)
 @pytest.mark.parametrize('prompt', args, ids=ids)
-def test_content_subreddit_from_name_invalid(prompt, reddit, terminal):
+def test_content_subreddit_from_name_invalid(prompt, reddit, terminal, config):
 
     with terminal.loader():
-        SubredditContent.from_name(reddit, prompt, terminal.loader)
+        SubredditContent.from_name(reddit, config, prompt, terminal.loader)
+
     assert isinstance(terminal.loader.exception, praw.errors.InvalidSubreddit)
+
     # Must always have an argument because it gets displayed
     assert terminal.loader.exception.args[0]
 
 
 args, ids = SUBREDDIT_SEARCH_QUERIES.values(), list(SUBREDDIT_SEARCH_QUERIES)
 @pytest.mark.parametrize('prompt,query', args, ids=ids)
-def test_content_subreddit_from_name_query(prompt, query, reddit, terminal):
+def test_content_subreddit_from_name_query(prompt, query, reddit, terminal, config):
 
-    SubredditContent.from_name(reddit, prompt, terminal.loader, query=query)
+    SubredditContent.from_name(reddit, config, prompt, terminal.loader, query=query)
 
 
-def test_content_subreddit_from_name_order(reddit, terminal):
+def test_content_subreddit_from_name_order(reddit, terminal, config):
 
     # Explicit order trumps implicit
     name = '/r/python/top'
+
     content = SubredditContent.from_name(
-        reddit, name, terminal.loader, order='new')
+        reddit, config, name, terminal.loader, order='new')
+
     assert content.name == '/r/python'
     assert content.order == 'new'
 
 
-def test_content_subreddit_multireddit(reddit, terminal):
+def test_content_subreddit_multireddit(reddit, terminal, config):
 
     name = '/r/python+linux'
-    content = SubredditContent.from_name(reddit, name, terminal.loader)
+    content = SubredditContent.from_name(reddit, config, name, terminal.loader)
     assert content.name == '/r/python+linux'
 
     # Invalid multireddit
     name = '/r/a+b'
     with terminal.loader():
-        SubredditContent.from_name(reddit, name, terminal.loader)
+        SubredditContent.from_name(reddit, config, name, terminal.loader)
+
     assert isinstance(terminal.loader.exception, praw.errors.NotFound)
 
 
-def test_content_subreddit_random(reddit, terminal):
+def test_content_subreddit_random(reddit, terminal, config):
 
     name = '/r/random'
-    content = SubredditContent.from_name(reddit, name, terminal.loader)
+    content = SubredditContent.from_name(reddit, config, name, terminal.loader)
     assert content.name.startswith('/r/')
     assert content.name != name
 
 
-def test_content_subreddit_gilded(reddit, terminal):
+def test_content_subreddit_gilded(reddit, terminal, config):
 
     name = '/r/python/gilded'
-    content = SubredditContent.from_name(reddit, name, terminal.loader)
+    content = SubredditContent.from_name(reddit, config, name, terminal.loader)
     assert content.order == 'gilded'
     assert content.get(0)['object'].gilded
 
 
-def test_content_subreddit_me(reddit, oauth, refresh_token, terminal):
+def test_content_subreddit_me(reddit, oauth, refresh_token, terminal, config):
 
     # Not logged in
     with terminal.loader():
-        SubredditContent.from_name(reddit, '/u/me', terminal.loader)
+        SubredditContent.from_name(reddit, config, '/u/me', terminal.loader)
+
     assert isinstance(terminal.loader.exception, exceptions.AccountError)
 
     # Logged in
     oauth.config.refresh_token = refresh_token
     oauth.authorize()
     with terminal.loader():
-        SubredditContent.from_name(reddit, '/u/me', terminal.loader)
+        SubredditContent.from_name(reddit, config, '/u/me', terminal.loader)
 
     # If there is no submitted content, an error should be raised
     if terminal.loader.exception:
@@ -517,11 +529,11 @@ def test_content_subreddit_me(reddit, oauth, refresh_token, terminal):
                           exceptions.NoSubmissionsError)
         assert terminal.loader.exception.name == '/u/me'
 
-def test_content_subreddit_nsfw_filter(reddit, oauth, refresh_token, terminal):
+def test_content_subreddit_nsfw_filter(reddit, oauth, refresh_token, terminal, config):
 
     # NSFW subreddits should load if not logged in
     name = '/r/ImGoingToHellForThis'
-    SubredditContent.from_name(reddit, name, terminal.loader)
+    SubredditContent.from_name(reddit, config, name, terminal.loader)
 
     # Log in
     oauth.config.refresh_token = refresh_token
@@ -536,11 +548,12 @@ def test_content_subreddit_nsfw_filter(reddit, oauth, refresh_token, terminal):
     # Should refuse to load this subreddit
     with pytest.raises(exceptions.SubredditError):
         name = '/r/ImGoingToHellForThis'
-        SubredditContent.from_name(reddit, name, terminal.loader)
+        SubredditContent.from_name(reddit, config, name, terminal.loader)
 
     # Should filter out all of the nsfw posts
     name = '/r/ImGoingToHellForThis+python'
-    content = SubredditContent.from_name(reddit, name, terminal.loader)
+    content = SubredditContent.from_name(reddit, config, name, terminal.loader)
+
     for data in islice(content.iterate(0, 1), 50):
         assert data['object'].over_18 is False
 
@@ -549,7 +562,7 @@ def test_content_subreddit_nsfw_filter(reddit, oauth, refresh_token, terminal):
 
     # The NSFW subreddit should load now
     name = '/r/ImGoingToHellForThis'
-    SubredditContent.from_name(reddit, name, terminal.loader)
+    SubredditContent.from_name(reddit, config, name, terminal.loader)
 
 
 def test_content_subscription(reddit, terminal):
@@ -557,6 +570,7 @@ def test_content_subscription(reddit, terminal):
     # Not logged in
     with terminal.loader():
         SubscriptionContent.from_user(reddit, terminal.loader)
+
     assert isinstance(
         terminal.loader.exception, praw.errors.LoginOrScopeRequired)
 
@@ -581,18 +595,20 @@ def test_content_subscription(reddit, terminal):
     assert content.range == (0, 19)
 
 
-def test_content_subreddit_saved(reddit, oauth, refresh_token, terminal):
+def test_content_subreddit_saved(reddit, oauth, refresh_token, terminal, config):
 
     # Not logged in
     with terminal.loader():
-        SubredditContent.from_name(reddit, '/u/me/saved', terminal.loader)
+        SubredditContent.from_name(reddit, config, '/u/me/saved', terminal.loader)
+
     assert isinstance(terminal.loader.exception, exceptions.AccountError)
 
     # Logged in
     oauth.config.refresh_token = refresh_token
     oauth.authorize()
+
     with terminal.loader():
-        SubredditContent.from_name(reddit, '/u/me/saved', terminal.loader)
+        SubredditContent.from_name(reddit, config, '/u/me/saved', terminal.loader)
 
 
 def test_content_subscription_empty(reddit, terminal):
@@ -600,8 +616,10 @@ def test_content_subscription_empty(reddit, terminal):
     # Simulate an empty subscription list
     with mock.patch.object(reddit, 'get_my_subreddits') as func:
         func.return_value = iter([])
+
         with terminal.loader():
             SubscriptionContent.from_user(reddit, terminal.loader)
+
     assert isinstance(terminal.loader.exception, exceptions.SubscriptionError)
 
 
