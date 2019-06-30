@@ -323,7 +323,7 @@ def test_objects_controller_command():
     keymap = KeyMap({'REFRESH': [0x10, 0x11], 'UPVOTE': [0x11, 0x12]})
     with pytest.raises(exceptions.ConfigError) as e:
         ControllerA(None, keymap=keymap)
-    assert 'ControllerA' in six.text_type(e)
+        assert 'ControllerA' in six.text_type(e)
 
     # Reset the character map
     ControllerA.character_map = {Command('REFRESH'): 0, Command('UPVOTE'): 0}
@@ -332,13 +332,13 @@ def test_objects_controller_command():
     keymap = KeyMap(OrderedDict([('REFRESH', ['gg']), ('UPVOTE', ['g'])]))
     with pytest.raises(exceptions.ConfigError) as e:
         ControllerA(None, keymap=keymap)
-    assert 'ControllerA' in six.text_type(e)
+        assert 'ControllerA' in six.text_type(e)
 
     # It doesn't matter which order they were entered
     keymap = KeyMap(OrderedDict([('UPVOTE', ['g']), ('REFRESH', ['gg'])]))
     with pytest.raises(exceptions.ConfigError) as e:
         ControllerA(None, keymap=keymap)
-    assert 'ControllerA' in six.text_type(e)
+        assert 'ControllerA' in six.text_type(e)
 
     # Reset the character map
     ControllerA.character_map = {Command('REFRESH'): 0, Command('UPVOTE'): 0}
@@ -347,7 +347,7 @@ def test_objects_controller_command():
     keymap = KeyMap({'REFRESH': [0x10]})
     with pytest.raises(exceptions.ConfigError) as e:
         ControllerB(None, keymap=keymap)
-    assert 'UPVOTE' in six.text_type(e)
+        assert 'UPVOTE' in six.text_type(e)
 
 
 def test_objects_command():
@@ -380,18 +380,21 @@ def test_objects_keymap():
     assert keymap.get(Command('exit')) == []
     assert keymap.get(Command('PAGE_TOP')) == ['gg']
     assert keymap.get('upvote') == ['b', '<KEY_F5>']
+
     with pytest.raises(exceptions.ConfigError) as e:
         keymap.get('downvote')
-    assert 'DOWNVOTE' in six.text_type(e)
+        assert 'DOWNVOTE' in six.text_type(e)
 
     bindings = {'refresh': ['a', 0x12, '<LF>', '<KEY_UP>']}
     bindings2 = {'upvote': ['b', 0x13, '<KEY_DOWN>']}
     keymap._keymap = {}
     keymap.set_bindings(bindings)
     assert keymap.get('refresh')
+
     with pytest.raises(exceptions.ConfigError) as e:
         keymap.get('upvote')
-    assert 'UPVOTE' in six.text_type(e)
+        assert 'UPVOTE' in six.text_type(e)
+
     keymap.set_bindings(bindings2)
     assert keymap.get('refresh')
     assert keymap.get('upvote')
@@ -403,10 +406,11 @@ def test_objects_keymap():
     assert KeyMap.parse('<KEY_UP>') == 259
     assert KeyMap.parse('<KEY_F5>') == 269
     assert KeyMap.parse('gg') == (103, 103)
+
     for key in ('', None, '<lf>', '<DNS>', '<KEY_UD>', '♬', 'ggg'):
         with pytest.raises(exceptions.ConfigError) as e:
             keymap.parse(key)
-        assert six.text_type(key) in six.text_type(e)
+            assert six.text_type(key) in six.text_type(e)
 
 
 def test_objects_navigator_properties():
