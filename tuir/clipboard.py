@@ -9,7 +9,7 @@ def _subprocess_copy(text, args_list):
     p.communicate(input=text.encode('utf-8'))
 
 
-def copy(text, cmd):
+def copy(text, cmd=None):
     """
     Copy text to OS clipboard.
     """

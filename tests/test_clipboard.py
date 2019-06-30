@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import sys
+
 import pytest
 
 from tuir.clipboard import copy
@@ -13,7 +15,7 @@ except ImportError:
     import mock
 
 
-def test_copy():
+def test_copy_nix():
 
     with mock.patch('subprocess.Popen') as Popen, \
             mock.patch('subprocess.call', return_value=0) as call:
@@ -21,27 +23,27 @@ def test_copy():
         # Mock out the subprocess calls
         p = mock.Mock()
         p.communicate = mock.Mock()
-        
+
         Popen.return_value = p
 
         copy('test', 'xsel -b -i')
         assert Popen.call_args[0][0] == ['xsel', '-b', '-i']
         p.communicate.assert_called_with(input='test'.encode('utf-8'))
 
-        copy('test ❤', 'xclip')
-        assert Popen.call_args[0][0] == ['xclip']
+        copy('test ❤')
+        assert Popen.call_args[0][0] == ['xclip', '-selection', '-clipboard']
         p.communicate.assert_called_with(input='test ❤'.encode('utf-8'))
 
+def test_copy_darwin():
     with mock.patch('subprocess.Popen') as Popen, \
             mock.patch('subprocess.call', return_value=0) as call:
 
-        # Simulate OSX
-        mock.patch('sys.platform', return_value='darwin')
-        
+        sys.platform = 'darwin'
+
         p = mock.Mock()
         p.communicate = mock.Mock()
         Popen.return_value = p
 
-        copy('test', 'pbcopy w')
+        copy('test')
         assert Popen.call_args[0][0] == ['pbcopy', 'w']
         p.communicate.assert_called_with(input='test'.encode('utf-8'))
