@@ -11,6 +11,7 @@
 *.log
 build
 dist
+htmlcov/
 tuir.egg-info
 tests/refresh-token
 venv/
