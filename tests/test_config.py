@@ -5,7 +5,7 @@ import os
 import codecs
 from tempfile import NamedTemporaryFile
 
-from tuir.config import Config, copy_default_config, copy_default_mailcap
+from tuir.config import Config, copy_default_config, copy_default_mailcap, _copy_settings_file
 
 try:
     from unittest import mock
@@ -13,16 +13,28 @@ except ImportError:
     import mock
 
 
+# Don't need to test the functionality of _copy_settings_file in these two,
+# just that they call _copy_settings_file
+def test_copy_default_mailcap():
+    """Make sure the default config file was included in the package"""
+
+    with NamedTemporaryFile() as fp:
+        with mock.patch('tuir.config.six.moves.input', return_value='y'), \
+             mock.patch('tuir.config._copy_settings_file') as _copy_settings_file:
+
+            copy_default_mailcap(fp.name)
+            _copy_settings_file.assert_called_with(Config.DEFAULT_MAILCAP, fp.name, 'mailcap')
+
+
 def test_copy_default_config():
     """Make sure the default config file was included in the package"""
 
     with NamedTemporaryFile(suffix='.cfg') as fp:
-        with mock.patch('tuir.config.six.moves.input', return_value='y'):
+        with mock.patch('tuir.config.six.moves.input', return_value='y'), \
+             mock.patch('tuir.config._copy_settings_file') as _copy_settings_file:
+
             copy_default_config(fp.name)
-            assert fp.read()
-            # Check that the permissions were changed
-            permissions = os.stat(fp.name).st_mode & 0o777
-            assert permissions == 0o664
+            _copy_settings_file.assert_called_with(Config.DEFAULT_CONFIG, fp.name, 'config')
 
 
 def test_copy_default_config_cancel():
@@ -44,16 +56,27 @@ def test_copy_config_interrupt():
             assert not fp.read()
 
 
-def test_copy_default_mailcap():
-    """Make sure the example mailcap file was included in the package"""
-
+def test__copy_settings_file():
     with NamedTemporaryFile() as fp:
         with mock.patch('tuir.config.six.moves.input', return_value='y'):
-            copy_default_mailcap(fp.name)
+            # Doesn't matter what values we actually use, as long as they
+            # are sane
+            _copy_settings_file(Config.DEFAULT_CONFIG, fp.name, 'config')
             assert fp.read()
+
             # Check that the permissions were changed
             permissions = os.stat(fp.name).st_mode & 0o777
             assert permissions == 0o664
+
+
+def test__copy_settings_file_makedirs():
+    with NamedTemporaryFile() as fp:
+        with mock.patch('tuir.config.six.moves.input', return_value='y'), \
+             mock.patch('os.path.exists', return_value=False),            \
+             mock.patch('os.makedirs'):
+
+            _copy_settings_file(Config.DEFAULT_CONFIG, fp.name, 'config')
+            assert os.makedirs.called
 
 
 def test_config_interface():
