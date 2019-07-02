@@ -337,7 +337,10 @@ class SubredditPage(Page):
             sub_attr = self.term.attr('SubmissionTitle')
 
         if offset in valid_rows:
-            self.term.add_line(win, '{title}'.format(**data), offset, 1, attr=sub_attr)
+            # On user pages, comments are displayed as the title.
+            # The raw data has newlines, so we display just the first line
+            title = data['title'].split('\n')[0]
+            self.term.add_line(win, '{0}'.format(title), offset, 1, attr=sub_attr)
 
         offset += 1 # Next row
 
