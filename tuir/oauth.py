@@ -14,13 +14,13 @@ from six.moves.urllib.parse import urlparse, parse_qs
 from six.moves.BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 
 from . import docs
-from .config import TEMPLATES
+from .config import Config
 from .exceptions import InvalidRefreshToken
 from .packages.praw.errors import HTTPException, OAuthException
 
 _logger = logging.getLogger(__name__)
 
-INDEX = os.path.join(TEMPLATES, 'index.html')
+INDEX = os.path.join(Config.TEMPLATES, 'index.html')
 
 
 class OAuthHTTPServer(HTTPServer):

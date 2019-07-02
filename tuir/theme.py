@@ -10,7 +10,7 @@ from contextlib import contextmanager
 import six
 from six.moves import configparser
 
-from .config import THEMES, DEFAULT_THEMES
+from .config import Config
 from .exceptions import ConfigError
 
 _logger = logging.getLogger(__name__)
@@ -290,7 +290,7 @@ class Theme(object):
             self._selected = None
 
     @classmethod
-    def list_themes(cls, path=THEMES):
+    def list_themes(cls, path=Config.THEMES):
         """
         Compile all of the themes configuration files in the search path.
         """
@@ -316,13 +316,13 @@ class Theme(object):
                         themes.append(theme)
 
         themes.extend([Theme(use_color=True), Theme(use_color=False)])
-        load_themes(DEFAULT_THEMES, 'preset')
+        load_themes(Config.DEFAULT_THEMES, 'preset')
         load_themes(path, 'installed')
 
         return themes, errors
 
     @classmethod
-    def print_themes(cls, path=THEMES):
+    def print_themes(cls, path=Config.THEMES):
         """
         Prints a human-readable summary of the installed themes to stdout.
 
@@ -363,7 +363,7 @@ class Theme(object):
         print('')
 
     @classmethod
-    def from_name(cls, name, path=THEMES):
+    def from_name(cls, name, path=Config.THEMES):
         """
         Search for the given theme on the filesystem and attempt to load it.
 
@@ -378,7 +378,7 @@ class Theme(object):
         if os.path.isfile(filename):
             return cls.from_file(filename, 'installed')
 
-        filename = os.path.join(DEFAULT_THEMES, '{0}.cfg'.format(name))
+        filename = os.path.join(Config.DEFAULT_THEMES, '{0}.cfg'.format(name))
         if os.path.isfile(filename):
             return cls.from_file(filename, 'preset')
 

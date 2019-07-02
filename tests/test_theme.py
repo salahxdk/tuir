@@ -8,7 +8,7 @@ from tempfile import mkdtemp, NamedTemporaryFile
 import pytest
 
 from tuir.theme import Theme
-from tuir.config import DEFAULT_THEMES
+from tuir.config import Config
 from tuir.exceptions import ConfigError
 
 try:
@@ -115,7 +115,7 @@ def test_theme_element_selected_attributes():
 
 def test_theme_default_cfg_matches_builtin():
 
-    filename = os.path.join(DEFAULT_THEMES, 'default.cfg.example')
+    filename = os.path.join(Config.DEFAULT_THEMES, 'default.cfg.example')
     default_theme = Theme.from_file(filename, 'built-in')
 
     # The default theme file should match the hardcoded values
