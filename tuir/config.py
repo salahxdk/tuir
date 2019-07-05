@@ -33,6 +33,9 @@ class Config(object):
     HISTORY = os.path.join(XDG_DATA_HOME, 'tuir', 'history.log')
     THEMES = os.path.join(XDG_CONFIG_HOME, 'tuir', 'themes')
 
+    COMPACT_FORMAT = "%t\n" \
+            "<%i|%s%v|%cC> %r%e %a %S %F"
+
     def __init__(self, history_file=HISTORY, token_file=TOKEN, **kwargs):
 
         self.history_file = history_file
@@ -123,7 +126,7 @@ class Config(object):
         if filename is None:
             filename = Config.CONFIG
 
-        config = configparser.ConfigParser()
+        config = configparser.RawConfigParser()
         if os.path.exists(filename):
             with codecs.open(filename, encoding='utf-8') as fp:
                 config.readfp(fp)

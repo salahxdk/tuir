@@ -576,10 +576,10 @@ class SubredditContent(Content):
         self._submissions = submissions
         self._submission_data = []
 
-        if self.config['look_and_feel'] == 'compact':
-            self.max_title_rows = 1
-        else:
+        if self.config['look_and_feel'] == 'default':
             self.max_title_rows = 4
+        else:
+            self.max_title_rows = 1
 
         # Verify that content exists for the given submission generator.
         # This is necessary because PRAW loads submissions lazily, and
@@ -855,7 +855,7 @@ class SubredditContent(Content):
                 data['index'] = len(self._submission_data) + 1
 
                 # Add the post number to the beginning of the title if necessary
-                if self.config['look_and_feel'] != 'compact':
+                if self.config['look_and_feel'] == 'default':
                     data['title'] = '{0}. {1}'.format(data['index'], data['title'])
 
                 self._submission_data.append(data)
@@ -865,6 +865,8 @@ class SubredditContent(Content):
 
         if self.config['look_and_feel'] == 'compact':
             data['n_rows'] = 2
+        elif self.config['subreddit_format']:
+            data['n_rows'] = self.config['subreddit_format'].count('\n') + 1
         else:
             data['split_title'] = self.wrap_text(data['title'], width=n_cols)
             data['n_rows'] = len(data['split_title']) + 3

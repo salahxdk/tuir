@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import re
 import time
 
 from . import docs
@@ -31,6 +32,11 @@ class SubredditPage(Page):
         self.content = SubredditContent.from_name(reddit, self.config, name, term.loader)
         self.nav = Navigator(self.content.get)
         self.toggled_subreddit = None
+
+        if self.config['subreddit_format']:
+            self.format = self._create_format(self.config['subreddit_format'])
+        elif self.config['look_and_feel'] == 'compact':
+            self.format = self._create_format(self.config.COMPACT_FORMAT)
 
     def handle_selected_page(self):
         """
@@ -235,6 +241,195 @@ class SubredditPage(Page):
                 data['object'].hide()
                 data['hidden'] = True
 
+    def _submission_attr(self, data):
+        if data['url_full'] in self.config.history:
+            return self.term.attr('SubmissionTitleSeen')
+        else:
+            return self.term.attr('SubmissionTitle')
+
+    def _url_attr(self, data):
+        if data['url_full'] in self.config.history:
+            return self.term.attr('LinkSeen')
+        else:
+            return self.term.attr('Link')
+
+    def _gold_str(self, data):
+        if data['gold'] > 1:
+            return self.term.gilded + 'x{} '.format(data['gold'])
+        elif data['gold'] == 1:
+            return self.term.gilded + ' '
+        else:
+            return ''
+
+    def _create_format(self, format_string):
+        """
+        Returns a list of tuples of the format (datafield, attr, first) which
+        will be used by _draw_item to output information in the proper order.
+        It would be trivial to use the strings as simple format strings, but
+        more must be done in order to associate strings with their Attribute.
+
+        datafield = lambda that retrieves the proper field of the data
+        dict
+
+        attr = lambda that returns the proper attribute class associated with
+        datafield. Sometimes this isn't known until drawtime; see above
+        *_attr() functions for examples
+
+        first = boolean that signifies whether or not term.add_line should be
+        called with a col argument to start a line
+        """
+        form = []
+        first = True
+
+        # Split the list between %., newlines, and certain separator characters
+        # to treat them separately
+        format_list = re.split(r'(%.|[\n<>|\\])', format_string, re.DOTALL)
+
+        for item in format_list:
+            # Use lambdas because the actual data to be used is only known at
+            # drawtime. This way the format list knows how to use the data,
+            # and can simply be used when the data is available
+            if item == "%i":
+                form.append((lambda data: data['index'],
+                    lambda data: self._submission_attr(data), first))
+            elif item == "%t":
+                form.append((lambda data: data['title'],
+                    lambda data: self._submission_attr(data), first))
+            elif item == "%s":
+                # Need to cut off the characters that aren't the score number
+                form.append((lambda data: data['score'][:-4],
+                    lambda data: self.term.attr('Score'), first))
+            elif item == "%v":
+                # This isn't great, self.term.get_arrow gets called twice
+                form.append((lambda data: self.term.get_arrow(data['likes'])[0],
+                    lambda data: self.term.get_arrow(data['likes'])[1], first))
+            elif item == "%c":
+                form.append((
+                    lambda data: '{0}'.format(data['comments'][:-9])
+                        if data['comments'] else None, # Don't try to subscript null items
+                    lambda data: self.term.attr('CommentCount'),
+                    first))
+            elif item == "%r":
+                form.append((lambda data: data['created'],
+                    lambda data: self.term.attr('Created'), first))
+            elif item == "%R":
+                raise NotImplementedError("'%R' subreddit_format specifier not yet supported")
+            elif item == "%e":
+                form.append((lambda data: data['edited'],
+                    lambda data: self.term.attr('Created'), first))
+            elif item == "%E":
+                raise NotImplementedError("'%E' subreddit_format specifier not yet supported")
+            elif item == "%a":
+                form.append((lambda data: data['author'],
+                    lambda data: self.term.attr('SubmissionAuthor'), first))
+            elif item == "%S":
+                form.append((lambda data: "/r/" + data['subreddit'],
+                    lambda data: self.term.attr('SubmissionSubreddit'),
+                    first))
+            elif item == "%u":
+                raise NotImplementedError("'%u' subreddit_format specifier not yet supported")
+            elif item == "%U":
+                form.append((lambda data: data['url'],
+                    lambda data: self._url_attr(data), first))
+            elif item == "%A":
+                form.append((lambda data: '[saved]' if data['saved'] else '',
+                    lambda data: self.term.attr('Saved'), first))
+            elif item == "%h":
+                form.append((lambda data: '[hidden]' if data['hidden'] else '',
+                    lambda data: self.term.attr('Hidden'), first))
+            elif item == "%T":
+                form.append((lambda data: '[stickied]' if data['stickied'] else '',
+                    lambda data: self.term.attr('Stickied'), first))
+            elif item == "%g":
+                form.append((lambda data: self._gold_str(data),
+                    lambda data: self.term.attr('Gold'), first))
+            elif item == "%n":
+                form.append((lambda data: 'NSFW' if data['nsfw'] else '',
+                    lambda data: self.term.attr('NSFW'), first))
+            elif item == "%f":
+                form.append((lambda data: data['flair'] if data['flair'] else '',
+                    lambda data: self.term.attr('SubmissionFlair'), first))
+            elif item == "%F":
+                form.append((lambda data: data['flair'] + ' ' if data['flair'] else '',
+                    lambda data: self.term.attr('SubmissionFlair'), first))
+
+                form.append((lambda data: '[saved] ' if data['saved'] else '',
+                    lambda data: self.term.attr('Saved'), first))
+
+                form.append((lambda data: '[hidden] ' if data['hidden'] else '',
+                    lambda data: self.term.attr('Hidden'), first))
+
+                form.append((lambda data: '[stickied] ' if data['stickied'] else '',
+                    lambda data: self.term.attr('Stickied'), first))
+
+                form.append((lambda data: self._gold_str(data),
+                    lambda data: self.term.attr('Gold'), first))
+
+                form.append((lambda data: 'NSFW ' if data['nsfw'] else '',
+                    lambda data: self.term.attr('NSFW'), first))
+            elif item == "\n":
+                form.append((item, None, first))
+                first = True
+
+                continue
+            else: # Write something else that isn't in the data dict
+                # Make certain "separator" characters use the Separator
+                # attribute
+                if item in r"<>|\\":
+                    form.append((item,
+                                 lambda data: self.term.attr('Separator'),
+                                 first))
+                else:
+                    form.append((item, None, first))
+
+            first = False
+
+        return form
+
+    def _draw_item_format(self, win, data, valid_rows, offset):
+        last_attr = None
+        for get_data, get_attr, first in self.format:
+            # add_line wants strings, make sure we give it strings
+            if callable(get_data):
+                string = str(get_data(data))
+            else:
+                # Start writing to the next line if we hit a newline
+                if get_data == "\n":
+                    offset += 1
+                    continue
+
+                # Otherwise, proceed on the same line
+                string = str(get_data)
+
+            # We only want to print a maximum of one line of data
+            # TODO - support line wrapping
+            string = string.split('\n')[0]
+
+            # Don't try to write null strings to the screen. This happens in
+            # places like user pages, where data['comments'] is None
+            if string is None:
+                continue
+            elif string is ' ':
+                # Make sure spaces aren't treated like normal strings and print
+                # them to the window this way. This ensures they won't be drawn
+                # with an attribute.
+                self.term.add_space(win)
+                continue
+
+            # To make sure we don't try to write a None as an attribute,
+            # we can use the one that was last used
+            if get_attr is None:
+                attr = last_attr
+            else:
+                attr = get_attr(data)
+
+            if first:
+                self.term.add_line(win, string, offset, 1, attr=attr)
+            else:
+                self.term.add_line(win, string, offset, attr=attr)
+
+            last_attr = attr
+
     def _draw_item_default(self, win, data, n_rows, n_cols, valid_rows, offset):
         """
         Draw items with default look and feel
@@ -326,92 +521,6 @@ class SubredditPage(Page):
                 self.term.add_space(win)
                 self.term.add_line(win, '{flair}'.format(**data), attr=attr)
 
-    def _draw_item_compact(self, win, data, n_rows, n_cols, valid_rows, offset):
-        """
-        Draw items with compact look and feel
-        """
-
-        if data['url_full'] in self.config.history:
-            sub_attr = self.term.attr('SubmissionTitleSeen')
-        else:
-            sub_attr = self.term.attr('SubmissionTitle')
-
-        if offset in valid_rows:
-            # On user pages, comments are displayed as the title.
-            # The raw data has newlines, so we display just the first line
-            title = data['title'].split('\n')[0]
-            self.term.add_line(win, '{0}'.format(title), offset, 1, attr=sub_attr)
-
-        offset += 1 # Next row
-
-        if offset in valid_rows:
-            sep_attr = self.term.attr('Separator')
-
-            self.term.add_line(win, '<', offset, 1, attr=sep_attr)
-
-            self.term.add_line(win, '{index}'.format(**data), offset, attr=sub_attr)
-
-            self.term.add_line(win, '|', offset, attr=sep_attr)
-
-            # Seems that praw doesn't give us raw numbers for score and comment
-            # count, so we have to cut off the extraneous characters
-            attr = self.term.attr('Score')
-            self.term.add_line(win, '{0}'.format(data['score'][:-4]), offset, attr=attr)
-
-            arrow, attr = self.term.get_arrow(data['likes'])
-            self.term.add_line(win, arrow, attr=attr)
-
-            if data['comments'] is not None:
-                self.term.add_line(win, '|', offset, attr=sep_attr)
-                attr = self.term.attr('CommentCount')
-                self.term.add_line(win, '{0}C'.format(data['comments'][:-9]), attr=attr)
-
-            self.term.add_line(win, '>', offset, attr=sep_attr)
-            self.term.add_space(win)
-
-            attr = self.term.attr('Created')
-            self.term.add_line(win, '{created}{edited}'.format(**data), attr=attr)
-            self.term.add_space(win)
-
-            attr = self.term.attr('SubmissionAuthor')
-            self.term.add_line(win, '{author}'.format(**data), offset, attr=attr)
-            self.term.add_space(win)
-
-            attr = self.term.attr('SubmissionSubreddit')
-            self.term.add_line(win, '/r/{subreddit}'.format(**data), attr=attr)
-
-            if data['saved']:
-                attr = self.term.attr('Saved')
-                self.term.add_space(win)
-                self.term.add_line(win, '[saved]', attr=attr)
-
-            if data['hidden']:
-                attr = self.term.attr('Hidden')
-                self.term.add_space(win)
-                self.term.add_line(win, '[hidden]', attr=attr)
-
-            if data['stickied']:
-                attr = self.term.attr('Stickied')
-                self.term.add_space(win)
-                self.term.add_line(win, '[stickied]', attr=attr)
-
-            if data['gold']:
-                attr = self.term.attr('Gold')
-                self.term.add_space(win)
-                count = 'x{}'.format(data['gold']) if data['gold'] > 1 else ''
-                text = self.term.gilded + count
-                self.term.add_line(win, text, attr=attr)
-
-            if data['nsfw']:
-                attr = self.term.attr('NSFW')
-                self.term.add_space(win)
-                self.term.add_line(win, 'NSFW', attr=attr)
-
-            if data['flair']:
-                attr = self.term.attr('SubmissionFlair')
-                self.term.add_space(win)
-                self.term.add_line(win, '{flair}'.format(**data), attr=attr)
-
     def _draw_item(self, win, data, inverted):
         n_rows, n_cols = win.getmaxyx()
         n_cols -= 1  # Leave space for the cursor in the first column
@@ -420,8 +529,9 @@ class SubredditPage(Page):
         valid_rows = range(0, n_rows)
         offset = 0 if not inverted else - (data['n_rows'] - n_rows)
 
-        if self.config['look_and_feel'] == 'compact':
-            self._draw_item_compact(win, data, n_rows, n_cols, valid_rows, offset)
+        if self.config['look_and_feel'] == 'compact' or \
+                self.config['subreddit_format']:
+            self._draw_item_format(win, data, valid_rows, offset)
         else:
             self._draw_item_default(win, data, n_rows, n_cols, valid_rows, offset)
 
