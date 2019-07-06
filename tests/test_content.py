@@ -400,6 +400,8 @@ def test_content_subreddit(reddit, terminal, config):
 
 def test_content_subreddit_load_more(reddit, terminal, config):
 
+    config['look_and_feel'] = 'default'
+
     submissions = reddit.get_front_page(limit=None)
     content = SubredditContent(config, 'front', submissions, terminal.loader)
 
