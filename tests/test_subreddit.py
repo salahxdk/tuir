@@ -27,7 +27,9 @@ PROMPTS = OrderedDict([
 ])
 
 
-def test_subreddit_page_construct(reddit, terminal, config, oauth):
+def test_subreddit_page_construct_default(reddit, terminal, config, oauth):
+    config['look_and_feel'] = 'default'
+
     window = terminal.stdscr.subwin
 
     with terminal.loader():
@@ -57,6 +59,23 @@ def test_subreddit_page_construct(reddit, terminal, config, oauth):
         page = SubredditPage(reddit, terminal, config, oauth, '/r/python')
     assert terminal.loader.exception is None
     page.draw()
+
+
+def test_subreddit_page_construct_nondefault(reddit, terminal, config, oauth):
+    # We're just testing the constructor, and only a little bit of the
+    # constructor is dependent on a nondefault look and feel, so we can test
+    # just that little bit. The rest is tested in the above test.
+    config['look_and_feel'] = 'compact'
+
+    with mock.patch.object(SubredditPage, '_create_format'):
+        with terminal.loader():
+            page = SubredditPage(reddit, terminal, config, oauth, '/r/python')
+            SubredditPage._create_format.assert_called_with(config.COMPACT_FORMAT)
+
+        config['subreddit_format'] = 'NonNull'
+        with terminal.loader():
+            page = SubredditPage(reddit, terminal, config, oauth, '/r/python')
+            SubredditPage._create_format.assert_called_with('NonNull')
 
 
 def test_subreddit_refresh(subreddit_page, terminal):
@@ -615,6 +634,10 @@ def test_subreddit_handle_selected_page(subreddit_page, subscription_page):
     assert subreddit_page.selected_page == subreddit_page
     assert not subreddit_page.active
 
+    subreddit_page.selected_page.name = 'This should raise a RuntimeError'
+    with pytest.raises(RuntimeError):
+        subreddit_page.handle_selected_page()
+
 
 def test_subreddit_page_loop_pre_select(subreddit_page, submission_page):
 
@@ -638,3 +661,184 @@ def test_subreddit_page_loop(subreddit_page, stdscr, terminal):
     with mock.patch.object(terminal, 'prompt_input', return_value='all'):
         new_page = subreddit_page.loop()
         assert new_page.content.name == '/r/all'
+
+
+def test_subreddit_page__submission_attr(config, terminal, subreddit_page):
+    data = {}
+    data['url_full'] = 'www.test.com'
+
+    config.history = []
+    terminal.attr = mock.Mock()
+
+    subreddit_page._submission_attr(data)
+    terminal.attr.assert_called_with('SubmissionTitle')
+
+    config.history.append(data['url_full'])
+
+    subreddit_page._submission_attr(data)
+    terminal.attr.assert_called_with('SubmissionTitleSeen')
+
+
+def test_subreddit_page__url_attr(config, terminal, subreddit_page):
+    data = {}
+    data['url_full'] = 'www.test.com'
+
+    config.history = []
+    terminal.attr = mock.Mock()
+
+    subreddit_page._url_attr(data)
+    terminal.attr.assert_called_with('Link')
+
+    config.history.append(data['url_full'])
+
+    subreddit_page._url_attr(data)
+    terminal.attr.assert_called_with('LinkSeen')
+
+
+def test_subreddit_page__gold_str(config, terminal, subreddit_page):
+    data = {}
+    data['gold'] = 0
+
+    goldstr = subreddit_page._gold_str(data)
+    assert goldstr == ''
+
+    data['gold'] = 1
+    goldstr = subreddit_page._gold_str(data)
+    assert goldstr == terminal.gilded + ' '
+
+    data['gold'] = 2
+    goldstr = subreddit_page._gold_str(data)
+    assert goldstr == terminal.gilded + 'x2 '
+
+
+def test_subreddit_page__create_format(terminal, subreddit_page):
+    # We won't test unimplemented format specifiers. We can add tests when they
+    # are implemented. We also won't test the lambdas that call another
+    # function - we test those functions individually
+    data = {
+            'index': '1',
+            'title': 'Without saying what the category is, what are your top five?',
+            'score': '144655 pts',
+            'likes': True,
+            'comments': '26584 comments',
+            'created': '10month',
+            'edited': '(edit 5month)',
+            'author': 'reddit_user',
+            'subreddit': 'AskReddit',
+            'url': 'self.AskReddit',
+            'saved': True,
+            'hidden': True,
+            'stickied': True,
+            'nsfw': True,
+            'flair': 'Serious Replies Only'
+    }
+
+    expected_str = {
+            '%i': '1',
+            '%t': 'Without saying what the category is, what are your top five?',
+            '%s': '144655',
+            '%c': '26584',
+            '%r': '10month',
+            '%e': '(edit 5month)',
+            '%a': 'reddit_user',
+            '%S': '/r/AskReddit',
+            '%U': 'self.AskReddit',
+            '%A': '[saved]',
+            '%h': '[hidden]',
+            '%T': '[stickied]',
+            '%n': 'NSFW',
+            '%f': 'Serious Replies Only',
+    }
+
+    # This is what terminal.attr is expected to be called with for each item
+    expected_attr = {
+            '%s': 'Score',
+            '%c': 'CommentCount',
+            '%r': 'Created',
+            '%e': 'Created',
+            '%a': 'SubmissionAuthor',
+            '%S': 'SubmissionSubreddit',
+            '%A': 'Saved',
+            '%h': 'Hidden',
+            '%T': 'Stickied',
+            '%g': 'Gold',
+            '%n': 'NSFW',
+            '%f': 'SubmissionFlair'
+    }
+
+    # This set of tests checks for proper splitting and newline handling
+    # For simplicity's sake, use explicit newlines
+    test_format = 'a\n<>'
+
+    format_list = None
+    format_list = subreddit_page._create_format(test_format)
+
+    # This gets a bit ugly due to {re|str}.split() adding few null strings.
+    assert len(format_list) == 7
+
+    # %i, \n, <, >
+    assert format_list[0][0] == 'a'
+    assert format_list[1][0] == '\n'
+    assert format_list[3][0] == '<'
+    assert format_list[5][0] == '>'
+
+    # Check for newline flag
+    assert format_list[2][2] == True
+
+    terminal.get_arrow = mock.Mock(return_value=['val1', 'val2'])
+    terminal.attr = mock.Mock()
+    subreddit_page._gold_str = mock.Mock()
+
+    # This set of tests makes sure each format specifier works as intended
+    for fmt in filter(None, '%i %t %s %v %c %r %e %a %S %U %A %h %T %g %n %f %F'.split()):
+        format_list = subreddit_page._create_format(fmt)
+
+        # First, some special cases
+        if fmt == '%v':
+            # User's comment status - upvoted, downvoted, neither
+            format_list[1][0](data)
+
+            # data['likes'] == True
+            terminal.get_arrow.assert_called_with(True)
+        elif fmt == '%i' or fmt == '%t' or fmt == '%U':
+            # Don't check the attribute for these - they have their own
+            # attribute functions
+            assert format_list[1][0](data) == expected_str[fmt]
+        elif fmt == '%g':
+            # Gold. The string is given by the function _gold_str() which is
+            # tested elsewhere, so here we just check that it was called
+            assert subreddit_page._gold_str.assert_called
+
+            subreddit_page._gold_str.mock_reset()
+        elif fmt == '%F':
+            # The flair catch-all. Check for each individual flair
+            assert format_list[1][0](data) == expected_str['%f'] + ' '
+            format_list[1][1](data)
+            terminal.attr.assert_called_with(expected_attr['%f'])
+            terminal.attr.reset_mock()
+
+            assert format_list[2][0](data) == expected_str['%A'] + ' '
+            format_list[2][1](data)
+            terminal.attr.assert_called_with(expected_attr['%A'])
+            terminal.attr.reset_mock()
+
+            assert format_list[3][0](data) == expected_str['%h'] + ' '
+            format_list[3][1](data)
+            terminal.attr.assert_called_with(expected_attr['%h'])
+            terminal.attr.reset_mock()
+
+            assert format_list[4][0](data) == expected_str['%T'] + ' '
+            format_list[4][1](data)
+            terminal.attr.assert_called_with(expected_attr['%T'])
+            terminal.attr.reset_mock()
+
+            subreddit_page._gold_str.assert_called
+
+            assert format_list[6][0](data) == expected_str['%n'] + ' '
+        else:
+            # General case
+            assert format_list[1][0](data) == expected_str[fmt]
+            format_list[1][1](data)
+
+            terminal.attr.assert_called_with(expected_attr[fmt])
+            terminal.attr.reset_mock()
