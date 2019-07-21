@@ -870,6 +870,12 @@ def test_subreddit_page__draw_item_format(terminal, subreddit_page):
     assert not terminal.add_line.called
     terminal.add_line.reset_mock()
 
+    # add_line shouldn't be called if the string field is none
+    subreddit_page.format = [(None, lambda data: None, False)]
+    subreddit_page._draw_item_format(win, None, None, 0)
+
+    assert not terminal.add_line.called
+
     # Check for newline handling and attribute reusing in the call of a null
     # attribute
     subreddit_page.format = [("string", lambda data: terminal.attr("Link"), True),
