@@ -842,3 +842,54 @@ def test_subreddit_page__create_format(terminal, subreddit_page):
 
             terminal.attr.assert_called_with(expected_attr[fmt])
             terminal.attr.reset_mock()
+
+
+def test_subreddit_page__draw_item_format(terminal, subreddit_page):
+    win = terminal.stdscr.subwin
+
+    terminal.add_line = mock.Mock()
+    terminal.add_space = mock.Mock()
+
+    # Test proper handling of lambdas and not-lambdas
+    subreddit_page.format = [(lambda data: "string", lambda data: None, False)]
+    subreddit_page._draw_item_format(win, None, None, 0)
+
+    terminal.add_line.assert_called_with(win, "string", 0, attr=None)
+    terminal.add_line.reset_mock()
+
+    subreddit_page.format = [("string", lambda data: None, False)]
+    subreddit_page._draw_item_format(win, None, None, 0)
+
+    terminal.add_line.assert_called_with(win, "string", 0, attr=None)
+    terminal.add_line.reset_mock()
+
+    # Test newline handling, shouldn't be drawn
+    subreddit_page.format = [("\n", lambda data: None, False)]
+    subreddit_page._draw_item_format(win, None, None, 0)
+
+    assert not terminal.add_line.called
+    terminal.add_line.reset_mock()
+
+    # Check for newline handling and attribute reusing in the call of a null
+    # attribute
+    subreddit_page.format = [("string", lambda data: terminal.attr("Link"), True),
+            ("str", None, False)]
+    subreddit_page._draw_item_format(win, None, None, 0)
+
+    # Should be called with a column of 1
+    terminal.add_line.assert_any_call(win, "string", 0, 1,
+            attr=terminal.attr("Link"))
+
+    # "str" shouldn't be printed at the beginning of the line and it should be
+    # printed with the same attribute as the previous item
+    terminal.add_line.assert_any_call(win, "str", 0,
+            attr=terminal.attr("Link"))
+
+    terminal.add_line.reset_mock()
+
+    # Check that spaces are printed with add_space and not add_line
+    subreddit_page.format = [(" ", lambda data: None, False)]
+    subreddit_page._draw_item_format(win, None, None, 0)
+
+    assert terminal.add_space.called
+    assert not terminal.add_line.called
