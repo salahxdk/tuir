@@ -412,7 +412,7 @@ class SubredditPage(Page):
             # TODO - support line wrapping
             string = string.split('\n')[0]
 
-            if string is ' ':
+            if string == ' ':
                 # Make sure spaces aren't treated like normal strings and print
                 # them to the window this way. This ensures they won't be drawn
                 # with an attribute.
