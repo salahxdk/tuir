@@ -290,7 +290,7 @@ class SubredditPage(Page):
             # drawtime. This way the format list knows how to use the data,
             # and can simply be used when the data is available
             if item == "%i":
-                form.append((lambda data: data['index'],
+                form.append((lambda data: str(data['index']),
                     lambda data: self._submission_attr(data), first))
             elif item == "%t":
                 form.append((lambda data: data['title'],
@@ -405,8 +405,6 @@ class SubredditPage(Page):
             # places like user pages, where data['comments'] is None
             if not string and first is False:
                 continue
-
-            string = str(string)
 
             # We only want to print a maximum of one line of data
             # TODO - support line wrapping
