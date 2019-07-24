@@ -19,6 +19,10 @@ class SubredditPage(Page):
     BANNER = docs.BANNER_SUBREDDIT
     FOOTER = docs.FOOTER_SUBREDDIT
 
+    # Format separators, used by _create_format and _draw_item_format for
+    # attribute handling logic
+    FORMAT_SEP = r"<>/{}[]()|_-~"
+
     name = 'subreddit'
 
     def __init__(self, reddit, term, config, oauth, name):
@@ -281,9 +285,9 @@ class SubredditPage(Page):
         form = []
         first = True
 
-        # Split the list between %., newlines, and certain separator characters
-        # to treat them separately
-        format_list = re.split(r'(%.|[\n<>|\\])', format_string, re.DOTALL)
+        # Split the list between %., newlines, and separator characters to
+        # treat them separately
+        format_list = re.split(r'(%.|[\n' + re.escape(self.FORMAT_SEP) + '])', format_string, re.DOTALL)
 
         for item in format_list:
             # Use lambdas because the actual data to be used is only known at
@@ -375,7 +379,7 @@ class SubredditPage(Page):
             else: # Write something else that isn't in the data dict
                 # Make certain "separator" characters use the Separator
                 # attribute
-                if item in r"<>|\\":
+                if item in self.FORMAT_SEP:
                     form.append((item,
                                  lambda data: self.term.attr('Separator'),
                                  first))
