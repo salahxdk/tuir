@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 import re
 import time
+from urllib.parse import urlparse
 
 from . import docs
 from .content import SubredditContent
@@ -251,6 +252,15 @@ class SubredditPage(Page):
         else:
             return self.term.attr('SubmissionTitle')
 
+    def _url_str(self, data):
+        # Both of these url_types indicate a URL of a subreddit/comment, and
+        # self.subreddit should be used as the display url
+        if data['url_type'] == 'selfpost' or \
+                data['url_type'].startswith('x-post'):
+            return data['url']
+        else:
+            return urlparse(data['url']).hostname
+
     def _url_attr(self, data):
         if data['url_full'] in self.config.history:
             return self.term.attr('LinkSeen')
@@ -331,7 +341,8 @@ class SubredditPage(Page):
                     lambda data: self.term.attr('SubmissionSubreddit'),
                     first))
             elif item == "%u":
-                raise NotImplementedError("'%u' subreddit_format specifier not yet supported")
+                form.append((lambda data: self._url_str(data),
+                    lambda data: self._url_attr(data), first))
             elif item == "%U":
                 form.append((lambda data: data['url'],
                     lambda data: self._url_attr(data), first))

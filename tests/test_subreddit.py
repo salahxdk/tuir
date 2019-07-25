@@ -679,6 +679,24 @@ def test_subreddit_page__submission_attr(config, terminal, subreddit_page):
     terminal.attr.assert_called_with('SubmissionTitleSeen')
 
 
+def test_subreddit_page__url_str(config, terminal, subreddit_page):
+    data = {
+            'url_type': 'selfpost',
+            'url': 'self.AskReddit',
+            'url_full': 'https://www.reddit.com/r/AskReddit/comments/99eh6b/without_saying_what_the_category_is_what_are_your/'
+    }
+
+    assert subreddit_page._url_str(data) == 'self.AskReddit'
+
+    data['url_type'] = 'x-post subreddit'
+
+    assert subreddit_page._url_str(data) == 'self.AskReddit'
+
+    data['url_type'] = 'external'
+
+    assert subreddit_page._url_str(data) == 'https://www.reddit.com/r/AskReddit/comments/99eh6b/without_saying_what_the_category_is_what_are_your/'
+
+
 def test_subreddit_page__url_attr(config, terminal, subreddit_page):
     data = {}
     data['url_full'] = 'www.test.com'
