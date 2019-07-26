@@ -694,7 +694,7 @@ def test_subreddit_page__url_str(config, terminal, subreddit_page):
 
     data['url_type'] = 'external'
 
-    assert subreddit_page._url_str(data) == 'https://www.reddit.com/r/AskReddit/comments/99eh6b/without_saying_what_the_category_is_what_are_your/'
+    assert subreddit_page._url_str(data) == 'www.reddit.com'
 
 
 def test_subreddit_page__url_attr(config, terminal, subreddit_page):

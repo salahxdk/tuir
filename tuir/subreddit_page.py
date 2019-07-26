@@ -3,7 +3,11 @@ from __future__ import unicode_literals
 
 import re
 import time
-from urllib.parse import urlparse
+
+try:
+    from urllib.parse import urlparse
+except ImportError:
+    from urlparse import urlparse
 
 from . import docs
 from .content import SubredditContent
@@ -124,6 +128,7 @@ class SubredditPage(Page):
                 self.term.show_notification('Invalid option')
             else:
                 self.refresh_content(order=order)
+
 
     @SubredditController.register(Command('SORT_6'))
     def sort_content_gilded(self):
@@ -259,7 +264,7 @@ class SubredditPage(Page):
                 data['url_type'].startswith('x-post'):
             return data['url']
         else:
-            return urlparse(data['url']).hostname
+            return urlparse(data['url_full']).hostname
 
     def _url_attr(self, data):
         if data['url_full'] in self.config.history:
