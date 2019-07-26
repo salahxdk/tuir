@@ -744,6 +744,8 @@ def test_subreddit_page__create_format(terminal, subreddit_page):
             'author': 'reddit_user',
             'subreddit': 'AskReddit',
             'url': 'self.AskReddit',
+            'url_type': 'selfpost',
+            'url_full': 'https://www.reddit.com/r/AskReddit/comments/99eh6b/without_saying_what_the_category_is_what_are_your/',
             'saved': True,
             'hidden': True,
             'stickied': True,
@@ -760,6 +762,7 @@ def test_subreddit_page__create_format(terminal, subreddit_page):
             '%e': '(edit 5month)',
             '%a': 'reddit_user',
             '%S': '/r/AskReddit',
+            '%u': 'self.AskReddit',
             '%U': 'self.AskReddit',
             '%A': '[saved]',
             '%h': '[hidden]',
@@ -808,7 +811,7 @@ def test_subreddit_page__create_format(terminal, subreddit_page):
     subreddit_page._gold_str = mock.Mock()
 
     # This set of tests makes sure each format specifier works as intended
-    for fmt in filter(None, '%i %t %s %v %c %r %e %a %S %U %A %h %T %g %n %f %F'.split()):
+    for fmt in filter(None, '%i %t %s %v %c %r %e %a %S %u %U %A %h %T %g %n %f %F'.split()):
         format_list = subreddit_page._create_format(fmt)
 
         # First, some special cases
@@ -818,7 +821,7 @@ def test_subreddit_page__create_format(terminal, subreddit_page):
 
             # data['likes'] == True
             terminal.get_arrow.assert_called_with(True)
-        elif fmt == '%i' or fmt == '%t' or fmt == '%U':
+        elif fmt == '%i' or fmt == '%t' or fmt == '%u' or fmt == '%U':
             # Don't check the attribute for these - they have their own
             # attribute functions
             assert format_list[1][0](data) == expected_str[fmt]
