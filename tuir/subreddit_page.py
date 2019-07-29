@@ -411,7 +411,7 @@ class SubredditPage(Page):
         for get_data, get_attr, first in self.format:
             # add_line wants strings, make sure we give it strings
             if callable(get_data):
-                string = get_data(data)
+                print_data = get_data(data)
             else:
                 # Start writing to the next line if we hit a newline
                 if get_data == "\n":
@@ -419,16 +419,18 @@ class SubredditPage(Page):
                     continue
 
                 # Otherwise, proceed on the same line
-                string = get_data
+                print_data = get_data
 
             # Don't try to write None strings to the screen. This happens in
             # places like user pages, where data['comments'] is None
-            if not string and first is False:
+            if not print_data and first is False:
                 continue
 
-            # We only want to print a maximum of one line of data
+            # We only want to print a maximum of one line of data,
+            # and we want to cast to a string, since sometimes 'data' is not a
+            # string, but a Redditor object
             # TODO - support line wrapping
-            string = string.split('\n')[0]
+            string = str(print_data).split('\n')[0]
 
             if string == ' ':
                 # Make sure spaces aren't treated like normal strings and print
