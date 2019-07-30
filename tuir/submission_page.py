@@ -284,7 +284,7 @@ class SubmissionPage(Page):
 
             attr = self.term.attr('Score')
             self.term.add_space(win)
-            self.term.add_line(win, '{score}'.format(**data), attr=attr)
+            self.term.add_line(win, '{score} pts'.format(**data), attr=attr)
 
             attr = self.term.attr('Created')
             self.term.add_space(win)
@@ -385,7 +385,7 @@ class SubmissionPage(Page):
 
         row = len(data['split_title']) + len(split_text) + 3
         attr = self.term.attr('Score')
-        self.term.add_line(win, '{score}'.format(**data), row, 1, attr=attr)
+        self.term.add_line(win, '{score} pts'.format(**data), row, 1, attr=attr)
 
         arrow, attr = self.term.get_arrow(data['likes'])
         self.term.add_space(win)
@@ -393,7 +393,7 @@ class SubmissionPage(Page):
 
         attr = self.term.attr('CommentCount')
         self.term.add_space(win)
-        self.term.add_line(win, '{comments}'.format(**data), attr=attr)
+        self.term.add_line(win, '{comments} comments'.format(**data), attr=attr)
 
         if data['gold']:
             attr = self.term.attr('Gold')

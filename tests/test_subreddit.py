@@ -736,9 +736,9 @@ def test_subreddit_page__create_format(terminal, subreddit_page):
     data = {
             'index': '1',
             'title': 'Without saying what the category is, what are your top five?',
-            'score': '144655 pts',
+            'score': '144655',
             'likes': True,
-            'comments': '26584 comments',
+            'comments': '26584',
             'created': '10month',
             'edited': '(edit 5month)',
             'author': 'reddit_user',
@@ -858,7 +858,8 @@ def test_subreddit_page__create_format(terminal, subreddit_page):
             assert format_list[6][0](data) == expected_str['%n'] + ' '
         else:
             # General case
-            assert format_list[1][0](data) == expected_str[fmt]
+            assert format_list[1][0](data) == expected_str[fmt], \
+                    "On specifier {0}".format(fmt)
             format_list[1][1](data)
 
             terminal.attr.assert_called_with(expected_attr[fmt])

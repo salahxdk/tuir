@@ -152,7 +152,7 @@ class Content(object):
             data['body'] = comment.body
             data['html'] = comment.body_html
             data['created'] = cls.humanize_timestamp(comment.created_utc)
-            data['score'] = '{0} pts'.format(
+            data['score'] = '{0}'.format(
                 '-' if comment.score_hidden else comment.score)
             data['author'] = name
             data['is_author'] = (name == sub_name)
@@ -187,7 +187,7 @@ class Content(object):
             data['nsfw'] = comment.over_18
             data['subreddit'] = six.text_type(comment.subreddit)
             data['url_type'] = 'selfpost'
-            data['score'] = '{0} pts'.format(
+            data['score'] = '{0}'.format(
                 '-' if comment.score_hidden else comment.score)
             data['likes'] = comment.likes
             data['created'] = cls.humanize_timestamp(comment.created_utc)
@@ -233,8 +233,8 @@ class Content(object):
         data['html'] = sub.selftext_html or ''
         data['created'] = cls.humanize_timestamp(sub.created_utc)
         data['created_long'] = cls.humanize_timestamp(sub.created_utc, True)
-        data['comments'] = '{0} comments'.format(sub.num_comments)
-        data['score'] = '{0} pts'.format('-' if sub.hide_score else sub.score)
+        data['comments'] = sub.num_comments
+        data['score'] = '{0}'.format('-' if sub.hide_score else sub.score)
         data['author'] = name
         data['permalink'] = sub.permalink
         data['subreddit'] = six.text_type(sub.subreddit)

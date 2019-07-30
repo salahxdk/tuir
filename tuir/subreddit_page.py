@@ -316,7 +316,7 @@ class SubredditPage(Page):
                     lambda data: self._submission_attr(data), first))
             elif item == "%s":
                 # Need to cut off the characters that aren't the score number
-                form.append((lambda data: data['score'][:-4],
+                form.append((lambda data: str(data['score']),
                     lambda data: self.term.attr('Score'), first))
             elif item == "%v":
                 # This isn't great, self.term.get_arrow gets called twice
@@ -324,7 +324,7 @@ class SubredditPage(Page):
                     lambda data: self.term.get_arrow(data['likes'])[1], first))
             elif item == "%c":
                 form.append((
-                    lambda data: '{0}'.format(data['comments'][:-9])
+                    lambda data: data['comments']
                         if data['comments'] else None, # Don't try to subscript null items
                     lambda data: self.term.attr('CommentCount'),
                     first))
@@ -483,7 +483,7 @@ class SubredditPage(Page):
 
         if row in valid_rows:
             attr = self.term.attr('Score')
-            self.term.add_line(win, '{score}'.format(**data), row, 1, attr)
+            self.term.add_line(win, '{score} pts'.format(**data), row, 1, attr)
             self.term.add_space(win)
 
             arrow, attr = self.term.get_arrow(data['likes'])
@@ -500,7 +500,7 @@ class SubredditPage(Page):
 
                 attr = self.term.attr('CommentCount')
                 self.term.add_space(win)
-                self.term.add_line(win, '{comments}'.format(**data), attr=attr)
+                self.term.add_line(win, '{comments} comments'.format(**data), attr=attr)
 
             if data['saved']:
                 attr = self.term.attr('Saved')
