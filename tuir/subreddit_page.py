@@ -332,12 +332,14 @@ class SubredditPage(Page):
                 form.append((lambda data: data['created'],
                     lambda data: self.term.attr('Created'), first))
             elif item == "%R":
-                raise NotImplementedError("'%R' subreddit_format specifier not yet supported")
+                form.append((lambda data: data['created_exact'],
+                    lambda data: self.term.attr('Created'), first))
             elif item == "%e":
                 form.append((lambda data: data['edited'],
                     lambda data: self.term.attr('Created'), first))
             elif item == "%E":
-                raise NotImplementedError("'%E' subreddit_format specifier not yet supported")
+                form.append((lambda data: data['edited_exact'],
+                    lambda data: self.term.attr('Created'), first))
             elif item == "%a":
                 form.append((lambda data: data['author'],
                     lambda data: self.term.attr('SubmissionAuthor'), first))
