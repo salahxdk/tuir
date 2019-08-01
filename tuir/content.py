@@ -233,6 +233,7 @@ class Content(object):
         data['html'] = sub.selftext_html or ''
         data['created'] = cls.humanize_timestamp(sub.created_utc)
         data['created_long'] = cls.humanize_timestamp(sub.created_utc, True)
+        data['created_exact'] = cls.exact_timestamp(sub.created_utc)
         data['comments'] = sub.num_comments
         data['score'] = '{0}'.format('-' if sub.hide_score else sub.score)
         data['author'] = name
@@ -253,9 +254,12 @@ class Content(object):
                 cls.humanize_timestamp(sub.edited))
             data['edited_long'] = '(edit {})'.format(
                 cls.humanize_timestamp(sub.edited, True))
+            data['edited_exact'] = '(edit {})'.format(
+                cls.exact_timestamp(sub.edited))
         else:
             data['edited'] = ''
             data['edited_long'] = ''
+            data['edited_exact'] = ''
 
         if sub.url.split('/r/')[-1] == sub.permalink.split('/r/')[-1]:
             data['url'] = 'self.{0}'.format(data['subreddit'])
@@ -397,6 +401,18 @@ class Content(object):
             return '%d years ago' % years
         else:
             return '%dyr' % years
+
+    @staticmethod
+    def exact_timestamp(utc_timestamp):
+        dt = datetime.fromtimestamp(utc_timestamp)
+
+        # https://stackoverflow.com/a/765990
+        yearsago = ((datetime.now() - dt).days / 365.2425)
+
+        if yearsago > 0:
+            return dt.strftime("%Y-%m-%d")
+        else:
+            return dt.strftime("%m-%d %H:%M")
 
     @staticmethod
     def wrap_text(text, width):

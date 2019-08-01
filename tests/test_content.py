@@ -142,6 +142,27 @@ def test_content_humanize_timestamp():
     assert Content.humanize_timestamp(timestamp, True) == '2 years ago'
 
 
+def test_content_exact_timestamp():
+    # Less than a year ago.
+    timestamp = time.time() - 60 * 60
+
+    # Calling datetime.strftime("%m-%d %H:%M") should always give a string of
+    # length 11
+    assert len(Content.exact_timestamp(timestamp)) == 11
+
+    timestamp = time.time() - 60 * 60 * 24 * 31 * 12 * 2
+
+    # Similarly, calling datetime.strftime("%Y-%m-%d") should always give a
+    # string of length 10
+    assert len(Content.exact_timestamp(timestamp)) == 10
+
+    # Does it break on a leap day?
+    from datetime import datetime
+    leapday = (datetime(2016, 2, 29) - datetime(1970, 1, 1)).total_seconds()
+
+    Content.exact_timestamp(leapday)
+
+
 def test_content_wrap_text():
 
     text = 'four score\nand seven\n\n'
