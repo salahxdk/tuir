@@ -410,9 +410,9 @@ class Content(object):
         yearsago = ((datetime.now() - dt).days / 365.2425)
 
         if yearsago > 0:
-            return dt.strftime("%Y-%m-%d")
+            return six.u(dt.strftime("%Y-%m-%d"))
         else:
-            return dt.strftime("%m-%d %H:%M")
+            return six.u(dt.strftime("%m-%d %H:%M"))
 
     @staticmethod
     def wrap_text(text, width):
