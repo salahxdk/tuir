@@ -20,6 +20,6 @@ def copy(text, cmd=None):
         if sys.platform == 'darwin':
             cmd = 'pbcopy w'
         else: # For Linux, BSD, cygwin, etc.
-            cmd = 'xclip -selection -clipboard'
+            cmd = 'xclip -selection clipboard'
 
     _subprocess_copy(text, cmd.split())

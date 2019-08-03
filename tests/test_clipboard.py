@@ -23,7 +23,6 @@ def test_copy_nix():
         # Mock out the subprocess calls
         p = mock.Mock()
         p.communicate = mock.Mock()
-
         Popen.return_value = p
 
         copy('test', 'xsel -b -i')
@@ -31,7 +30,7 @@ def test_copy_nix():
         p.communicate.assert_called_with(input='test'.encode('utf-8'))
 
         copy('test ❤')
-        assert Popen.call_args[0][0] == ['xclip', '-selection', '-clipboard']
+        assert Popen.call_args[0][0] == ['xclip', '-selection', 'clipboard']
         p.communicate.assert_called_with(input='test ❤'.encode('utf-8'))
 
 def test_copy_darwin():
