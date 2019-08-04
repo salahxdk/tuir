@@ -195,8 +195,7 @@ The default programs that TUIR interacts with can be configured through environm
 
 ### Clipboard
 
-TUIR supports copying submission links to the OS clipboard. On macOS this is supported out of the box.
-On Linux systems you will need to install either [xsel](http://www.vergenet.net/~conrad/software/xsel/) or [xclip](https://sourceforge.net/projects/xclip/).
+TUIR supports copying submission links to the OS clipboard.  Data being copied is piped into a command specified by the configuration option `clipboard_cmd`. If this option is not set, the command will default to `pbcopy w` on Darwin systems (OSX), and `xclip -selection clipboard` on Linux.
 
 ## Themes
 
