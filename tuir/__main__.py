@@ -116,6 +116,17 @@ def main():
         # Add an empty handler so the logger doesn't complain
         logging.root.addHandler(logging.NullHandler())
 
+    if config['subreddit_format']:
+        # If the user has explicitly set a subreddit format, we don't want to
+        # try to do something else with the format so we fall out of the if now
+        pass
+    elif not config['look_and_feel'] or config['look_and_feel'] == 'default':
+        # FIXME - default needs its own subreddit_format but can't because
+        # no wrapped-title specifier exists
+        pass
+    elif config['look_and_feel'] == 'compact':
+        config['subreddit_format'] = config.COMPACT_FORMAT
+
     # Make sure the locale is UTF-8 for unicode support
     default_locale = locale.setlocale(locale.LC_ALL, '')
     try:

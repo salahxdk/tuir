@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 import curses
 from collections import OrderedDict
+import sys
 
 import six
 import pytest
@@ -59,23 +60,6 @@ def test_subreddit_page_construct_default(reddit, terminal, config, oauth):
         page = SubredditPage(reddit, terminal, config, oauth, '/r/python')
     assert terminal.loader.exception is None
     page.draw()
-
-
-def test_subreddit_page_construct_nondefault(reddit, terminal, config, oauth):
-    # We're just testing the constructor, and only a little bit of the
-    # constructor is dependent on a nondefault look and feel, so we can test
-    # just that little bit. The rest is tested in the above test.
-    config['look_and_feel'] = 'compact'
-
-    with mock.patch.object(SubredditPage, '_create_format'):
-        with terminal.loader():
-            page = SubredditPage(reddit, terminal, config, oauth, '/r/python')
-            SubredditPage._create_format.assert_called_with(config.COMPACT_FORMAT)
-
-        config['subreddit_format'] = 'NonNull'
-        with terminal.loader():
-            page = SubredditPage(reddit, terminal, config, oauth, '/r/python')
-            SubredditPage._create_format.assert_called_with('NonNull')
 
 
 def test_subreddit_refresh(subreddit_page, terminal):
@@ -722,17 +706,14 @@ def test_subreddit_page__gold_str(config, terminal, subreddit_page):
 
     data['gold'] = 1
     goldstr = subreddit_page._gold_str(data)
-    assert goldstr == terminal.gilded + ' '
+    assert goldstr == terminal.gilded
 
     data['gold'] = 2
     goldstr = subreddit_page._gold_str(data)
-    assert goldstr == terminal.gilded + 'x2 '
+    assert goldstr == terminal.gilded + 'x2'
 
 
-def test_subreddit_page__create_format(terminal, subreddit_page):
-    # We won't test unimplemented format specifiers. We can add tests when they
-    # are implemented. We also won't test the lambdas that call another
-    # function - we test those functions individually
+def test_subreddit_page__draw_item_format(terminal, subreddit_page):
     data = {
             'index': '1',
             'title': 'Without saying what the category is, what are your top five?',
@@ -746,6 +727,7 @@ def test_subreddit_page__create_format(terminal, subreddit_page):
             'url': 'self.AskReddit',
             'url_type': 'selfpost',
             'url_full': 'https://www.reddit.com/r/AskReddit/comments/99eh6b/without_saying_what_the_category_is_what_are_your/',
+            'gold': 1,
             'saved': True,
             'hidden': True,
             'stickied': True,
@@ -757,6 +739,7 @@ def test_subreddit_page__create_format(terminal, subreddit_page):
             '%i': '1',
             '%t': 'Without saying what the category is, what are your top five?',
             '%s': '144655',
+            '%v': '▲',
             '%c': '26584',
             '%r': '10month',
             '%e': '(edit 5month)',
@@ -767,157 +750,94 @@ def test_subreddit_page__create_format(terminal, subreddit_page):
             '%A': '[saved]',
             '%h': '[hidden]',
             '%T': '[stickied]',
+            '%g': '✪',
             '%n': 'NSFW',
             '%f': 'Serious Replies Only',
     }
 
-    # This is what terminal.attr is expected to be called with for each item
     expected_attr = {
-            '%s': 'Score',
-            '%c': 'CommentCount',
-            '%r': 'Created',
-            '%e': 'Created',
-            '%a': 'SubmissionAuthor',
-            '%S': 'SubmissionSubreddit',
-            '%A': 'Saved',
-            '%h': 'Hidden',
-            '%T': 'Stickied',
-            '%g': 'Gold',
-            '%n': 'NSFW',
-            '%f': 'SubmissionFlair'
+            '%i': terminal.attr('SubmissionTitle'),
+            '%t': terminal.attr('SubmissionTitle'),
+            '%s': terminal.attr('Score'),
+            '%v': terminal.attr('Upvote'),
+            '%c': terminal.attr('CommentCount'),
+            '%r': terminal.attr('Created'),
+            '%e': terminal.attr('Created'),
+            '%a': terminal.attr('SubmissionAuthor'),
+            '%S': terminal.attr('SubmissionSubreddit'),
+            '%u': terminal.attr('Link'),
+            '%U': terminal.attr('Link'),
+            '%A': terminal.attr('Saved'),
+            '%h': terminal.attr('Hidden'),
+            '%T': terminal.attr('Stickied'),
+            '%g': terminal.attr('Gold'),
+            '%n': terminal.attr('NSFW'),
+            '%f': terminal.attr('SubmissionFlair')
     }
 
-    # This set of tests checks for proper splitting and newline handling
-    # For simplicity's sake, use explicit newlines
-    test_format = 'a\n<>'
-
-    format_list = None
-    format_list = subreddit_page._create_format(test_format)
-
-    # This gets a bit ugly due to {re|str}.split() adding few null strings.
-    assert len(format_list) == 7
-
-    # %i, \n, <, >
-    assert format_list[0][0] == 'a'
-    assert format_list[1][0] == '\n'
-    assert format_list[3][0] == '<'
-    assert format_list[5][0] == '>'
-
-    # Check for newline flag
-    assert format_list[2][2] == True
-
-    terminal.get_arrow = mock.Mock(return_value=['val1', 'val2'])
-    terminal.attr = mock.Mock()
-    subreddit_page._gold_str = mock.Mock()
-
-    # This set of tests makes sure each format specifier works as intended
-    for fmt in filter(None, '%i %t %s %v %c %r %e %a %S %u %U %A %h %T %g %n %f %F'.split()):
-        format_list = subreddit_page._create_format(fmt)
-
-        # First, some special cases
-        if fmt == '%v':
-            # User's comment status - upvoted, downvoted, neither
-            format_list[1][0](data)
-
-            # data['likes'] == True
-            terminal.get_arrow.assert_called_with(True)
-        elif fmt == '%i' or fmt == '%t' or fmt == '%u' or fmt == '%U':
-            # Don't check the attribute for these - they have their own
-            # attribute functions
-            assert format_list[1][0](data) == expected_str[fmt]
-        elif fmt == '%g':
-            # Gold. The string is given by the function _gold_str() which is
-            # tested elsewhere, so here we just check that it was called
-            assert subreddit_page._gold_str.assert_called
-
-            subreddit_page._gold_str.mock_reset()
-        elif fmt == '%F':
-            # The flair catch-all. Check for each individual flair
-            assert format_list[1][0](data) == expected_str['%f'] + ' '
-            format_list[1][1](data)
-            terminal.attr.assert_called_with(expected_attr['%f'])
-            terminal.attr.reset_mock()
-
-            assert format_list[2][0](data) == expected_str['%A'] + ' '
-            format_list[2][1](data)
-            terminal.attr.assert_called_with(expected_attr['%A'])
-            terminal.attr.reset_mock()
-
-            assert format_list[3][0](data) == expected_str['%h'] + ' '
-            format_list[3][1](data)
-            terminal.attr.assert_called_with(expected_attr['%h'])
-            terminal.attr.reset_mock()
-
-            assert format_list[4][0](data) == expected_str['%T'] + ' '
-            format_list[4][1](data)
-            terminal.attr.assert_called_with(expected_attr['%T'])
-            terminal.attr.reset_mock()
-
-            subreddit_page._gold_str.assert_called
-
-            assert format_list[6][0](data) == expected_str['%n'] + ' '
-        else:
-            # General case
-            assert format_list[1][0](data) == expected_str[fmt], \
-                    "On specifier {0}".format(fmt)
-            format_list[1][1](data)
-
-            terminal.attr.assert_called_with(expected_attr[fmt])
-            terminal.attr.reset_mock()
-
-
-def test_subreddit_page__draw_item_format(terminal, subreddit_page):
     win = terminal.stdscr.subwin
 
-    terminal.add_line = mock.Mock()
-    terminal.add_space = mock.Mock()
+    with mock.patch.object(terminal, 'add_line'):
+        # Loop through each individual format specifier and check for the desired behavior.
+        for fmt in filter(None, '%i %t %s %v %c %r %e %a %S %u %U %A %h %T %g %n %f %F'.split()):
+                subreddit_page.config['subreddit_format'] = fmt
+                subreddit_page._draw_item_format(win, data, 0, 0)
 
-    # Test proper handling of lambdas and not-lambdas
-    subreddit_page.format = [(lambda data: "string", lambda data: None, False)]
-    subreddit_page._draw_item_format(win, None, None, 0)
+                try:
+                    if fmt == '%F':
 
-    terminal.add_line.assert_called_with(win, "string", 0, attr=None)
-    terminal.add_line.reset_mock()
+                        # Make sure each of the things that %F should print are printed
+                        # flair
+                        terminal.add_line.assert_any_call(win, expected_str['%f'],
+                                                          row=mock.ANY, col=mock.ANY,
+                                                          attr=expected_attr['%f'])
 
-    subreddit_page.format = [("string", lambda data: None, False)]
-    subreddit_page._draw_item_format(win, None, None, 0)
+                        # saved
+                        terminal.add_line.assert_any_call(win, expected_str['%A'],
+                                                          row=mock.ANY, col=mock.ANY,
+                                                          attr=expected_attr['%A'])
 
-    terminal.add_line.assert_called_with(win, "string", 0, attr=None)
-    terminal.add_line.reset_mock()
+                        # hidden
+                        terminal.add_line.assert_any_call(win, expected_str['%h'],
+                                                          row=mock.ANY, col=mock.ANY,
+                                                          attr=expected_attr['%h'])
 
-    # Test newline handling, shouldn't be drawn
-    subreddit_page.format = [("\n", lambda data: None, False)]
-    subreddit_page._draw_item_format(win, None, None, 0)
+                        # stickied
+                        terminal.add_line.assert_any_call(win, expected_str['%T'],
+                                                          row=mock.ANY, col=mock.ANY,
+                                                          attr=expected_attr['%T'])
 
-    assert not terminal.add_line.called
-    terminal.add_line.reset_mock()
+                        # gold
+                        terminal.add_line.assert_any_call(win, expected_str['%g'],
+                                                          row=mock.ANY, col=mock.ANY,
+                                                          attr=expected_attr['%g'])
 
-    # add_line shouldn't be called if the string field is none
-    subreddit_page.format = [(None, lambda data: None, False)]
-    subreddit_page._draw_item_format(win, None, None, 0)
+                        # nsfw
+                        terminal.add_line.assert_any_call(win, expected_str['%n'],
+                                                          row=mock.ANY, col=mock.ANY,
+                                                          attr=expected_attr['%n'])
+                    else:
+                        terminal.add_line.assert_called_with(win, expected_str[fmt],
+                                                             row=0, col=1,
+                                                             attr=expected_attr[fmt])
+                except:
+                    sys.stderr.write("Failed on {0}\n".format(fmt))
+                    raise
 
-    assert not terminal.add_line.called
+        terminal.add_line.reset_mock()
 
-    # Check for newline handling and attribute reusing in the call of a null
-    # attribute
-    subreddit_page.format = [("string", lambda data: terminal.attr("Link"), True),
-            ("str", None, False)]
-    subreddit_page._draw_item_format(win, None, None, 0)
+        # Ensure spaces aren't printed consecutively if data is absent
+        data['gold'] = 0
+        subreddit_page.config['subreddit_format'] = ' %g '
+        subreddit_page._draw_item_format(win, data, 0, 0)
 
-    # Should be called with a column of 1
-    terminal.add_line.assert_any_call(win, "string", 0, 1,
-            attr=terminal.attr("Link"))
+        assert terminal.add_line.call_count == 1
 
-    # "str" shouldn't be printed at the beginning of the line and it should be
-    # printed with the same attribute as the previous item
-    terminal.add_line.assert_any_call(win, "str", 0,
-            attr=terminal.attr("Link"))
+        terminal.add_line.reset_mock()
 
-    terminal.add_line.reset_mock()
+        # Test for correct handling of separators
+        subreddit_page.config['subreddit_format'] = ' | '
+        subreddit_page._draw_item_format(win, data, 0, 0)
 
-    # Check that spaces are printed with add_space and not add_line
-    subreddit_page.format = [(" ", lambda data: None, False)]
-    subreddit_page._draw_item_format(win, None, None, 0)
-
-    assert terminal.add_space.called
-    assert not terminal.add_line.called
+        # Should be called thrice - ' ', '|', ' '
+        assert terminal.add_line.call_count == 3

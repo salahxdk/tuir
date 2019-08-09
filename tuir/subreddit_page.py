@@ -42,11 +42,6 @@ class SubredditPage(Page):
         self.nav = Navigator(self.content.get)
         self.toggled_subreddit = None
 
-        if self.config['subreddit_format']:
-            self.format = self._create_format(self.config['subreddit_format'])
-        elif self.config['look_and_feel'] == 'compact':
-            self.format = self._create_format(self.config.COMPACT_FORMAT)
-
     def handle_selected_page(self):
         """
         Open all selected pages in subwindows except other subreddit pages.
@@ -274,186 +269,235 @@ class SubredditPage(Page):
 
     def _gold_str(self, data):
         if data['gold'] > 1:
-            return self.term.gilded + 'x{} '.format(data['gold'])
+            return self.term.gilded + 'x{}'.format(data['gold'])
         elif data['gold'] == 1:
-            return self.term.gilded + ' '
+            return self.term.gilded
         else:
             return ''
 
-    def _create_format(self, format_string):
-        """
-        Returns a list of tuples of the format (datafield, attr, first) which
-        will be used by _draw_item to output information in the proper order.
-        It would be trivial to use the strings as simple format strings, but
-        more must be done in order to associate strings with their Attribute.
-
-        datafield = lambda that retrieves the proper field of the data
-        dict
-
-        attr = lambda that returns the proper attribute class associated with
-        datafield. Sometimes this isn't known until drawtime; see above
-        *_attr() functions for examples
-
-        first = boolean that signifies whether or not term.add_line should be
-        called with a col argument to start a line
-        """
-        form = []
+    def _draw_item_format(self, win, data, valid_rows, offset):
         first = True
 
         # Split the list between %., newlines, and separator characters to
         # treat them separately
-        format_list = re.split(r'(%.|[\n' + re.escape(self.FORMAT_SEP) + '])', format_string, re.DOTALL)
+        format_list = re.split(r'(%.|[\n' + re.escape(self.FORMAT_SEP) + '])', self.config['subreddit_format'], re.DOTALL)
+
+        # Clean the list of null items. We don't need to join this list
+        # together again, so this is safe.
+        # https://stackoverflow.com/q/2197451
+        format_list = [item for item in format_list if item != '']
+
+        # Remember whether or not the last character printed was a space. If it
+        # was, printing more spaces should be avoided.
+        last_was_space = False
 
         for item in format_list:
-            # Use lambdas because the actual data to be used is only known at
-            # drawtime. This way the format list knows how to use the data,
-            # and can simply be used when the data is available
+            col = 1 if first else None
+
+            # We don't want to print consecutive spaces, so check if a space
+            # was the last character printed, and skip this iteration if a
+            # space is to be printed
+            if last_was_space and item == ' ':
+                # coverage reports this as never executing, despite
+                # test_subreddit_page__draw_item_format testing for it, and pdb
+                # confirming the line is executed
+                continue
+
+            last_was_space = True
+
             if item == "%i":
-                form.append((lambda data: str(data['index']),
-                    lambda data: self._submission_attr(data), first))
+                self.term.add_line(win, str(data['index']),
+                                   row=offset, col=col,
+                                   attr=self._submission_attr(data))
+                last_was_space = False
             elif item == "%t":
-                form.append((lambda data: data['title'],
-                    lambda data: self._submission_attr(data), first))
+                self.term.add_line(win, data['title'],
+                                   row=offset, col=col,
+                                   attr=self._submission_attr(data))
+                last_was_space = False
             elif item == "%s":
-                # Need to cut off the characters that aren't the score number
-                form.append((lambda data: str(data['score']),
-                    lambda data: self.term.attr('Score'), first))
+                self.term.add_line(win, str(data['score']),
+                                   row=offset, col=col,
+                                   attr=self.term.attr('Score'))
+                last_was_space = False
             elif item == "%v":
-                # This isn't great, self.term.get_arrow gets called twice
-                form.append((lambda data: self.term.get_arrow(data['likes'])[0],
-                    lambda data: self.term.get_arrow(data['likes'])[1], first))
+                arrow = self.term.get_arrow(data['likes'])
+
+                self.term.add_line(win, arrow[0],
+                                   row=offset, col=col,
+                                   attr=arrow[1])
+                last_was_space = False
             elif item == "%c":
-                form.append((
-                    lambda data: data['comments']
-                        if data['comments'] else None, # Don't try to subscript null items
-                    lambda data: self.term.attr('CommentCount'),
-                    first))
+                self.term.add_line(win, data['comments'],
+                                   row=offset, col=col,
+                                   attr=self.term.attr('CommentCount'))
+                last_was_space = False
             elif item == "%r":
-                form.append((lambda data: data['created'],
-                    lambda data: self.term.attr('Created'), first))
+                self.term.add_line(win, data['created'],
+                                   row=offset, col=col,
+                                   attr=self.term.attr('Created'))
+                last_was_space = False
             elif item == "%R":
-                form.append((lambda data: data['created_exact'],
-                    lambda data: self.term.attr('Created'), first))
+                self.term.add_line(win, data['created_exact'],
+                                   row=offset, col=col,
+                                   attr=self.term.attr('Created'))
+                last_was_space = False
             elif item == "%e":
-                form.append((lambda data: data['edited'],
-                    lambda data: self.term.attr('Created'), first))
+                self.term.add_line(win, data['edited'],
+                                   row=offset, col=col,
+                                   attr=self.term.attr('Created'))
+                last_was_space = False
             elif item == "%E":
-                form.append((lambda data: data['edited_exact'],
-                    lambda data: self.term.attr('Created'), first))
+                self.term.add_line(win, data['edited_exact'],
+                                   row=offset, col=col,
+                                   attr=self.term.attr('Created'))
+                last_was_space = False
             elif item == "%a":
-                form.append((lambda data: data['author'],
-                    lambda data: self.term.attr('SubmissionAuthor'), first))
+                self.term.add_line(win, data['author'],
+                                   row=offset, col=col,
+                                   attr=self.term.attr('SubmissionAuthor'))
+                last_was_space = False
             elif item == "%S":
-                form.append((lambda data: "/r/" + data['subreddit'],
-                    lambda data: self.term.attr('SubmissionSubreddit'),
-                    first))
+                self.term.add_line(win, "/r/" + data['subreddit'],
+                                   row=offset, col=col,
+                                   attr=self.term.attr('SubmissionSubreddit'))
+                last_was_space = False
             elif item == "%u":
-                form.append((lambda data: self._url_str(data),
-                    lambda data: self._url_attr(data), first))
+                self.term.add_line(win, self._url_str(data),
+                                   row=offset, col=col,
+                                   attr=self._url_attr(data))
+                last_was_space = False
             elif item == "%U":
-                form.append((lambda data: data['url'],
-                    lambda data: self._url_attr(data), first))
+                self.term.add_line(win, data['url'],
+                                   row=offset, col=col,
+                                   attr=self._url_attr(data))
+                last_was_space = False
             elif item == "%A":
-                form.append((lambda data: '[saved]' if data['saved'] else '',
-                    lambda data: self.term.attr('Saved'), first))
+                if data['saved']:
+                    self.term.add_line(win, '[saved]',
+                                       row=offset, col=col,
+                                       attr=self.term.attr('Saved'))
+
+                    last_was_space = False
             elif item == "%h":
-                form.append((lambda data: '[hidden]' if data['hidden'] else '',
-                    lambda data: self.term.attr('Hidden'), first))
+                if data['hidden']:
+                    self.term.add_line(win, '[hidden]',
+                                       row=offset, col=col,
+                                       attr=self.term.attr('Hidden'))
+
+                    last_was_space = False
             elif item == "%T":
-                form.append((lambda data: '[stickied]' if data['stickied'] else '',
-                    lambda data: self.term.attr('Stickied'), first))
+                if data['stickied']:
+                    self.term.add_line(win, '[stickied]',
+                                       row=offset, col=col,
+                                       attr=self.term.attr('Stickied'))
+
+                    last_was_space = False
             elif item == "%g":
-                form.append((lambda data: self._gold_str(data),
-                    lambda data: self.term.attr('Gold'), first))
+                if data['gold'] > 0:
+                    self.term.add_line(win, self._gold_str(data),
+                                       row=offset, col=col,
+                                       attr=self.term.attr('Gold'))
+                    last_was_space = False
+
             elif item == "%n":
-                form.append((lambda data: 'NSFW' if data['nsfw'] else '',
-                    lambda data: self.term.attr('NSFW'), first))
+                if data['nsfw']:
+                    self.term.add_line(win, 'NSFW',
+                                       row=offset, col=col,
+                                       attr=self.term.attr('NSFW'))
+
+                    last_was_space = False
             elif item == "%f":
-                form.append((lambda data: data['flair'] if data['flair'] else '',
-                    lambda data: self.term.attr('SubmissionFlair'), first))
+                if data['flair']:
+                    self.term.add_line(win, data['flair'],
+                                       row=offset, col=col,
+                                       attr=self.term.attr('SubmissionFlair'))
+
+                    last_was_space = False
             elif item == "%F":
-                form.append((lambda data: data['flair'] + ' ' if data['flair'] else '',
-                    lambda data: self.term.attr('SubmissionFlair'), first))
+                if data['flair']:
+                    self.term.add_line(win, data['flair'],
+                                       row=offset, col=col,
+                                       attr=self.term.attr('SubmissionFlair'))
 
-                form.append((lambda data: '[saved] ' if data['saved'] else '',
-                    lambda data: self.term.attr('Saved'), first))
+                    # These ugly if's write a space if necessary. It is
+                    # necessary if there are more flairlike strings to write.
+                    if (data['saved'] or data['hidden'] or
+                        data['stickied'] or data['gold'] or
+                        data['nsfw']):
+                        self.term.add_space(win)
 
-                form.append((lambda data: '[hidden] ' if data['hidden'] else '',
-                    lambda data: self.term.attr('Hidden'), first))
+                    last_was_space = False
 
-                form.append((lambda data: '[stickied] ' if data['stickied'] else '',
-                    lambda data: self.term.attr('Stickied'), first))
+                if data['saved']:
+                    self.term.add_line(win, '[saved]',
+                                       row=offset, col=col,
+                                       attr=self.term.attr('Saved'))
 
-                form.append((lambda data: self._gold_str(data),
-                    lambda data: self.term.attr('Gold'), first))
+                    if (data['hidden'] or data['stickied'] or
+                        data['gold'] or data['nsfw']):
+                        self.term.add_space(win)
 
-                form.append((lambda data: 'NSFW ' if data['nsfw'] else '',
-                    lambda data: self.term.attr('NSFW'), first))
+                    last_was_space = False
+
+                if data['hidden']:
+                    self.term.add_line(win, '[hidden]',
+                                       row=offset, col=col,
+                                       attr=self.term.attr('Hidden'))
+
+                    if (data['stickied'] or data['gold'] or
+                        data['nsfw']):
+                        self.term.add_space(win)
+
+                    last_was_space = False
+
+                if data['stickied']:
+                    self.term.add_line(win, '[stickied]',
+                                       row=offset, col=col,
+                                       attr=self.term.attr('Stickied'))
+
+                    if data['gold'] or data['nsfw']:
+                        self.term.add_space(win)
+
+                    last_was_space = False
+
+                if data['gold']:
+                    self.term.add_line(win, self._gold_str(data),
+                                       row=offset, col=col,
+                                       attr=self.term.attr('Gold'))
+
+                    if data['nsfw']:
+                        self.term.add_space(win)
+
+                    last_was_space = False
+
+                if data['nsfw']:
+                    self.term.add_line(win, 'NSFW',
+                                       row=offset, col=col,
+                                       attr=self.term.attr('NSFW'))
+
+                    last_was_space = False
             elif item == "\n":
-                form.append((item, None, first))
                 first = True
+                offset += 1
 
                 continue
             else: # Write something else that isn't in the data dict
                 # Make certain "separator" characters use the Separator
                 # attribute
                 if item in self.FORMAT_SEP:
-                    form.append((item,
-                                 lambda data: self.term.attr('Separator'),
-                                 first))
+                    self.term.add_line(win, item,
+                                       row=offset, col=col,
+                                       attr=self.term.attr('Separator'))
                 else:
-                    form.append((item, None, first))
+                    self.term.add_line(win, item,
+                                       row=offset, col=col,
+                                       attr=None)
+
+                if item != ' ':
+                    last_was_space = False
 
             first = False
-
-        return form
-
-    def _draw_item_format(self, win, data, valid_rows, offset):
-        last_attr = None
-        for get_data, get_attr, first in self.format:
-            # add_line wants strings, make sure we give it strings
-            if callable(get_data):
-                print_data = get_data(data)
-            else:
-                # Start writing to the next line if we hit a newline
-                if get_data == "\n":
-                    offset += 1
-                    continue
-
-                # Otherwise, proceed on the same line
-                print_data = get_data
-
-            # Don't try to write None strings to the screen. This happens in
-            # places like user pages, where data['comments'] is None
-            if not print_data and first is False:
-                continue
-
-            # We only want to print a maximum of one line of data,
-            # and we want to cast to a string, since sometimes 'data' is not a
-            # string, but a Redditor object
-            # TODO - support line wrapping
-            string = str(print_data).split('\n')[0]
-
-            if string == ' ':
-                # Make sure spaces aren't treated like normal strings and print
-                # them to the window this way. This ensures they won't be drawn
-                # with an attribute.
-                self.term.add_space(win)
-                continue
-
-            # To make sure we don't try to write a None as an attribute,
-            # we can use the one that was last used
-            if get_attr is None:
-                attr = last_attr
-            else:
-                attr = get_attr(data)
-
-            if first:
-                self.term.add_line(win, string, offset, 1, attr=attr)
-            else:
-                self.term.add_line(win, string, offset, attr=attr)
-
-            last_attr = attr
 
     def _draw_item_default(self, win, data, n_rows, n_cols, valid_rows, offset):
         """
@@ -554,8 +598,9 @@ class SubredditPage(Page):
         valid_rows = range(0, n_rows)
         offset = 0 if not inverted else - (data['n_rows'] - n_rows)
 
-        if self.config['look_and_feel'] == 'compact' or \
-                self.config['subreddit_format']:
+        # FIXME - this assumes default doesn't have a subreddit_format. In the
+        # future it should, and when it does it will break this if
+        if self.config['subreddit_format']:
             self._draw_item_format(win, data, valid_rows, offset)
         else:
             self._draw_item_default(win, data, n_rows, n_cols, valid_rows, offset)
