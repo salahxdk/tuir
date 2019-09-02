@@ -135,32 +135,42 @@ class Config(object):
 
     @staticmethod
     def _parse_tuir_file(config):
-
         tuir = {}
+        section = ''
+
         if config.has_section('tuir'):
             tuir = dict(config.items('tuir'))
+            section = 'tuir'
+        elif config.has_section('rtv'):
+            # Backwards compatibility for rtv configs, bug #13
+            tuir = dict(config.items('rtv'))
+            section = 'rtv'
 
         # convert non-string params to their typed representation
         params = {
-            'ascii': partial(config.getboolean, 'tuir'),
-            'monochrome': partial(config.getboolean, 'tuir'),
-            'persistent': partial(config.getboolean, 'tuir'),
-            'autologin': partial(config.getboolean, 'tuir'),
-            'clear_auth': partial(config.getboolean, 'tuir'),
-            'enable_media': partial(config.getboolean, 'tuir'),
-            'history_size': partial(config.getint, 'tuir'),
-            'oauth_redirect_port': partial(config.getint, 'tuir'),
+            'ascii': partial(config.getboolean, section),
+            'monochrome': partial(config.getboolean, section),
+            'persistent': partial(config.getboolean, section),
+            'autologin': partial(config.getboolean, section),
+            'clear_auth': partial(config.getboolean, section),
+            'enable_media': partial(config.getboolean, section),
+            'history_size': partial(config.getint, section),
+            'oauth_redirect_port': partial(config.getint, section),
             'oauth_scope': lambda x: tuir[x].split(','),
-            'max_comment_cols': partial(config.getint, 'tuir'),
-            'max_pager_cols': partial(config.getint, 'tuir'),
-            'hide_username': partial(config.getboolean, 'tuir'),
-            'flash': partial(config.getboolean, 'tuir'),
-            'force_new_browser_window': partial(config.getboolean, 'tuir')
+            'max_comment_cols': partial(config.getint, section),
+            'max_pager_cols': partial(config.getint, section),
+            'hide_username': partial(config.getboolean, section),
+            'flash': partial(config.getboolean, section),
+            'force_new_browser_window': partial(config.getboolean, section)
         }
 
         for key, func in params.items():
             if key in tuir:
-                tuir[key] = func(key)
+                try:
+                    tuir[key] = func(key)
+                except:
+                    import pdb; pdb.set_trace()
+                    raise
 
         bindings = {}
         if config.has_section('bindings'):
