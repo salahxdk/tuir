@@ -2,7 +2,8 @@
 RTV/TUIR Changelog
 =============
 
-.. _1.28.2: https;//gitlab.com/ajak/tuir/tree/v1.28.2
+.. _1.28.3: https://gitlab.com/ajak/tuir/tree/v1.28.3
+.. _1.28.2: https://gitlab.com/ajak/tuir/tree/v1.28.2
 .. _1.28.1: https://gitlab.com/ajak/tuir/tree/v1.28.1
 .. _1.28.0: https://gitlab.com/ajak/tuir/tree/v1.28.0
 .. _1.27.0: http://github.com/michael-lazar/rtv/releases/tag/v1.27.0
@@ -45,6 +46,15 @@ RTV/TUIR Changelog
 .. _1.2: http://github.com/michael-lazar/rtv/releases/tag/v1.2
 
 --------------------
+1.28.3_ (2019-09-02)
+--------------------
+
+Bugfixes
+
+* Add backwards compatibility for RTV config files by allowing parsing of
+  `[rtv]` sections rather than only `[tuir]` sections. Resolves #13.
+
+--------------------
 1.28.2_ (2019-06-12)
 --------------------
 
@@ -52,6 +62,7 @@ Miscellaneous
 
 * Change from old (RTV) Imgur API key to new key for TUIR. Please check the
   migration section of the README for the new key.
+
 --------------------
 1.28.1_ (2019-06-09)
 --------------------
