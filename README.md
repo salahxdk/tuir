@@ -79,9 +79,13 @@ Please take care to use the new API keys for Imgur and Reddit. To replace with s
 $ sed -i 's/E2oEtRQfdfAfNQ/zjyhNI7tK8ivzQ/; s/93396265f59dec9/b33d69ac8931734/' ~/.config/tuir/tuir.cfg
 ```
 
-### Native packages
+### Distro packages
 
 See [Repology](https://repology.org/metapackage/tuir/packages) for an up-to-date list of supported distro packages.
+
+#### Arch
+
+TUIR is available from the AUR with the package name `TUIR`.
 
 <!-- ```bash
 # macOS
