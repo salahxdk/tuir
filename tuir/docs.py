@@ -26,7 +26,7 @@ HELP = """\
 ====================================
 Terminal UI for Reddit
 
-https://github.com/ajak/tuir
+https://gitlab.com/ajak/tuir
 ====================================
 
 [Basic Commands]
