@@ -5,7 +5,7 @@ A text-based interface (TUI) to view and interact with Reddit from your terminal
 </p>
 
 <p align="center">
-  <strong>TUIR is a fork of rtv, which was maintained by Michael Lazar in <a href="https://github.com/michael-lazar/rtv">this respository</a> until Jun 3, 2019.</strong><br>
+  <strong>TUIR is a fork of rtv, which was maintained by Michael Lazar in <a href="https://github.com/michael-lazar/rtv">this repository</a> until Jun 3, 2019.</strong><br>
 </p>
 
 <p align="center">
