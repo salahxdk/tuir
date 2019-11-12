@@ -27,11 +27,13 @@ class Config(object):
     DEFAULT_THEMES = os.path.join(PACKAGE, 'themes')
     XDG_CONFIG_HOME = os.getenv('XDG_CONFIG_HOME', os.path.join(HOME, '.config'))
     XDG_DATA_HOME = os.getenv('XDG_DATA_HOME', os.path.join(HOME, '.local', 'share'))
-    CONFIG = os.path.join(XDG_CONFIG_HOME, 'tuir', 'tuir.cfg')
-    MAILCAP = os.path.join(HOME, '.mailcap')
-    TOKEN = os.path.join(XDG_DATA_HOME, 'tuir', 'refresh-token')
-    HISTORY = os.path.join(XDG_DATA_HOME, 'tuir', 'history.log')
-    THEMES = os.path.join(XDG_CONFIG_HOME, 'tuir', 'themes')
+    TUIR_CONFIG_HOME = os.path.join(XDG_CONFIG_HOME, 'tuir')
+    TUIR_DATA_HOME = os.path.join(XDG_DATA_HOME, 'tuir')
+    CONFIG = os.path.join(TUIR_CONFIG_HOME, 'tuir.cfg')
+    MAILCAP = os.path.join(TUIR_CONFIG_HOME, 'mailcap')
+    TOKEN = os.path.join(TUIR_DATA_HOME, 'refresh-token')
+    HISTORY = os.path.join(TUIR_DATA_HOME, 'history.log')
+    THEMES = os.path.join(TUIR_CONFIG_HOME, 'themes')
 
     COMPACT_FORMAT = "%t\n" \
             "<%i|%s%v|%cC> %r%e %a %S %F"
