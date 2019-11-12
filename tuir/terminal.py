@@ -83,15 +83,15 @@ class Terminal(object):
             new_mailcaps = mailcap_file
         else:
             new_mailcaps = os.pathsep.join((mailcap_file, prev_mailcaps))
-        os.putenv(mailcaps_env, new_mailcaps)
+        os.environ[mailcaps_env] = new_mailcaps
         # merge local mailcaps file with default caps
         # settings in local file will override defaults
         for k, v in mailcap.getcaps().items():
             caps[k] = v
         if prev_mailcaps is None:
-            os.unsetenv(mailcaps_env)
+            del os.environ[mailcaps_env]
         else:
-            os.putenv(mailcaps_env, prev_mailcaps)
+            os.environ[mailcaps_env] = prev_mailcaps
         return caps
 
     @property
