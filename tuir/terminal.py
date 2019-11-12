@@ -62,12 +62,37 @@ class Terminal(object):
         self.theme_list = ThemeList()
 
         self._display = None
-        self._mailcap_dict = mailcap.getcaps()
+        self._mailcap_dict = self._load_mailcaps()
         self._term = os.environ.get('TERM')
 
         # This is a hack, the MIME parsers should be stateless
         # but we need to load the imgur credentials from the config
         mime_parsers.ImgurApiMIMEParser.CLIENT_ID = config['imgur_client_id']
+
+    def _load_mailcaps(self):
+        mailcaps_env = 'MAILCAPS'
+        mailcap_file = self.config.MAILCAP
+        caps = dict()
+        # Prepends application-specific mailcap file to MAILCAPS env
+        # This allows mailcap.getcaps to read it before other mailcap files
+        # Previous value of MAILCAPS is restored after usage
+        prev_mailcaps = os.getenv(mailcaps_env)
+        if prev_mailcaps is None:
+            # start with default system caps files; will be overwritten by local file
+            caps = mailcap.getcaps()
+            new_mailcaps = mailcap_file
+        else:
+            new_mailcaps = os.pathsep.join((mailcap_file, prev_mailcaps))
+        os.putenv(mailcaps_env, new_mailcaps)
+        # merge local mailcaps file with default caps
+        # settings in local file will override defaults
+        for k, v in mailcap.getcaps().items():
+            caps[k] = v
+        if prev_mailcaps is None:
+            os.unsetenv(mailcaps_env)
+        else:
+            os.putenv(mailcaps_env, prev_mailcaps)
+        return caps
 
     @property
     def up_arrow(self):
