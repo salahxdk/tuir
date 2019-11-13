@@ -70,8 +70,10 @@ class Terminal(object):
         mime_parsers.ImgurApiMIMEParser.CLIENT_ID = config['imgur_client_id']
 
     def _load_mailcaps(self):
-        mailcaps_env = 'MAILCAPS'
         mailcap_file = self.config.MAILCAP
+        if not os.path.exists(mailcap_file):
+            return mailcap.getcaps()
+        mailcaps_env = 'MAILCAPS'
         caps = dict()
         # Prepends application-specific mailcap file to MAILCAPS env
         # This allows mailcap.getcaps to read it before other mailcap files
