@@ -71,29 +71,37 @@ class Terminal(object):
 
     def _load_mailcaps(self):
         mailcap_file = self.config.MAILCAP
+
         if not os.path.exists(mailcap_file):
             return mailcap.getcaps()
+
         mailcaps_env = 'MAILCAPS'
         caps = dict()
+
         # Prepends application-specific mailcap file to MAILCAPS env
         # This allows mailcap.getcaps to read it before other mailcap files
         # Previous value of MAILCAPS is restored after usage
         prev_mailcaps = os.getenv(mailcaps_env)
+
         if prev_mailcaps is None:
             # start with default system caps files; will be overwritten by local file
             caps = mailcap.getcaps()
             new_mailcaps = mailcap_file
         else:
             new_mailcaps = os.pathsep.join((mailcap_file, prev_mailcaps))
+
         os.environ[mailcaps_env] = new_mailcaps
+
         # merge local mailcaps file with default caps
         # settings in local file will override defaults
         for k, v in mailcap.getcaps().items():
             caps[k] = v
+
         if prev_mailcaps is None:
             del os.environ[mailcaps_env]
         else:
             os.environ[mailcaps_env] = prev_mailcaps
+
         return caps
 
     @property
