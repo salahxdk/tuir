@@ -11,6 +11,7 @@ import six
 import pytest
 
 from tuir.theme import Theme
+from tuir.terminal import Terminal
 from tuir.docs import (HELP, REPLY_FILE, COMMENT_EDIT_FILE, TOKEN,
                       SUBMISSION_FILE, SUBMISSION_EDIT_FILE, MESSAGE_FILE)
 from tuir.exceptions import TemporaryFileError, BrowserError
@@ -470,6 +471,17 @@ def test_terminal_open_link_subprocess(terminal):
         terminal.open_link(url)
         assert six_input.called
         assert get_error()
+
+
+def test_terminal_load_mailcaps(stdscr, config):
+    with mock.patch('os.path.exists', return_value=True):
+        # This value should be restored after terminal._load_mailcaps() is
+        # called
+        os.environ['MAILCAPS'] = 'NON_NULL'
+
+        Terminal(stdscr, config=config)
+
+        assert os.environ['MAILCAPS'] == 'NON_NULL'
 
 
 def test_terminal_open_browser_display(terminal):
