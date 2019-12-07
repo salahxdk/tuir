@@ -149,22 +149,40 @@ FOOTER_INBOX = """
 
 TOKEN = "INSTRUCTIONS"
 
+FORMATTING_HELP = """Formatting help:
+Text formatting:
+_italic_ / *italic*
+__bold__ / **bold**
+___bold-italic___ / ***bold-italic***
+~~strikethrough~~
+
+Special formatting:
+>!spoilers!<
+^superscript / ^(superscript)
+`code` (or indent each line with four spaces)
+> Quote someone else
+[link text](link url)"""
+
 REPLY_FILE = """<!--{token}
 Replying to {{author}}'s {{type}}:
 {{content}}
 
-Enter your reply below this instruction block,
-an empty message will abort the comment.
+Enter your reply below this instruction block, an empty message will abort
+the comment.
+
+{formatting_help}
 {token}-->
-""".format(token=TOKEN)
+""".format(token=TOKEN, formatting_help=FORMATTING_HELP)
 
 COMMENT_EDIT_FILE = """<!--{token}
 Editing comment #{{id}}.
 The comment is shown below, update it and save the file.
+
+{formatting_help}
 {token}-->
 
 {{content}}
-""".format(token=TOKEN)
+""".format(token=TOKEN, formatting_help=FORMATTING_HELP)
 
 SUBMISSION_FILE = """<!--{token}
 Submitting a selfpost to {{name}}.
@@ -173,16 +191,20 @@ Enter your submission below this instruction block:
 - The first line will be interpreted as the title
 - The following lines will be interpreted as the body
 - An empty message will abort the submission
+
+{formatting_help}
 {token}-->
-""".format(token=TOKEN)
+""".format(token=TOKEN, formatting_help=FORMATTING_HELP)
 
 SUBMISSION_EDIT_FILE = """<!--{token}
 Editing submission #{{id}}.
 The submission is shown below, update it and save the file.
+
+{formatting_help}
 {token}-->
 
 {{content}}
-""".format(token=TOKEN)
+""".format(token=TOKEN, formatting_help=FORMATTING_HELP)
 
 MESSAGE_FILE = """<!--{token}
 Compose a new private message
@@ -191,8 +213,10 @@ Enter your message below this instruction block:
 - The first line should contain the recipient's reddit name
 - The second line should contain the message subject
 - Subsequent lines will be interpreted as the message body
+
+{formatting_help}
 {token}-->
-""".format(token=TOKEN)
+""".format(token=TOKEN, formatting_help=FORMATTING_HELP)
 
 OAUTH_ACCESS_DENIED = """\
         <h1 style="color: red">Access Denied</h1><hr>
