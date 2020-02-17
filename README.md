@@ -277,6 +277,14 @@ For instructions on writing and installing your own themes, see [THEMES.md](THEM
 
 </details>
 
+## Current development status
+
+TUIR currently depends on Michael Lazar's (maintainer of RTV) fork of PRAW being packaged with the program. Michael's fork is a fork from PRAW version 3.6.1, which is [currently unsupported](https://github.com/praw-dev/praw/blob/master/SECURITY.md). Further, packaged dependencies aren't looked upon fondly by various distribution's packaging guidelines ([#11](https://gitlab.com/ajak/tuir/issues/11), [Gentoo Wiki- Why not bundle dependencies](https://wiki.gentoo.org/wiki/Why_not_bundle_dependencies)). Due to this, I'm working to update TUIR to a more recent PRAW version which isn't bundled.
+
+There is significant API breakage from PRAW 3 to PRAW 6 (the [PRAW README](https://github.com/praw-dev/praw/) calls PRAW 4 a "complete rewrite"). As such, updating TUIR to use a PRAW multiple major versions newer is slow going. I am a relatively inexperienced developer and I have less time than I'd like to devote to software. This work is in branch `update_unbundle_praw` ([link](https://gitlab.com/ajak/tuir/-/commits/update_unbundle_praw)), so there may not be super recent commits in `master`, but that doesn't mean I'm neglecting TUIR. Unfortunately, this does mean I am not actively working on feature requests. They are always welcome of course, but it would be far simpler to add features after TUIR is converted to using PRAW 6 instead of adding them now and dealing with their breakage later.
+
+Python 2 is also [dead](https://devguide.python.org/devcycle/#end-of-life-branches) as of 2020. PRAW 6 doesn't even support Python 2, so Python 2 support in TUIR is also being dropped. Given that PRAW3 is packaged with TUIR as a result of RTV doing the same, there is little sense in removing Python 2 support from the packaged version when there is already an updated version of PRAW available, so I will work to remove Python 2 support alongside my efforts to update TUIR for PRAW 6.
+
 ## Contributing
 All feedback and suggestions are welcome, just post an issue!
 
