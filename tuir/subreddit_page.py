@@ -26,8 +26,9 @@ class SubredditPage(Page):
 
     # Format separators, used by _create_format and _draw_item_format for
     # attribute handling logic
-    FORMAT_SEP = r"<>/{}[]()|_-~"
+    FORMAT_SEP = r'<>/{}[]()|_-~'
 
+    FORMAT_LIST = ''
     name = 'subreddit'
 
     def __init__(self, reddit, term, config, oauth, name):
@@ -41,6 +42,23 @@ class SubredditPage(Page):
         self.content = SubredditContent.from_name(reddit, self.config, name, term.loader)
         self.nav = Navigator(self.content.get)
         self.toggled_subreddit = None
+
+        self.FORMAT_LIST = self._create_format_list()
+
+    # Split this out to a function mostly to simplify testing
+    def _create_format_list(self):
+        if self.config['subreddit_format']:
+            # Split the list between %., newlines, and separator characters to
+            # treat them separately
+            format_list = re.split(r'(%.|[\n' + re.escape(self.FORMAT_SEP) + '])',
+                    self.config['subreddit_format'], re.DOTALL)
+
+            # Clean the list of null items. We don't need to join this list
+            # together again, so this is safe.
+            # https://stackoverflow.com/q/2197451
+            return [item for item in format_list if item != '']
+        else:
+            return None
 
     def handle_selected_page(self):
         """
@@ -278,20 +296,11 @@ class SubredditPage(Page):
     def _draw_item_format(self, win, data, valid_rows, offset):
         first = True
 
-        # Split the list between %., newlines, and separator characters to
-        # treat them separately
-        format_list = re.split(r'(%.|[\n' + re.escape(self.FORMAT_SEP) + '])', self.config['subreddit_format'], re.DOTALL)
-
-        # Clean the list of null items. We don't need to join this list
-        # together again, so this is safe.
-        # https://stackoverflow.com/q/2197451
-        format_list = [item for item in format_list if item != '']
-
         # Remember whether or not the last character printed was a space. If it
         # was, printing more spaces should be avoided.
         last_was_space = False
 
-        for item in format_list:
+        for item in self.FORMAT_LIST:
             col = 1 if first else None
 
             # We don't want to print consecutive spaces, so check if a space
@@ -598,7 +607,7 @@ class SubredditPage(Page):
         valid_rows = range(0, n_rows)
         offset = 0 if not inverted else - (data['n_rows'] - n_rows)
 
-        # FIXME - this assumes default doesn't have a subreddit_format. In the
+        # TODO - this assumes default doesn't have a subreddit_format. In the
         # future it should, and when it does it will break this if
         if self.config['subreddit_format']:
             self._draw_item_format(win, data, valid_rows, offset)

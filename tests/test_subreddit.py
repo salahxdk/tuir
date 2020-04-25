@@ -781,6 +781,7 @@ def test_subreddit_page__draw_item_format(terminal, subreddit_page):
         # Loop through each individual format specifier and check for the desired behavior.
         for fmt in filter(None, '%i %t %s %v %c %r %e %a %S %u %U %A %h %T %g %n %f %F'.split()):
                 subreddit_page.config['subreddit_format'] = fmt
+                subreddit_page.FORMAT_LIST = subreddit_page._create_format_list()
                 subreddit_page._draw_item_format(win, data, 0, 0)
 
                 try:
@@ -829,6 +830,7 @@ def test_subreddit_page__draw_item_format(terminal, subreddit_page):
         # Ensure spaces aren't printed consecutively if data is absent
         data['gold'] = 0
         subreddit_page.config['subreddit_format'] = ' %g '
+        subreddit_page.FORMAT_LIST = subreddit_page._create_format_list()
         subreddit_page._draw_item_format(win, data, 0, 0)
 
         assert terminal.add_line.call_count == 1
@@ -837,6 +839,7 @@ def test_subreddit_page__draw_item_format(terminal, subreddit_page):
 
         # Test for correct handling of separators
         subreddit_page.config['subreddit_format'] = ' | '
+        subreddit_page.FORMAT_LIST = subreddit_page._create_format_list()
         subreddit_page._draw_item_format(win, data, 0, 0)
 
         # Should be called thrice - ' ', '|', ' '
