@@ -1,5 +1,5 @@
 ================
-RTV/TUIR Contributors
+RTV Contributors
 ================
 
 Thanks to the following people for their contributions to this project.
@@ -60,3 +60,15 @@ Thanks to the following people for their contributions to this project.
 * `geheimnisse <https://github.com/geheimnisse>`_
 * `Alexander Terry <https://github.com/mralext20>`_
 * `peterpans01 <https://github.com/peterpans01>`_
+
+=================
+TUIR Contributors
+=================
+
+* `John Helmert III <jchelmertt3@gmail.com>`_
+* `capnhawkbill <captain@stoarmfugel.localdomain>`_
+* `armandg <armandg@gmail.com>`_
+* `OKelt <oakelton@gmail.com>`_
+* `Francesco Turco <fturco@fastmail.fm>`_
+* `John Helmert <jchelmertt3@gmail.com>`_
+* `geeseven <2251985-geeseven@users.noreply.gitlab.com>`_
