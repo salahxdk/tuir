@@ -1,7 +1,8 @@
-=============
+==================
 RTV/TUIR Changelog
-=============
+==================
 
+.. _1.29.0: https://gitlab.com/ajak/tuir/tree/v1.29.0
 .. _1.28.3: https://gitlab.com/ajak/tuir/tree/v1.28.3
 .. _1.28.2: https://gitlab.com/ajak/tuir/tree/v1.28.2
 .. _1.28.1: https://gitlab.com/ajak/tuir/tree/v1.28.1
@@ -44,6 +45,21 @@ RTV/TUIR Changelog
 .. _1.2.2: http://github.com/michael-lazar/rtv/releases/tag/v1.2.2
 .. _1.2.1: http://github.com/michael-lazar/rtv/releases/tag/v1.2.1
 .. _1.2: http://github.com/michael-lazar/rtv/releases/tag/v1.2
+
+--------------------
+1.29.0_ (2020-04-26)
+--------------------
+
+Features
+
+* Links to twitch.tv can now be opened using the video/x-youtube mailcap entry
+* TUIR now supports using a mailcap in `~/.config/tuir/mailcap`, and this is
+  the new default path for `tuir --copy-mailcap`
+* Experimental support for new config settings
+  "look_and_feel" and
+  "subreddit_format". These enable users to have greater control over the
+  formatting of SubredditPages. More detailed information is available in the
+  default config file.
 
 --------------------
 1.28.3_ (2019-09-02)
