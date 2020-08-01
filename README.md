@@ -18,7 +18,7 @@ A text-based interface (TUI) to view and interact with Reddit from your terminal
   </a>
   <a href="https://gitlab.com/ajak/tuir/pipelines?ref=master">
     <img alt="gitlab-ci" src="https://gitlab.com/ajak/tuir/badges/master/build.svg"/>
-  </a> 
+  </a>
   <img alt="coverage" src="https://gitlab.com/ajak/tuir/badges/master/coverage.svg"/>
   <a href="https://repology.org/project/tuir/versions">
     <img src="https://repology.org/badge/tiny-repos/tuir.svg" alt="Packaging status">
@@ -32,14 +32,14 @@ A text-based interface (TUI) to view and interact with Reddit from your terminal
 
 ## Table of Contents
 
-* [Demo](#demo)  
-* [Installation](#installation)  
-* [Usage](#usage)  
+* [Demo](#demo)
+* [Installation](#installation)
+* [Usage](#usage)
 * [Settings](#settings)
 * [Themes](#themes)
-* [FAQ](#faq)  
-* [Contributing](#contributing)  
-* [License](#license)  
+* [FAQ](#faq)
+* [Contributing](#contributing)
+* [License](#license)
 
 ## Demo
 
@@ -236,7 +236,7 @@ For instructions on writing and installing your own themes, see [THEMES.md](THEM
 
 <details>
  <summary>Why am I getting an error during installation/when launching tuir?</summary>
- 
+
   > If your distro ships with an older version of python 2.7 or python-requests,
   > you may experience SSL errors or other package incompatibilities. The
   > easiest way to fix this is to install tuir using python 3. If you
@@ -251,10 +251,10 @@ For instructions on writing and installing your own themes, see [THEMES.md](THEM
 </details>
 <details>
   <summary>Why do I see garbled text like <em>M-b~@M-"</em> or <em>^@</em>?</summary>
- 
+
   > This type of text usually shows up when python is unable to render
   > unicode properly.
-  >    
+  >
   > 1. Try starting TUIR in ascii-only mode with ``tuir --ascii``
   > 2. Make sure that the terminal/font that you're using supports unicode
   > 3. Try [setting the LOCALE to utf-8](https://perlgeek.de/en/article/set-up-a-clean-utf8-environment)
@@ -265,7 +265,7 @@ For instructions on writing and installing your own themes, see [THEMES.md](THEM
 </details>
 <details>
  <summary>How do I run the code directly from the repository?</summary>
- 
+
   > This project is structured to be run as a python *module*. This means that
   > you need to launch it using python's ``-m`` flag. See the example below, which
   > assumes that you have cloned the repository into the directory **~/tuir_project**.
@@ -274,6 +274,16 @@ For instructions on writing and installing your own themes, see [THEMES.md](THEM
   > $ cd ~/tuir_project
   > $ python3 -m tuir
   > ```
+
+</details>
+<details>
+ <summary>Can I use multiple accounts persistenly?</summary>
+
+  > Yes, simply start tuir with ``--user yourusername``. The refresh token and
+  > history will be preserved on a per-user basis.
+  >
+  > This does mean you need to restart the program (or simply open multiple)
+  > if you want to be another user. There's no on-the-fly switching currently.
 
 </details>
 
