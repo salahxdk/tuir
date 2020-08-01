@@ -69,6 +69,7 @@ def patch_webbrowser():
         for cmdline in reversed(_userchoices):
             if cmdline in ('safari', 'firefox', 'chrome', 'default'):
                 browser = webbrowser.MacOSXOSAScript(cmdline)
+                # pylint: disable=unexpected-keyword-arg
                 webbrowser.register(cmdline, None, browser, update_tryorder=-1)
 
 
