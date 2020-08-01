@@ -60,21 +60,6 @@ class SubredditPage(Page):
         else:
             return None
 
-    def handle_selected_page(self):
-        """
-        Open all selected pages in subwindows except other subreddit pages.
-        """
-        if not self.selected_page:
-            pass
-        elif self.selected_page.name in ('subscription', 'submission', 'inbox'):
-            # Launch page in a subwindow
-            self.selected_page = self.selected_page.loop()
-        elif self.selected_page.name == 'subreddit':
-            # Replace the current page
-            self.active = False
-        else:
-            raise RuntimeError(self.selected_page.name)
-
     def refresh_content(self, order=None, name=None):
         """
         Re-download all submissions and reset the page index
@@ -195,7 +180,7 @@ class SubredditPage(Page):
             if data.get('url_type') == 'selfpost':
                 self.config.history.add(data['url_full'])
 
-        self.selected_page = self.open_submission_page(url)
+        self.open_submission_page(url)
 
     @SubredditController.register(Command('SUBREDDIT_OPEN_IN_BROWSER'))
     def open_link(self):
@@ -247,7 +232,7 @@ class SubredditPage(Page):
 
         if not self.term.loader.exception:
             # Open the newly created submission
-            self.selected_page = self.open_submission_page(submission=submission)
+            self.open_submission_page(submission=submission)
 
     @SubredditController.register(Command('SUBREDDIT_HIDE'))
     @logged_in

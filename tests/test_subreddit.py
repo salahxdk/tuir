@@ -9,6 +9,8 @@ import six
 import pytest
 
 from tuir import __version__
+from tuir.page import PageStack
+from tuir.subscription_page import SubscriptionPage
 from tuir.subreddit_page import SubredditPage
 from tuir.packages.praw.errors import NotFound, HTTPException
 from requests.exceptions import ReadTimeout
@@ -166,14 +168,14 @@ def test_subreddit_prompt(subreddit_page, terminal):
 
     # Prompt for a different subreddit
     with mock.patch.object(terminal, 'prompt_input'):
+        PageStack.init(subreddit_page)
+        initial_stack_size = PageStack.size()
         terminal.prompt_input.return_value = 'front/top'
         subreddit_page.controller.trigger('/')
 
-        subreddit_page.handle_selected_page()
-        assert not subreddit_page.active
-        assert subreddit_page.selected_page
-        assert subreddit_page.selected_page.content.name == '/r/front'
-        assert subreddit_page.selected_page.content.order == 'top'
+        assert(PageStack.size() == initial_stack_size + 1)
+        assert PageStack.current_page().content.name == '/r/front'
+        assert PageStack.current_page().content.order == 'top'
 
 
 @pytest.mark.parametrize('prompt', PROMPTS.values(), ids=list(PROMPTS))
@@ -296,15 +298,16 @@ def test_subreddit_order_search(subreddit_page, terminal):
 
 
 def test_subreddit_open(subreddit_page, terminal, config):
+    PageStack.init(subreddit_page)
 
     # Open the selected submission
     data = subreddit_page.content.get(subreddit_page.nav.absolute_index)
     with mock.patch.object(config.history, 'add'):
+        initial_stack_size = PageStack.size()
         data['url_type'] = 'selfpost'
         subreddit_page.controller.trigger('l')
         assert not terminal.loader.exception
-        assert subreddit_page.selected_page
-        assert subreddit_page.active
+        assert(PageStack.size() == initial_stack_size + 1)
         config.history.add.assert_called_with(data['url_full'])
 
     # Open the selected link externally
@@ -363,6 +366,7 @@ def test_subreddit_unauthenticated(subreddit_page, terminal):
 
 
 def test_subreddit_post(subreddit_page, terminal, reddit, refresh_token):
+    PageStack.init(subreddit_page)
 
     # Log in
     subreddit_page.config.refresh_token = refresh_token
@@ -392,11 +396,11 @@ def test_subreddit_post(subreddit_page, terminal, reddit, refresh_token):
         reddit.submit.return_value = submission
         subreddit_page.controller.trigger('c')
         assert reddit.submit.called
-        assert subreddit_page.selected_page.content._submission == submission
-        assert subreddit_page.active
+        assert PageStack.current_page().content._submission == submission
 
 
 def test_subreddit_open_subscriptions(subreddit_page, refresh_token):
+    PageStack.init(subreddit_page)
 
     # Log in
     subreddit_page.config.refresh_token = refresh_token
@@ -404,12 +408,7 @@ def test_subreddit_open_subscriptions(subreddit_page, refresh_token):
 
     # Open subscriptions
     subreddit_page.controller.trigger('s')
-    assert subreddit_page.selected_page
-    assert subreddit_page.active
-
-    with mock.patch('tuir.page.Page.loop') as loop:
-        subreddit_page.handle_selected_page()
-        assert loop.called
+    assert isinstance(PageStack.current_page(), SubscriptionPage)
 
 
 def test_subreddit_get_inbox_timeout(subreddit_page, refresh_token, terminal, vcr):
@@ -428,6 +427,7 @@ def test_subreddit_get_inbox_timeout(subreddit_page, refresh_token, terminal, vc
 
 
 def test_subreddit_open_multireddits(subreddit_page, refresh_token):
+    PageStack.init(subreddit_page)
 
     # Log in
     subreddit_page.config.refresh_token = refresh_token
@@ -435,12 +435,7 @@ def test_subreddit_open_multireddits(subreddit_page, refresh_token):
 
     # Open multireddits
     subreddit_page.controller.trigger('S')
-    assert subreddit_page.selected_page
-    assert subreddit_page.active
-
-    with mock.patch('tuir.page.Page.loop') as loop:
-        subreddit_page.handle_selected_page()
-        assert loop.called
+    assert isinstance(PageStack.current_page(), SubscriptionPage)
 
 
 def test_subreddit_private_user_pages(subreddit_page, refresh_token):
@@ -549,13 +544,13 @@ def test_subreddit_draw_header(subreddit_page, refresh_token, terminal):
 
 
 def test_subreddit_frontpage_toggle(subreddit_page, terminal):
+    PageStack.init(subreddit_page)
     with mock.patch.object(terminal, 'prompt_input'):
 
         terminal.prompt_input.return_value = 'aww'
         subreddit_page.controller.trigger('/')
-        subreddit_page.handle_selected_page()
 
-        new_page = subreddit_page.selected_page
+        new_page = PageStack.current_page()
         assert new_page is not None
         assert new_page.content.name == '/r/aww'
 
@@ -594,253 +589,3 @@ def test_subreddit_hide_submission(subreddit_page, refresh_token):
     # Make sure that the status was actually updated on the server side
     data['object'].refresh()
     assert data['object'].hidden is False
-
-
-def test_subreddit_handle_selected_page(subreddit_page, subscription_page):
-
-    # Method should be a no-op if selected_page is unset
-    subreddit_page.active = True
-    subreddit_page.handle_selected_page()
-    assert subreddit_page.selected_page is None
-    assert subreddit_page.active
-
-    # Open the subscription page and select a subreddit from the list of
-    # subscriptions
-    with mock.patch.object(subscription_page, 'loop', return_value=subreddit_page):
-        subreddit_page.selected_page = subscription_page
-        subreddit_page.handle_selected_page()
-        assert subreddit_page.selected_page == subreddit_page
-        assert subreddit_page.active
-
-    # Now when handle_select_page() is called again, the current subreddit
-    # should be closed so the selected page can be opened
-    subreddit_page.handle_selected_page()
-    assert subreddit_page.selected_page == subreddit_page
-    assert not subreddit_page.active
-
-    subreddit_page.selected_page.name = 'This should raise a RuntimeError'
-    with pytest.raises(RuntimeError):
-        subreddit_page.handle_selected_page()
-
-
-def test_subreddit_page_loop_pre_select(subreddit_page, submission_page):
-
-    # Set the selected_page before entering the loop(). This will cause the
-    # selected page to immediately open. If the selected page returns a
-    # different subreddit page (e.g. the user enters a subreddit into the
-    # prompt before they hit the `h` key), the initial loop should be closed
-    # immediately
-    subreddit_page.selected_page = submission_page
-    with mock.patch.object(submission_page, 'loop', return_value=subreddit_page):
-        selected_page = subreddit_page.loop()
-
-        assert not subreddit_page.active
-        assert selected_page == subreddit_page
-
-
-def test_subreddit_page_loop(subreddit_page, stdscr, terminal):
-
-    stdscr.getch.return_value = ord('/')
-
-    with mock.patch.object(terminal, 'prompt_input', return_value='all'):
-        new_page = subreddit_page.loop()
-        assert new_page.content.name == '/r/all'
-
-
-def test_subreddit_page__submission_attr(config, terminal, subreddit_page):
-    data = {}
-    data['url_full'] = 'www.test.com'
-
-    config.history = []
-    terminal.attr = mock.Mock()
-
-    subreddit_page._submission_attr(data)
-    terminal.attr.assert_called_with('SubmissionTitle')
-
-    config.history.append(data['url_full'])
-
-    subreddit_page._submission_attr(data)
-    terminal.attr.assert_called_with('SubmissionTitleSeen')
-
-
-def test_subreddit_page__url_str(config, terminal, subreddit_page):
-    data = {
-            'url_type': 'selfpost',
-            'url': 'self.AskReddit',
-            'url_full': 'https://www.reddit.com/r/AskReddit/comments/99eh6b/without_saying_what_the_category_is_what_are_your/'
-    }
-
-    assert subreddit_page._url_str(data) == 'self.AskReddit'
-
-    data['url_type'] = 'x-post subreddit'
-
-    assert subreddit_page._url_str(data) == 'self.AskReddit'
-
-    data['url_type'] = 'external'
-
-    assert subreddit_page._url_str(data) == 'www.reddit.com'
-
-
-def test_subreddit_page__url_attr(config, terminal, subreddit_page):
-    data = {}
-    data['url_full'] = 'www.test.com'
-
-    config.history = []
-    terminal.attr = mock.Mock()
-
-    subreddit_page._url_attr(data)
-    terminal.attr.assert_called_with('Link')
-
-    config.history.append(data['url_full'])
-
-    subreddit_page._url_attr(data)
-    terminal.attr.assert_called_with('LinkSeen')
-
-
-def test_subreddit_page__gold_str(config, terminal, subreddit_page):
-    data = {}
-    data['gold'] = 0
-
-    goldstr = subreddit_page._gold_str(data)
-    assert goldstr == ''
-
-    data['gold'] = 1
-    goldstr = subreddit_page._gold_str(data)
-    assert goldstr == terminal.gilded
-
-    data['gold'] = 2
-    goldstr = subreddit_page._gold_str(data)
-    assert goldstr == terminal.gilded + 'x2'
-
-
-def test_subreddit_page__draw_item_format(terminal, subreddit_page):
-    data = {
-            'index': '1',
-            'title': 'Without saying what the category is, what are your top five?',
-            'score': '144655',
-            'likes': True,
-            'comments': '26584',
-            'created': '10month',
-            'edited': '(edit 5month)',
-            'author': 'reddit_user',
-            'subreddit': 'AskReddit',
-            'url': 'self.AskReddit',
-            'url_type': 'selfpost',
-            'url_full': 'https://www.reddit.com/r/AskReddit/comments/99eh6b/without_saying_what_the_category_is_what_are_your/',
-            'gold': 1,
-            'saved': True,
-            'hidden': True,
-            'stickied': True,
-            'nsfw': True,
-            'flair': 'Serious Replies Only'
-    }
-
-    expected_str = {
-            '%i': '1',
-            '%t': 'Without saying what the category is, what are your top five?',
-            '%s': '144655',
-            '%v': '▲',
-            '%c': '26584',
-            '%r': '10month',
-            '%e': '(edit 5month)',
-            '%a': 'reddit_user',
-            '%S': '/r/AskReddit',
-            '%u': 'self.AskReddit',
-            '%U': 'self.AskReddit',
-            '%A': '[saved]',
-            '%h': '[hidden]',
-            '%T': '[stickied]',
-            '%g': '✪',
-            '%n': 'NSFW',
-            '%f': 'Serious Replies Only',
-    }
-
-    expected_attr = {
-            '%i': terminal.attr('SubmissionTitle'),
-            '%t': terminal.attr('SubmissionTitle'),
-            '%s': terminal.attr('Score'),
-            '%v': terminal.attr('Upvote'),
-            '%c': terminal.attr('CommentCount'),
-            '%r': terminal.attr('Created'),
-            '%e': terminal.attr('Created'),
-            '%a': terminal.attr('SubmissionAuthor'),
-            '%S': terminal.attr('SubmissionSubreddit'),
-            '%u': terminal.attr('Link'),
-            '%U': terminal.attr('Link'),
-            '%A': terminal.attr('Saved'),
-            '%h': terminal.attr('Hidden'),
-            '%T': terminal.attr('Stickied'),
-            '%g': terminal.attr('Gold'),
-            '%n': terminal.attr('NSFW'),
-            '%f': terminal.attr('SubmissionFlair')
-    }
-
-    win = terminal.stdscr.subwin
-
-    with mock.patch.object(terminal, 'add_line'):
-        # Loop through each individual format specifier and check for the desired behavior.
-        for fmt in filter(None, '%i %t %s %v %c %r %e %a %S %u %U %A %h %T %g %n %f %F'.split()):
-                subreddit_page.config['subreddit_format'] = fmt
-                subreddit_page.FORMAT_LIST = subreddit_page._create_format_list()
-                subreddit_page._draw_item_format(win, data, 0, 0)
-
-                try:
-                    if fmt == '%F':
-
-                        # Make sure each of the things that %F should print are printed
-                        # flair
-                        terminal.add_line.assert_any_call(win, expected_str['%f'],
-                                                          row=mock.ANY, col=mock.ANY,
-                                                          attr=expected_attr['%f'])
-
-                        # saved
-                        terminal.add_line.assert_any_call(win, expected_str['%A'],
-                                                          row=mock.ANY, col=mock.ANY,
-                                                          attr=expected_attr['%A'])
-
-                        # hidden
-                        terminal.add_line.assert_any_call(win, expected_str['%h'],
-                                                          row=mock.ANY, col=mock.ANY,
-                                                          attr=expected_attr['%h'])
-
-                        # stickied
-                        terminal.add_line.assert_any_call(win, expected_str['%T'],
-                                                          row=mock.ANY, col=mock.ANY,
-                                                          attr=expected_attr['%T'])
-
-                        # gold
-                        terminal.add_line.assert_any_call(win, expected_str['%g'],
-                                                          row=mock.ANY, col=mock.ANY,
-                                                          attr=expected_attr['%g'])
-
-                        # nsfw
-                        terminal.add_line.assert_any_call(win, expected_str['%n'],
-                                                          row=mock.ANY, col=mock.ANY,
-                                                          attr=expected_attr['%n'])
-                    else:
-                        terminal.add_line.assert_called_with(win, expected_str[fmt],
-                                                             row=0, col=1,
-                                                             attr=expected_attr[fmt])
-                except:
-                    sys.stderr.write("Failed on {0}\n".format(fmt))
-                    raise
-
-        terminal.add_line.reset_mock()
-
-        # Ensure spaces aren't printed consecutively if data is absent
-        data['gold'] = 0
-        subreddit_page.config['subreddit_format'] = ' %g '
-        subreddit_page.FORMAT_LIST = subreddit_page._create_format_list()
-        subreddit_page._draw_item_format(win, data, 0, 0)
-
-        assert terminal.add_line.call_count == 1
-
-        terminal.add_line.reset_mock()
-
-        # Test for correct handling of separators
-        subreddit_page.config['subreddit_format'] = ' | '
-        subreddit_page.FORMAT_LIST = subreddit_page._create_format_list()
-        subreddit_page._draw_item_format(win, data, 0, 0)
-
-        # Should be called thrice - ' ', '|', ' '
-        assert terminal.add_line.call_count == 3
