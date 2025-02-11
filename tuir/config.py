@@ -128,10 +128,10 @@ class Config(object):
         if filename is None:
             filename = Config.CONFIG
 
-        config = configparser.RawConfigParser()
+        config = configparser.ConfigParser()
         if os.path.exists(filename):
             with codecs.open(filename, encoding='utf-8') as fp:
-                config.readfp(fp)
+                config.read_file(fp)
 
         return cls._parse_tuir_file(config)
 
